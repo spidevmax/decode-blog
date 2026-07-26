@@ -1,10 +1,8 @@
 import { useSearchParams } from 'react-router-dom';
-import AlbumCard from '../components/AlbumCard';
-import Button from '../components/Button';
-import ErrorState from '../components/ErrorState';
-import GenreTag from '../components/GenreTag';
-import Loader from '../components/Loader';
-import { useAlbums, useFacets } from '../hooks/useAlbums';
+import AlbumCard from '@/components/album/AlbumCard';
+import { Button, ErrorState, Loader } from '@/components/ui';
+import GenreTag from '@/components/album/GenreTag';
+import { useAlbums, useFacets } from '@/hooks/useAlbums';
 import './Explore.css';
 
 const Explore = () => {

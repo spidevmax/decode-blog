@@ -1,4 +1,4 @@
-import { getFeatures, getNews } from '../services/api';
+import { getFeatures, getNews } from '@/services/api';
 import { useAsync } from './useAsync';
 
 /** Noticias breves para /news. */

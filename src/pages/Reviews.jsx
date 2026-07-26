@@ -1,7 +1,6 @@
-import AlbumCard from '../components/AlbumCard';
-import ErrorState from '../components/ErrorState';
-import Loader from '../components/Loader';
-import { useAlbums } from '../hooks/useAlbums';
+import AlbumCard from '@/components/album/AlbumCard';
+import { ErrorState, Loader } from '@/components/ui';
+import { useAlbums } from '@/hooks/useAlbums';
 import './Reviews.css';
 
 /**

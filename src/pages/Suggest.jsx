@@ -1,8 +1,6 @@
 import { useState } from 'react';
-import Button from '../components/Button';
-import FormField from '../components/FormField';
-import TapeAccent from '../components/TapeAccent';
-import { submitSuggestion } from '../services/api';
+import { Button, FormField, TapeAccent } from '@/components/ui';
+import { submitSuggestion } from '@/services/api';
 import './Suggest.css';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

@@ -1,6 +1,5 @@
-import ErrorState from '../components/ErrorState';
-import Loader from '../components/Loader';
-import { useNews } from '../hooks/useEditorial';
+import { ErrorState, Loader } from '@/components/ui';
+import { useNews } from '@/hooks/useEditorial';
 import './News.css';
 
 const DATE_FORMAT = new Intl.DateTimeFormat('es-AR', {

@@ -2,8 +2,8 @@ import { Link } from 'react-router-dom';
 import AlbumCover from './AlbumCover';
 import GenreTag from './GenreTag';
 import RatingBadge from './RatingBadge';
-import TapeAccent from './TapeAccent';
-import { useFavorites } from '../hooks/useFavorites';
+import TapeAccent from '@/components/ui/TapeAccent';
+import { useFavorites } from '@/hooks/useFavorites';
 import './AlbumCard.css';
 
 /**

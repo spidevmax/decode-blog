@@ -1,4 +1,4 @@
-import { getAlbumById, getAlbums, getFacets } from '../services/api';
+import { getAlbumById, getAlbums, getFacets } from '@/services/api';
 import { useAsync } from './useAsync';
 
 /** Lista de álbumes, opcionalmente filtrada. */

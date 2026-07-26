@@ -1,14 +1,11 @@
 import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import AlbumCover from '../components/AlbumCover';
-import Button from '../components/Button';
-import ErrorState from '../components/ErrorState';
-import GenreTag from '../components/GenreTag';
-import Loader from '../components/Loader';
-import RatingBadge from '../components/RatingBadge';
-import TapeAccent from '../components/TapeAccent';
-import { useAlbum } from '../hooks/useAlbums';
-import { useFavorites } from '../hooks/useFavorites';
+import AlbumCover from '@/components/album/AlbumCover';
+import { Button, ErrorState, Loader, TapeAccent } from '@/components/ui';
+import GenreTag from '@/components/album/GenreTag';
+import RatingBadge from '@/components/album/RatingBadge';
+import { useAlbum } from '@/hooks/useAlbums';
+import { useFavorites } from '@/hooks/useFavorites';
 import './ReviewDetail.css';
 
 /** Convierte *texto* en <em>texto</em>, preservando el resto como texto plano. */

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { useFavorites } from '../hooks/useFavorites';
+import { useFavorites } from '@/hooks/useFavorites';
 import './Nav.css';
 
 const LINKS = [

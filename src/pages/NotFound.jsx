@@ -1,4 +1,4 @@
-import ErrorState from '../components/ErrorState';
+import ErrorState from '@/components/ui/ErrorState';
 
 const NotFound = () => {
   return (

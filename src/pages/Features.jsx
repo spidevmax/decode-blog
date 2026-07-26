@@ -1,7 +1,5 @@
-import ErrorState from '../components/ErrorState';
-import Loader from '../components/Loader';
-import TapeAccent from '../components/TapeAccent';
-import { useFeatures } from '../hooks/useEditorial';
+import { ErrorState, Loader, TapeAccent } from '@/components/ui';
+import { useFeatures } from '@/hooks/useEditorial';
 import './Features.css';
 
 const DATE_FORMAT = new Intl.DateTimeFormat('es-AR', {

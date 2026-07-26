@@ -1,13 +1,10 @@
 import { Link } from 'react-router-dom';
-import AlbumCard from '../components/AlbumCard';
-import AlbumCover from '../components/AlbumCover';
-import Button from '../components/Button';
-import ErrorState from '../components/ErrorState';
-import GenreTag from '../components/GenreTag';
-import Loader from '../components/Loader';
-import RatingBadge from '../components/RatingBadge';
-import TapeAccent from '../components/TapeAccent';
-import { useAlbums } from '../hooks/useAlbums';
+import AlbumCard from '@/components/album/AlbumCard';
+import AlbumCover from '@/components/album/AlbumCover';
+import { Button, ErrorState, Loader, TapeAccent } from '@/components/ui';
+import GenreTag from '@/components/album/GenreTag';
+import RatingBadge from '@/components/album/RatingBadge';
+import { useAlbums } from '@/hooks/useAlbums';
 import './Home.css';
 
 const Home = () => {
