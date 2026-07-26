@@ -1,0 +1,26 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app__main { flex: 1; }
+
+.skip-link {
+  position: absolute;
+  left: var(--space-4);
+  top: -100%;
+  z-index: 100;
+  font-family: var(--font-ui);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.6rem 1rem;
+  background-color: var(--color-accent-red);
+  color: var(--color-paper);
+  border: var(--border-ink);
+  text-decoration: none;
+  transition: top var(--transition);
+}
+
+.skip-link:focus { top: var(--space-3); }

@@ -1,0 +1,35 @@
+.tape {
+  position: absolute;
+  z-index: 3;
+  width: var(--tape-width, 7rem);
+  height: 2.15rem;
+  transform: rotate(var(--tape-rotate, -8deg));
+  /* Translúcida, como cinta real sobre papel */
+  opacity: 0.9;
+  border-left: 1px dashed rgba(26, 26, 26, 0.25);
+  border-right: 1px dashed rgba(26, 26, 26, 0.25);
+  pointer-events: none;
+}
+
+.tape--amber { background-color: var(--color-accent-amber); }
+.tape--red   { background-color: var(--color-accent-red); }
+.tape--kraft { background-color: var(--color-kraft); }
+
+/* Brillo diagonal que insinúa el plástico */
+.tape::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    rgba(255, 255, 255, 0.35) 0%,
+    rgba(255, 255, 255, 0) 45%,
+    rgba(26, 26, 26, 0.08) 100%
+  );
+}
+
+.tape--top-left     { top: -1.05rem; left: 6%; }
+.tape--top-right    { top: -1.05rem; right: 6%; }
+.tape--top-center   { top: -1.05rem; left: 50%; margin-left: calc(var(--tape-width, 7rem) / -2); }
+.tape--bottom-left  { bottom: -1.05rem; left: 8%; }
+.tape--bottom-right { bottom: -1.05rem; right: 8%; }

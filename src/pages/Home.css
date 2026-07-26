@@ -1,0 +1,143 @@
+/* ---- Hero ---- */
+
+.hero {
+  padding-block: var(--space-7) var(--space-8);
+  border-bottom: var(--border-heavy);
+  overflow: hidden;
+}
+
+.hero__inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-8) var(--space-7);
+  align-items: center;
+}
+
+.hero__title {
+  margin-bottom: var(--space-2);
+  text-transform: uppercase;
+}
+
+.hero__artist {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 1.125rem;
+  color: var(--color-ink);
+  margin-bottom: var(--space-4);
+}
+
+.hero__excerpt {
+  font-size: 1.1875rem;
+  line-height: 1.65;
+  max-width: 34rem;
+  margin-bottom: var(--space-5);
+}
+
+.hero__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-6);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+/* Collage: portada inclinada sobre un panel de color */
+.hero__collage {
+  position: relative;
+  padding: var(--space-5);
+  background-color: var(--color-panel);
+  border: var(--border-ink);
+  box-shadow: var(--shadow-offset);
+}
+
+.hero__cover-link {
+  display: block;
+  border: var(--border-ink);
+  transform: rotate(-1.5deg);
+  transition: transform var(--transition);
+}
+
+.hero__cover-link:hover { transform: rotate(0deg) scale(1.01); }
+
+.hero__rating {
+  position: absolute;
+  right: calc(var(--space-4) * -1);
+  bottom: var(--space-7);
+  z-index: 4;
+}
+
+.hero__byline {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.8125rem;
+  color: var(--color-muted);
+  margin: var(--space-4) 0 0;
+}
+
+@media (min-width: 900px) {
+  .hero { padding-block: var(--space-8) var(--space-9); }
+
+  .hero__inner {
+    grid-template-columns: 1.05fr 0.95fr;
+  }
+
+  /* La portada entra primero en el orden visual en desktop */
+  .hero__text { order: 1; }
+  .hero__collage { order: 2; }
+}
+
+/* ---- Encabezado de sección ---- */
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  padding-bottom: var(--space-4);
+  margin-bottom: var(--space-6);
+  border-bottom: var(--border-ink);
+}
+
+.section-head__link {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.9375rem;
+  color: var(--color-accent-red);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.section-head__link:hover { text-decoration: underline; }
+
+/* ---- Grilla asimétrica ---- */
+
+.album-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+}
+
+@media (min-width: 600px) {
+  .album-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 960px) {
+  .album-grid {
+    grid-template-columns: repeat(3, 1fr);
+    /* Filas iguales para que el bloque 2x2 cierre parejo */
+    grid-auto-rows: 1fr;
+    gap: var(--space-6);
+  }
+}

@@ -1,0 +1,140 @@
+.album-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-card);
+  border: var(--border-ink);
+  box-shadow: var(--shadow-offset-sm);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.album-card:hover,
+.album-card:focus-within {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-offset);
+}
+
+.album-card__media { position: relative; }
+
+.album-card__rating {
+  position: absolute;
+  right: var(--space-3);
+  bottom: calc(var(--space-3) * -1);
+  z-index: 2;
+}
+
+.album-card__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: var(--space-5) var(--space-4) var(--space-4);
+}
+
+.album-card__artist {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.8125rem;
+  color: var(--color-accent-red);
+  margin: 0 0 var(--space-1);
+  /* Espacio para que el badge no pise el texto */
+  padding-right: 3.25rem;
+}
+
+.album-card__title {
+  font-size: 1.25rem;
+  margin-bottom: var(--space-2);
+  padding-right: 3.25rem;
+}
+
+.album-card__link {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Toda la card es un target de click */
+.album-card__link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.album-card__link:hover { text-decoration: underline; }
+
+.album-card__meta {
+  font-size: 0.9375rem;
+  color: var(--color-muted);
+  margin: 0 0 var(--space-3);
+}
+
+.album-card__excerpt {
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  margin-bottom: var(--space-4);
+}
+
+.album-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: auto;
+  /* Por encima del stretched link para que los tags sigan siendo usables */
+  position: relative;
+  z-index: 2;
+}
+
+/* Favorito */
+.album-card__fav {
+  position: absolute;
+  top: var(--space-3);
+  left: var(--space-3);
+  z-index: 3;
+  width: 2.25rem;
+  height: 2.25rem;
+  display: grid;
+  place-items: center;
+  font-size: 1.15rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--color-ink);
+  background-color: var(--color-paper);
+  border: var(--border-hairline);
+  border-radius: 50%;
+  transition: background-color var(--transition), color var(--transition);
+}
+
+.album-card__fav:hover { background-color: var(--color-accent-amber); }
+
+.album-card__fav--on {
+  background-color: var(--color-accent-amber);
+  color: var(--color-ink);
+}
+
+/* ---- Variante destacada: 2x2 en la grilla asimétrica ---- */
+@media (min-width: 960px) {
+  .album-card--feature {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  .album-card--feature .album-card__title { font-size: 2rem; }
+  .album-card--feature .album-card__artist { font-size: 0.9375rem; }
+
+  /* La portada absorbe el alto sobrante para que el texto no quede flotando
+     sobre un hueco: crece la imagen, no el espacio en blanco. */
+  .album-card--feature .album-card__media {
+    flex: 1;
+    display: flex;
+    min-height: 0;
+  }
+
+  .album-card--feature .cover {
+    flex: 1;
+    aspect-ratio: auto;
+    min-height: 22rem;
+  }
+
+  .album-card--feature .album-card__body { flex: 0 0 auto; }
+}

@@ -1,0 +1,38 @@
+.genre-tag {
+  display: inline-block;
+  font-family: var(--font-ui);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.8125rem;
+  line-height: 1;
+  padding: 0.4rem 0.65rem;
+  background-color: var(--color-kraft);
+  color: var(--color-ink);
+  border: var(--border-hairline);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+/* Variantes interactivas: sólo cuando es link o botón */
+a.genre-tag,
+button.genre-tag {
+  cursor: pointer;
+  transition: background-color var(--transition), color var(--transition),
+    transform var(--transition);
+}
+
+a.genre-tag:hover,
+button.genre-tag:hover {
+  background-color: var(--color-ink);
+  color: var(--color-paper);
+  transform: translateY(-1px);
+}
+
+.genre-tag--selected,
+button.genre-tag--selected:hover {
+  background-color: var(--color-accent-red);
+  border-color: var(--color-ink);
+  color: var(--color-paper);
+}

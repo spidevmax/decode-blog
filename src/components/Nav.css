@@ -1,0 +1,112 @@
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: var(--color-paper);
+  border-bottom: var(--border-heavy);
+}
+
+.nav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  min-height: 4rem;
+  flex-wrap: wrap;
+}
+
+.nav__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.5rem;
+  letter-spacing: -0.04em;
+  color: var(--color-ink);
+  text-decoration: none;
+}
+
+.nav__brand-dot {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background-color: var(--color-accent-red);
+}
+
+.nav__toggle {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.875rem;
+  padding: 0.45rem 0.8rem;
+  cursor: pointer;
+  background-color: var(--color-card);
+  color: var(--color-ink);
+  border: var(--border-ink);
+  border-radius: var(--radius-sm);
+}
+
+/* Mobile-first: el menú se despliega debajo de la barra */
+.nav__menu {
+  display: none;
+  width: 100%;
+  padding-bottom: var(--space-4);
+}
+
+.nav__menu--open { display: block; }
+
+.nav__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav__link,
+.nav__favs {
+  display: block;
+  font-family: var(--font-ui);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 1rem;
+  padding: 0.5rem 0;
+  color: var(--color-ink);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+}
+
+.nav__link:hover { color: var(--color-accent-red); }
+
+.nav__link--active {
+  border-bottom-color: var(--color-accent-red);
+  color: var(--color-accent-red);
+}
+
+.nav__favs {
+  color: var(--color-muted);
+  white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+  .nav__toggle { display: none; }
+
+  .nav__menu {
+    display: block;
+    width: auto;
+    padding-bottom: 0;
+  }
+
+  .nav__list {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-5);
+  }
+
+  .nav__link,
+  .nav__favs { padding: 0.25rem 0; }
+}

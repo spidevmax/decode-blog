@@ -1,0 +1,35 @@
+.error-state {
+  max-width: 34rem;
+  margin-inline: auto;
+  padding: var(--space-6) var(--space-5);
+  text-align: center;
+  background-color: var(--color-card);
+  border: var(--border-ink);
+  box-shadow: var(--shadow-offset);
+}
+
+.error-state__mark {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 2.5rem;
+  line-height: 1;
+  margin: 0 0 var(--space-3);
+  color: var(--color-accent-red);
+}
+
+.error-state__title {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  margin-bottom: var(--space-3);
+}
+
+.error-state__message {
+  color: var(--color-muted);
+  margin-bottom: var(--space-5);
+}
+
+.error-state__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  justify-content: center;
+}
