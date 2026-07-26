@@ -31,7 +31,7 @@ const AlbumCard = ({ album, variant = 'default' }) => {
 
         <h3 className="album-card__title">
           {/* Stretched link: toda la card es clickeable, sin anidar interactivos */}
-          <Link to={`/review/${album.id}`} className="album-card__link">
+          <Link to={`/reviews/${album.id}`} className="album-card__link">
             {album.title}
           </Link>
         </h3>

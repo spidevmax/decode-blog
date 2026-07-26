@@ -1,0 +1,24 @@
+.reviews__head {
+  max-width: 40rem;
+  margin-bottom: var(--space-6);
+}
+
+.reviews__title {
+  text-transform: uppercase;
+  margin-bottom: var(--space-3);
+}
+
+.reviews__lede {
+  font-size: 1.1875rem;
+  margin: 0;
+}
+
+.reviews__count {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.9375rem;
+  color: var(--color-muted);
+  margin-bottom: var(--space-5);
+}

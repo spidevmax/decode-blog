@@ -95,7 +95,11 @@ const Explore = () => {
           </fieldset>
 
           {hasFilters && (
-            <Button variant="ghost" size="sm" onClick={() => setParams({}, { replace: true })}>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setParams({}, { replace: true })}
+            >
               Limpiar filtros
             </Button>
           )}

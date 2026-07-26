@@ -12,8 +12,11 @@ const Footer = () => {
 
         <nav className="footer__nav" aria-label="Pie de página">
           <Link to="/">Inicio</Link>
-          <Link to="/explorar">Explorar</Link>
-          <Link to="/sugerir">Sugerir</Link>
+          <Link to="/reviews">Reseñas</Link>
+          <Link to="/news">Noticias</Link>
+          <Link to="/features">Artículos</Link>
+          <Link to="/explore">Explorar</Link>
+          <Link to="/suggest">Sugerir</Link>
         </nav>
 
         <p className="footer__legal">

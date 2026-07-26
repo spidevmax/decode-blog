@@ -5,7 +5,9 @@
   background-color: var(--color-card);
   border: var(--border-ink);
   box-shadow: var(--shadow-offset-sm);
-  transition: transform var(--transition), box-shadow var(--transition);
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition);
 }
 
 .album-card:hover,
@@ -14,7 +16,9 @@
   box-shadow: var(--shadow-offset);
 }
 
-.album-card__media { position: relative; }
+.album-card__media {
+  position: relative;
+}
 
 .album-card__rating {
   position: absolute;
@@ -61,7 +65,9 @@
   z-index: 1;
 }
 
-.album-card__link:hover { text-decoration: underline; }
+.album-card__link:hover {
+  text-decoration: underline;
+}
 
 .album-card__meta {
   font-size: 0.9375rem;
@@ -102,10 +108,14 @@
   background-color: var(--color-paper);
   border: var(--border-hairline);
   border-radius: 50%;
-  transition: background-color var(--transition), color var(--transition);
+  transition:
+    background-color var(--transition),
+    color var(--transition);
 }
 
-.album-card__fav:hover { background-color: var(--color-accent-amber); }
+.album-card__fav:hover {
+  background-color: var(--color-accent-amber);
+}
 
 .album-card__fav--on {
   background-color: var(--color-accent-amber);
@@ -119,8 +129,12 @@
     grid-row: span 2;
   }
 
-  .album-card--feature .album-card__title { font-size: 2rem; }
-  .album-card--feature .album-card__artist { font-size: 0.9375rem; }
+  .album-card--feature .album-card__title {
+    font-size: 2rem;
+  }
+  .album-card--feature .album-card__artist {
+    font-size: 0.9375rem;
+  }
 
   /* La portada absorbe el alto sobrante para que el texto no quede flotando
      sobre un hueco: crece la imagen, no el espacio en blanco. */
@@ -136,5 +150,7 @@
     min-height: 22rem;
   }
 
-  .album-card--feature .album-card__body { flex: 0 0 auto; }
+  .album-card--feature .album-card__body {
+    flex: 0 0 auto;
+  }
 }

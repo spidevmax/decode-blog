@@ -7,11 +7,7 @@
   justify-content: flex-end;
   gap: 0.15rem;
   padding: var(--space-4);
-  background-image: linear-gradient(
-    145deg,
-    var(--cover-from) 0%,
-    var(--cover-to) 100%
-  );
+  background-image: linear-gradient(145deg, var(--cover-from) 0%, var(--cover-to) 100%);
   border-bottom: var(--border-ink);
   isolation: isolate;
 }
@@ -76,5 +72,9 @@
 }
 
 /* En la card destacada y en el detalle la portada respira más */
-.cover--lg { padding: var(--space-5); }
-.cover--lg .cover__title { font-size: clamp(1.6rem, 4vw, 2.75rem); }
+.cover--lg {
+  padding: var(--space-5);
+}
+.cover--lg .cover__title {
+  font-size: clamp(1.6rem, 4vw, 2.75rem);
+}

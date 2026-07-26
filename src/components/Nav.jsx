@@ -5,8 +5,11 @@ import './Nav.css';
 
 const LINKS = [
   { to: '/', label: 'Inicio', end: true },
-  { to: '/explorar', label: 'Explorar' },
-  { to: '/sugerir', label: 'Sugerir' },
+  { to: '/reviews', label: 'Reseñas' },
+  { to: '/news', label: 'Noticias' },
+  { to: '/features', label: 'Artículos' },
+  { to: '/explore', label: 'Explorar' },
+  { to: '/suggest', label: 'Sugerir' },
 ];
 
 const Nav = () => {

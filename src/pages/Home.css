@@ -64,7 +64,9 @@
   transition: transform var(--transition);
 }
 
-.hero__cover-link:hover { transform: rotate(0deg) scale(1.01); }
+.hero__cover-link:hover {
+  transform: rotate(0deg) scale(1.01);
+}
 
 .hero__rating {
   position: absolute;
@@ -84,15 +86,21 @@
 }
 
 @media (min-width: 900px) {
-  .hero { padding-block: var(--space-8) var(--space-9); }
+  .hero {
+    padding-block: var(--space-8) var(--space-9);
+  }
 
   .hero__inner {
     grid-template-columns: 1.05fr 0.95fr;
   }
 
   /* La portada entra primero en el orden visual en desktop */
-  .hero__text { order: 1; }
-  .hero__collage { order: 2; }
+  .hero__text {
+    order: 1;
+  }
+  .hero__collage {
+    order: 2;
+  }
 }
 
 /* ---- Encabezado de sección ---- */
@@ -119,7 +127,9 @@
   white-space: nowrap;
 }
 
-.section-head__link:hover { text-decoration: underline; }
+.section-head__link:hover {
+  text-decoration: underline;
+}
 
 /* ---- Grilla asimétrica ---- */
 
@@ -130,7 +140,9 @@
 }
 
 @media (min-width: 600px) {
-  .album-grid { grid-template-columns: repeat(2, 1fr); }
+  .album-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (min-width: 960px) {

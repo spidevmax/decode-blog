@@ -19,7 +19,9 @@
   background-color: var(--color-card);
 }
 
-.review__cover-wrap .cover { border-bottom: none; }
+.review__cover-wrap .cover {
+  border-bottom: none;
+}
 
 .review__rating {
   position: absolute;
@@ -77,8 +79,12 @@
 }
 
 @media (min-width: 900px) {
-  .review__header { padding-block: var(--space-8); }
-  .review__header-inner { grid-template-columns: 0.9fr 1.1fr; }
+  .review__header {
+    padding-block: var(--space-8);
+  }
+  .review__header-inner {
+    grid-template-columns: 0.9fr 1.1fr;
+  }
 }
 
 /* ---- Cuerpo ---- */
@@ -161,4 +167,6 @@
   white-space: nowrap;
 }
 
-.review__back:hover { text-decoration: underline; }
+.review__back:hover {
+  text-decoration: underline;
+}

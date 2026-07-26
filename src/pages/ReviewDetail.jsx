@@ -13,13 +13,15 @@ import './ReviewDetail.css';
 
 /** Convierte *texto* en <em>texto</em>, preservando el resto como texto plano. */
 const renderEmphasis = (text) => {
-  return text.split(/(\*[^*]+\*)/g).map((chunk, i) =>
-    chunk.startsWith('*') && chunk.endsWith('*') && chunk.length > 2 ? (
-      <em key={i}>{chunk.slice(1, -1)}</em>
-    ) : (
-      chunk
-    ),
-  );
+  return text
+    .split(/(\*[^*]+\*)/g)
+    .map((chunk, i) =>
+      chunk.startsWith('*') && chunk.endsWith('*') && chunk.length > 2 ? (
+        <em key={i}>{chunk.slice(1, -1)}</em>
+      ) : (
+        chunk
+      ),
+    );
 };
 
 const DATE_FORMAT = new Intl.DateTimeFormat('es-AR', {
@@ -97,7 +99,7 @@ const ReviewDetail = () => {
 
             <div className="review__tags">
               {album.genres.map((g) => (
-                <GenreTag key={g} to={`/explorar?genero=${encodeURIComponent(g)}`}>
+                <GenreTag key={g} to={`/explore?genero=${encodeURIComponent(g)}`}>
                   {g}
                 </GenreTag>
               ))}
@@ -117,9 +119,7 @@ const ReviewDetail = () => {
       <div className="container review__body">
         <p className="review__byline">
           Por {album.reviewer} ·{' '}
-          <time dateTime={album.date}>
-            {DATE_FORMAT.format(new Date(album.date))}
-          </time>
+          <time dateTime={album.date}>{DATE_FORMAT.format(new Date(album.date))}</time>
         </p>
 
         <p className="review__lede">{album.excerpt}</p>
@@ -139,7 +139,7 @@ const ReviewDetail = () => {
           <p className="review__verdict">
             {album.title} — {album.artist}
           </p>
-          <Link to="/explorar" className="review__back">
+          <Link to="/explore" className="review__back">
             ← Volver a explorar
           </Link>
         </footer>

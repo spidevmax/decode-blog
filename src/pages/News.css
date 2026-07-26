@@ -1,0 +1,48 @@
+.news__head {
+  max-width: 40rem;
+  margin-bottom: var(--space-6);
+}
+
+.news__title {
+  text-transform: uppercase;
+  margin-bottom: var(--space-3);
+}
+
+.news__lede {
+  font-size: 1.1875rem;
+  margin: 0;
+}
+
+.news__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-width: 46rem;
+  border-top: var(--border-ink);
+}
+
+/* Cada noticia es una franja separada por regla de tinta, como un teletipo */
+.news-item {
+  padding-block: var(--space-5);
+  border-bottom: var(--border-hairline);
+}
+
+.news-item__meta {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.8125rem;
+  color: var(--color-accent-red);
+  margin: 0 0 var(--space-2);
+}
+
+.news-item__title {
+  font-size: clamp(1.25rem, 2.8vw, 1.6rem);
+  margin-bottom: var(--space-2);
+}
+
+.news-item__excerpt {
+  margin: 0;
+  color: var(--color-body-text);
+}

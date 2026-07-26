@@ -3,16 +3,9 @@ import './GenreTag.css';
 
 /**
  * Tag de género. Sin `to` es una etiqueta estática; con `to` navega.
- * `as="button"` lo convierte en chip seleccionable (usado en /explorar).
+ * `as="button"` lo convierte en chip seleccionable (usado en /explore).
  */
-const GenreTag = ({
-  children,
-  to,
-  as,
-  selected = false,
-  onClick,
-  ...rest
-}) => {
+const GenreTag = ({ children, to, as, selected = false, onClick, ...rest }) => {
   const className = `genre-tag${selected ? ' genre-tag--selected' : ''}`;
 
   if (as === 'button') {

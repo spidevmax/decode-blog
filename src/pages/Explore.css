@@ -76,4 +76,6 @@
 }
 
 /* Grilla pareja: en /explorar ninguna card domina */
-.album-grid--even { grid-auto-rows: auto; }
+.album-grid--even {
+  grid-auto-rows: auto;
+}

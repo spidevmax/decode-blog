@@ -48,17 +48,17 @@ const Home = () => {
 
               <div className="hero__tags">
                 {hero.genres.map((g) => (
-                  <GenreTag key={g} to={`/explorar?genero=${encodeURIComponent(g)}`}>
+                  <GenreTag key={g} to={`/explore?genero=${encodeURIComponent(g)}`}>
                     {g}
                   </GenreTag>
                 ))}
               </div>
 
               <div className="hero__actions">
-                <Button to={`/review/${hero.id}`} variant="accent" size="lg">
+                <Button to={`/reviews/${hero.id}`} variant="accent" size="lg">
                   Leer la reseña
                 </Button>
-                <Button to="/explorar" variant="ghost" size="lg">
+                <Button to="/explore" variant="ghost" size="lg">
                   Explorar todo
                 </Button>
               </div>
@@ -66,13 +66,8 @@ const Home = () => {
 
             <div className="hero__collage">
               <TapeAccent position="top-left" rotate={-9} width="9rem" />
-              <TapeAccent
-                position="bottom-right"
-                rotate={5}
-                width="7rem"
-                color="red"
-              />
-              <Link to={`/review/${hero.id}`} className="hero__cover-link">
+              <TapeAccent position="bottom-right" rotate={5} width="7rem" color="red" />
+              <Link to={`/reviews/${hero.id}`} className="hero__cover-link">
                 <AlbumCover album={hero} className="cover--lg" />
               </Link>
               <div className="hero__rating">
@@ -90,7 +85,7 @@ const Home = () => {
         <div className="container">
           <div className="section-head">
             <h2 id="latest-title">Últimas reseñas</h2>
-            <Link to="/explorar" className="section-head__link">
+            <Link to="/explore" className="section-head__link">
               Ver todas
             </Link>
           </div>

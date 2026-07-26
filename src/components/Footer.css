@@ -64,5 +64,7 @@
     flex-wrap: wrap;
   }
 
-  .footer__legal { width: 100%; }
+  .footer__legal {
+    width: 100%;
+  }
 }

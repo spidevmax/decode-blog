@@ -31,7 +31,9 @@
 }
 
 @keyframes decode-spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* ---- Skeletons ---- */
@@ -43,11 +45,15 @@
 }
 
 @media (min-width: 600px) {
-  .loader-grid { grid-template-columns: repeat(2, 1fr); }
+  .loader-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (min-width: 960px) {
-  .loader-grid { grid-template-columns: repeat(3, 1fr); }
+  .loader-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 .skeleton-card {
@@ -67,7 +73,9 @@
   margin-bottom: var(--space-2);
 }
 
-.skeleton-card__line--short { width: 55%; }
+.skeleton-card__line--short {
+  width: 55%;
+}
 
 .shimmer {
   background: linear-gradient(
@@ -81,6 +89,10 @@
 }
 
 @keyframes decode-shimmer {
-  from { background-position: 200% 0; }
-  to   { background-position: -200% 0; }
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
 }

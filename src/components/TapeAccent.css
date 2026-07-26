@@ -11,9 +11,15 @@
   pointer-events: none;
 }
 
-.tape--amber { background-color: var(--color-accent-amber); }
-.tape--red   { background-color: var(--color-accent-red); }
-.tape--kraft { background-color: var(--color-kraft); }
+.tape--amber {
+  background-color: var(--color-accent-amber);
+}
+.tape--red {
+  background-color: var(--color-accent-red);
+}
+.tape--kraft {
+  background-color: var(--color-kraft);
+}
 
 /* Brillo diagonal que insinúa el plástico */
 .tape::after {
@@ -28,8 +34,24 @@
   );
 }
 
-.tape--top-left     { top: -1.05rem; left: 6%; }
-.tape--top-right    { top: -1.05rem; right: 6%; }
-.tape--top-center   { top: -1.05rem; left: 50%; margin-left: calc(var(--tape-width, 7rem) / -2); }
-.tape--bottom-left  { bottom: -1.05rem; left: 8%; }
-.tape--bottom-right { bottom: -1.05rem; right: 8%; }
+.tape--top-left {
+  top: -1.05rem;
+  left: 6%;
+}
+.tape--top-right {
+  top: -1.05rem;
+  right: 6%;
+}
+.tape--top-center {
+  top: -1.05rem;
+  left: 50%;
+  margin-left: calc(var(--tape-width, 7rem) / -2);
+}
+.tape--bottom-left {
+  bottom: -1.05rem;
+  left: 8%;
+}
+.tape--bottom-right {
+  bottom: -1.05rem;
+  right: 8%;
+}

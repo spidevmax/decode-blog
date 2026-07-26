@@ -1,4 +1,5 @@
 import { ALBUMS } from './albums.data';
+import { FEATURES, NEWS } from './editorial.data';
 
 /**
  * Capa de acceso a datos.
@@ -102,7 +103,19 @@ export const getFacets = () => {
   return respond({ genres, years }, { canFail: false });
 };
 
-/** Envío del formulario de /sugerir. Simula un POST. */
+/** Envío del formulario de /suggest. Simula un POST. */
 export const submitSuggestion = (payload) => {
   return respond({ ok: true, received: payload });
+};
+
+/** Noticias breves, de la más reciente a la más vieja. @returns {Promise<News[]>} */
+export const getNews = () => {
+  const result = [...NEWS].sort((a, b) => b.date.localeCompare(a.date));
+  return respond(result);
+};
+
+/** Artículos de fondo. @returns {Promise<Feature[]>} */
+export const getFeatures = () => {
+  const result = [...FEATURES].sort((a, b) => b.date.localeCompare(a.date));
+  return respond(result);
 };

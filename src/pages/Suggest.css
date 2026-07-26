@@ -43,7 +43,9 @@
   border-bottom: var(--border-ink);
 }
 
-.suggest-form { margin: 0; }
+.suggest-form {
+  margin: 0;
+}
 
 .form-error {
   font-family: var(--font-ui);

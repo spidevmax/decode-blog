@@ -132,8 +132,7 @@ export const ALBUMS = [
     duration: '52 min',
     tracks: 8,
     cover: { from: '#1A1A1A', to: '#77705f', pattern: 'grid' },
-    excerpt:
-      'Un disco doble conceptual que confunde la duración con la profundidad.',
+    excerpt: 'Un disco doble conceptual que confunde la duración con la profundidad.',
     pullQuote: 'La idea era buena. Duraba diez minutos.',
     body: [
       'La premisa de *Ruido Blanco / Ruido Negro* es atractiva sobre el papel: dos suites de veintiséis minutos, una construida enteramente por adición y la otra por sustracción, partiendo del mismo material fuente.',
