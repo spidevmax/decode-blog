@@ -75,7 +75,4 @@
   color: var(--color-muted);
 }
 
-/* Grilla pareja: en /explorar ninguna card domina */
-.album-grid--even {
-  grid-auto-rows: auto;
-}
+/* La grilla y su variante pareja viven en components/album/AlbumGrid.css */

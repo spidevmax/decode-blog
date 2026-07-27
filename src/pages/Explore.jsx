@@ -1,7 +1,8 @@
 import { useSearchParams } from 'react-router-dom';
 import AlbumCard from '@/components/album/AlbumCard';
-import { Button, ErrorState, Loader } from '@/components/ui';
+import AlbumGrid from '@/components/album/AlbumGrid';
 import GenreTag from '@/components/album/GenreTag';
+import { Button, ErrorState, Loader } from '@/components/ui';
 import { useAlbums, useFacets } from '@/hooks/useAlbums';
 import './Explore.css';
 
@@ -121,11 +122,11 @@ const Explore = () => {
                 </Button>
               </div>
             ) : (
-              <div className="album-grid album-grid--even">
+              <AlbumGrid variant="even">
                 {albums.map((album) => (
                   <AlbumCard key={album.id} album={album} />
                 ))}
-              </div>
+              </AlbumGrid>
             )}
           </>
         )}

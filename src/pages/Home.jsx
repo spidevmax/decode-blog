@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
 import AlbumCard from '@/components/album/AlbumCard';
 import AlbumCover from '@/components/album/AlbumCover';
-import { Button, ErrorState, Loader, TapeAccent } from '@/components/ui';
+import AlbumGrid from '@/components/album/AlbumGrid';
 import GenreTag from '@/components/album/GenreTag';
 import RatingBadge from '@/components/album/RatingBadge';
+import { Button, ErrorState, Loader, TapeAccent } from '@/components/ui';
 import { useAlbums } from '@/hooks/useAlbums';
 import './Home.css';
 
@@ -87,7 +88,7 @@ const Home = () => {
             </Link>
           </div>
 
-          <div className="album-grid">
+          <AlbumGrid>
             {rest.map((album, i) => (
               <AlbumCard
                 key={album.id}
@@ -96,7 +97,7 @@ const Home = () => {
                 variant={i === 0 ? 'feature' : 'default'}
               />
             ))}
-          </div>
+          </AlbumGrid>
         </div>
       </section>
     </>

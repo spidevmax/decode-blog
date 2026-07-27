@@ -82,45 +82,7 @@ select {
   outline-offset: 2px;
 }
 
-/* ---- Shared primitives ---- */
-
-.container {
-  width: 100%;
-  max-width: var(--maxw);
-  margin-inline: auto;
-  padding-inline: var(--space-4);
-}
-
-@media (min-width: 768px) {
-  .container {
-    padding-inline: var(--space-6);
-  }
-}
-
-.eyebrow {
-  font-family: var(--font-ui);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  font-size: 0.875rem;
-  color: var(--color-accent-red);
-  margin: 0 0 var(--space-2);
-}
-
-.section {
-  padding-block: var(--space-7);
-}
-
-.section--panel {
-  background-color: var(--color-panel);
-  border-block: var(--border-ink);
-}
-
-@media (min-width: 768px) {
-  .section {
-    padding-block: var(--space-8);
-  }
-}
+/* Las utilidades de layout (.container, .section, .eyebrow) viven en layout.css */
 
 .visually-hidden {
   position: absolute;

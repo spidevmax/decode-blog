@@ -1,0 +1,27 @@
+/* ---- Grilla de álbumes ---- */
+
+.album-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+}
+
+@media (min-width: 600px) {
+  .album-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 960px) {
+  .album-grid {
+    grid-template-columns: repeat(3, 1fr);
+    /* Filas iguales para que el bloque 2x2 de la card destacada cierre parejo */
+    grid-auto-rows: 1fr;
+    gap: var(--space-6);
+  }
+}
+
+/* Variante pareja: ninguna card domina (Explore, Reviews) */
+.album-grid--even {
+  grid-auto-rows: auto;
+}

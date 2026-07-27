@@ -1,4 +1,5 @@
 import AlbumCard from '@/components/album/AlbumCard';
+import AlbumGrid from '@/components/album/AlbumGrid';
 import { ErrorState, Loader } from '@/components/ui';
 import { useAlbums } from '@/hooks/useAlbums';
 import './Reviews.css';
@@ -31,11 +32,11 @@ const Reviews = () => {
               {albums.length} {albums.length === 1 ? 'reseña' : 'reseñas'}
             </p>
 
-            <div className="album-grid album-grid--even">
+            <AlbumGrid variant="even">
               {albums.map((album) => (
                 <AlbumCard key={album.id} album={album} />
               ))}
-            </div>
+            </AlbumGrid>
           </>
         )}
       </div>
