@@ -12,6 +12,23 @@
   isolation: isolate;
 }
 
+/* Real artwork: fills the square, no gradient or texture underneath */
+.cover--image {
+  padding: 0;
+  background-image: none;
+}
+
+.cover--image::before {
+  content: none;
+}
+
+.cover__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 /* Screen-print texture over the gradient */
 .cover::before {
   content: '';

@@ -35,7 +35,6 @@ const Nav = () => {
       <div className="nav__inner container">
         <NavLink to="/" className="nav__brand" aria-label="DECODE, home">
           Decode
-          <span className="nav__brand-dot" aria-hidden="true" />
         </NavLink>
 
         <button

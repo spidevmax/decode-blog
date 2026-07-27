@@ -16,11 +16,21 @@ const RETRIES = 8;
 const browser = await chromium.launch();
 const results = [];
 
+/**
+ * Cover art is hosted on a CDN that blocks hotlinking, so every card logs a
+ * failed image request. AlbumCover handles that with a gradient fallback, so
+ * this noise is expected and must not fail the run.
+ */
+const isExpectedNoise = (text) =>
+  /Failed to load resource|ERR_BLOCKED_BY_RESPONSE|net::ERR/.test(text);
+
 async function check(name, fn) {
   const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
   const errors = [];
   page.on('pageerror', (e) => errors.push(String(e)));
-  page.on('console', (m) => m.type() === 'error' && errors.push(m.text()));
+  page.on('console', (m) => {
+    if (m.type() === 'error' && !isExpectedNoise(m.text())) errors.push(m.text());
+  });
 
   try {
     const detail = await fn(page);
@@ -54,6 +64,30 @@ await check('Home: asymmetric grid with 2x2 feature card', async (page) => {
   );
   if (feature !== 1) throw new Error(`expected 1 feature card, found ${feature}`);
   return `${cols} columns, ${feature} feature`;
+});
+
+await check('Every card renders a cover (image or gradient fallback)', async (page) => {
+  if (!(await goto(page, '/reviews', '.album-card'))) {
+    throw new Error('listing never loaded');
+  }
+  await page.waitForTimeout(1500); // let onError swap in the fallbacks
+  const state = await page.evaluate(() => {
+    const cards = document.querySelectorAll('.album-card').length;
+    const imgs = [...document.querySelectorAll('.cover__img')];
+    return {
+      cards,
+      covers: document.querySelectorAll('.cover').length,
+      broken: imgs.filter((i) => i.complete && i.naturalWidth === 0).length,
+      painted: [...document.querySelectorAll('.cover:not(.cover--image)')].filter(
+        (el) => getComputedStyle(el).backgroundImage !== 'none',
+      ).length,
+    };
+  });
+  if (state.covers !== state.cards) {
+    throw new Error(`${state.cards} cards but ${state.covers} covers`);
+  }
+  if (state.broken > 0) throw new Error(`${state.broken} broken images left visible`);
+  return `${state.covers} covers, ${state.painted} gradient fallbacks, 0 broken`;
 });
 
 await check('Reviews uses the even grid', async (page) => {
