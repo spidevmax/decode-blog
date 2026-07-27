@@ -1,16 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useFavorites } from '@/hooks/useFavorites';
+import { LINKS } from './Nav.constants';
 import './Nav.css';
-
-const LINKS = [
-  { to: '/', label: 'Inicio', end: true },
-  { to: '/reviews', label: 'Reseñas' },
-  { to: '/news', label: 'Noticias' },
-  { to: '/features', label: 'Artículos' },
-  { to: '/explore', label: 'Explorar' },
-  { to: '/suggest', label: 'Sugerir' },
-];
 
 const Nav = () => {
   // El menú guarda en qué ruta se abrió. Si la ruta cambió, está cerrado:

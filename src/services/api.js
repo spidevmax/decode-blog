@@ -1,5 +1,5 @@
-import { ALBUMS } from './albums.data';
-import { FEATURES, NEWS } from './editorial.data';
+import { ALBUMS } from './mocks/albums.data';
+import { FEATURES, NEWS } from './mocks/editorial.data';
 
 /**
  * Capa de acceso a datos.
@@ -42,13 +42,6 @@ const respond = (value, { canFail = true } = {}) => {
   });
 };
 
-const normalize = (text) => {
-  return text
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/\p{Diacritic}/gu, '');
-};
-
 /**
  * @param {{ genre?: string, year?: number|string, sort?: 'recent'|'score' }} [filters]
  * @returns {Promise<Album[]>}
@@ -83,20 +76,7 @@ export const getAlbumById = (id) => {
   return respond(album);
 };
 
-/** @returns {Promise<Album[]>} */
-export const searchAlbums = (query) => {
-  const q = normalize(query ?? '').trim();
-  if (!q) return respond([]);
-
-  const result = ALBUMS.filter((album) =>
-    [album.title, album.artist, ...album.genres].some((field) =>
-      normalize(field).includes(q),
-    ),
-  );
-  return respond(result);
-};
-
-/** Facetas para los chips de /explorar. No falla: es metadata local. */
+/** Facetas para los chips de /explore. No falla: es metadata local. */
 export const getFacets = () => {
   const genres = [...new Set(ALBUMS.flatMap((a) => a.genres))].sort();
   const years = [...new Set(ALBUMS.map((a) => a.year))].sort((a, b) => b - a);
