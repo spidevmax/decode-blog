@@ -33,8 +33,8 @@ const Nav = () => {
   return (
     <header className="nav">
       <div className="nav__inner container">
-        <NavLink to="/" className="nav__brand" aria-label="DECODE, inicio">
-          DECODE
+        <NavLink to="/" className="nav__brand" aria-label="DECODE, home">
+          Decode
           <span className="nav__brand-dot" aria-hidden="true" />
         </NavLink>
 
@@ -68,7 +68,7 @@ const Nav = () => {
               </li>
             ))}
             <li>
-              <span className="nav__favs" title="Reseñas guardadas">
+              <span className="nav__favs" title="Saved reviews">
                 ★ {count}
               </span>
             </li>

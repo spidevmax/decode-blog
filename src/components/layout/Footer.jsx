@@ -11,17 +11,15 @@ const Footer = () => {
         </div>
 
         <nav className="footer__nav" aria-label="Pie de página">
-          <Link to="/">Inicio</Link>
-          <Link to="/reviews">Reseñas</Link>
-          <Link to="/news">Noticias</Link>
-          <Link to="/features">Artículos</Link>
-          <Link to="/explore">Explorar</Link>
-          <Link to="/suggest">Sugerir</Link>
+          <Link to="/">Home</Link>
+          <Link to="/reviews">Reviews</Link>
+          <Link to="/news">News</Link>
+          <Link to="/features">Features</Link>
+          <Link to="/explore">Explore</Link>
+          <Link to="/suggest">Suggest</Link>
         </nav>
 
-        <p className="footer__legal">
-          © {new Date().getFullYear()} DECODE — Todas las opiniones son discutibles.
-        </p>
+        <p className="footer__legal">© {new Date().getFullYear()} DECODE</p>
       </div>
     </footer>
   );

@@ -22,11 +22,11 @@ const ErrorState = ({
       <div className="error-state__actions">
         {onRetry && !is404 && (
           <Button variant="accent" onClick={onRetry}>
-            Reintentar
+            Try again
           </Button>
         )}
         <Button variant="ghost" to="/">
-          Ir al inicio
+          Go home
         </Button>
       </div>
     </div>

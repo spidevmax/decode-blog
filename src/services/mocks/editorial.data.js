@@ -1,49 +1,43 @@
-/**
- * Contenido editorial que no son reseñas de disco: noticias breves y
- * artículos de fondo. Misma forma que ALBUMS para poder migrar a una API real
- * sin tocar componentes.
- */
-
 export const NEWS = [
   {
-    id: 'trapecio-catalogo',
-    title: 'Trapecio Discos digitaliza su catálogo de los 90',
-    date: '2026-07-21',
-    source: 'Comunicado del sello',
+    id: 'arctic-monkeys-studio',
+    title: 'Arctic Monkeys Return to the Studio',
+    date: '2026-07-22',
+    source: 'Band Statement',
     excerpt:
-      'Cuarenta y dos títulos descatalogados vuelven a estar disponibles, remasterizados a partir de las cintas originales.',
+      'The group confirmed work has begun on their next studio album, marking their first recording sessions in nearly four years.',
   },
   {
-    id: 'ciclo-galpones',
-    title: 'Vuelve el ciclo de galpones del sur del conurbano',
-    date: '2026-07-14',
-    source: 'Prensa del ciclo',
+    id: 'billie-eilish-charity',
+    title: 'Billie Eilish Announces Global Charity Concert',
+    date: '2026-07-18',
+    source: 'Official Website',
     excerpt:
-      'Ocho fechas entre agosto y octubre, con Los Brutos del Riachuelo y Puente Alsina entre los confirmados.',
+      'A one-night event featuring guest artists will raise funds for climate and environmental initiatives across five continents.',
   },
   {
-    id: 'maravilla-gira',
-    title: 'Ceci Maravilla anuncia gira sudamericana',
-    date: '2026-07-08',
-    source: 'Redes de la artista',
+    id: 'phoenix-festival-lineup',
+    title: 'Phoenix Sound Festival Reveals Full Lineup',
+    date: '2026-07-13',
+    source: 'Festival Organizers',
     excerpt:
-      'Doce ciudades en tres meses, con banda completa por primera vez desde el debut de Fiebre.',
+      'More than 70 artists are scheduled to perform across three stages, with indie, electronic, and alternative acts leading the bill.',
   },
   {
-    id: 'nublado-cierre',
-    title: 'Nublado Tapes suspende sus ediciones en casete',
-    date: '2026-06-30',
-    source: 'Comunicado del sello',
+    id: 'vinyl-sales-record',
+    title: 'Independent Record Stores Report Record Vinyl Sales',
+    date: '2026-07-05',
+    source: 'Retail Association',
     excerpt:
-      'El sello seguirá editando en digital. Atribuye la decisión al costo de importación de las cintas vírgenes.',
+      'Collectors and younger listeners pushed vinyl sales to their strongest summer figures in over a decade.',
   },
   {
-    id: 'premio-ocampo',
-    title: 'Monte Adentro gana el premio de la crítica independiente',
-    date: '2026-06-19',
-    source: 'Asociación de Críticos',
+    id: 'nova-album-release',
+    title: 'Nova Shares Details of Upcoming Album',
+    date: '2026-06-27',
+    source: 'Artist Social Media',
     excerpt:
-      'El disco de Ayelén Ocampo se impuso en la categoría de folclore contemporáneo, dos años después de su salida.',
+      'The singer-songwriter unveiled the tracklist, cover art, and release date for a twelve-song project arriving this fall.',
   },
 ];
 
@@ -52,7 +46,6 @@ export const FEATURES = [
     id: 'ruido-como-lenguaje',
     title: 'El ruido como lenguaje',
     kicker: 'Ensayo',
-    author: 'Paloma Iriarte',
     date: '2026-07-18',
     readingTime: '12 min',
     excerpt:
@@ -62,7 +55,6 @@ export const FEATURES = [
     id: 'cumbia-mutante',
     title: 'La cumbia que se fue de la fiesta',
     kicker: 'Informe',
-    author: 'Nadia Sforza',
     date: '2026-07-05',
     readingTime: '9 min',
     excerpt:
@@ -72,7 +64,6 @@ export const FEATURES = [
     id: 'sellos-autogestion',
     title: 'Autogestión, diez años después',
     kicker: 'Investigación',
-    author: 'Tomás Beltrán',
     date: '2026-06-22',
     readingTime: '15 min',
     excerpt:
@@ -82,7 +73,6 @@ export const FEATURES = [
     id: 'archivo-que-desaparece',
     title: 'El archivo que desaparece',
     kicker: 'Crónica',
-    author: 'Paloma Iriarte',
     date: '2026-06-03',
     readingTime: '11 min',
     excerpt:

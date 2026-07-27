@@ -12,6 +12,8 @@
   --color-body-text: #332f28;
 
   /* Type */
+  /* Titulares H1/H2: pixel-grid, contrasta con el resto del sistema */
+  --font-heading: 'Bitcount Grid Double', 'Space Grotesk', system-ui, sans-serif;
   --font-display: 'Space Grotesk', system-ui, sans-serif;
   --font-body: 'Lora', Georgia, serif;
   --font-ui: 'Barlow Condensed', 'Arial Narrow', sans-serif;

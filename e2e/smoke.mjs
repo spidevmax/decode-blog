@@ -207,7 +207,7 @@ await check('Móvil 375px: sin scroll horizontal y menú funcional', async (page
 
   await page.getByRole('button', { name: 'Menú' }).click();
   await page.waitForSelector('.nav__menu--open');
-  await page.locator('.nav__menu').getByRole('link', { name: 'Artículos' }).click();
+  await page.locator('.nav__menu').getByRole('link', { name: 'Features' }).click();
   await page.waitForURL('**/features');
   await page
     .locator('.nav__menu--open')

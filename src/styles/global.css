@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Space+Grotesk:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Bitcount+Grid+Double:wght@400;700&family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Space+Grotesk:wght@500;600;700&display=swap');
 
 *,
 *::before,
@@ -39,6 +39,18 @@ h4 {
   letter-spacing: -0.02em;
   margin: 0;
   text-wrap: balance;
+}
+
+/* H1 y H2 usan Bitcount Grid Double: al ser una tipografía de rejilla de
+   píxeles necesita menos tracking negativo y algo más de interlínea que
+   Space Grotesk, que sigue rigiendo H3/H4. */
+h1,
+h2 {
+  font-family: var(--font-heading);
+  /* Bitcount deja mucho aire entre glifos por su rejilla; sin tracking
+     negativo las palabras se leen como bloques sueltos. */
+  letter-spacing: -0.04em;
+  line-height: 1.15;
 }
 
 h1 {
