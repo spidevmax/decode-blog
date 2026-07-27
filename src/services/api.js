@@ -76,7 +76,7 @@ export const getAlbumById = (id) => {
   return respond(album);
 };
 
-/** Facets for the /explore chips. Never fails: it is local metadata. */
+/** Facets for the /reviews chips. Never fails: it is local metadata. */
 export const getFacets = () => {
   const genres = [...new Set(ALBUMS.flatMap((a) => a.genres))].sort();
   const years = [...new Set(ALBUMS.map((a) => a.year))].sort((a, b) => b - a);

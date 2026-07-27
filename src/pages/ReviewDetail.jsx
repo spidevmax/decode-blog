@@ -96,7 +96,7 @@ const ReviewDetail = () => {
 
             <div className="review__tags">
               {album.genres.map((g) => (
-                <GenreTag key={g} to={`/explore?genre=${encodeURIComponent(g)}`}>
+                <GenreTag key={g} to={`/reviews?genre=${encodeURIComponent(g)}`}>
                   {g}
                 </GenreTag>
               ))}
@@ -136,8 +136,8 @@ const ReviewDetail = () => {
           <p className="review__verdict">
             {album.title} — {album.artist}
           </p>
-          <Link to="/explore" className="review__back">
-            ← Back to explore
+          <Link to="/reviews" className="review__back">
+            ← Back to reviews
           </Link>
         </footer>
       </div>

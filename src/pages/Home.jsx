@@ -46,7 +46,7 @@ const Home = () => {
 
               <div className="hero__tags">
                 {hero.genres.map((g) => (
-                  <GenreTag key={g} to={`/explore?genre=${encodeURIComponent(g)}`}>
+                  <GenreTag key={g} to={`/reviews?genre=${encodeURIComponent(g)}`}>
                     {g}
                   </GenreTag>
                 ))}
@@ -56,8 +56,8 @@ const Home = () => {
                 <Button to={`/reviews/${hero.id}`} variant="accent" size="lg">
                   Read the review
                 </Button>
-                <Button to="/explore" variant="ghost" size="lg">
-                  Explore all
+                <Button to="/reviews" variant="ghost" size="lg">
+                  All reviews
                 </Button>
               </div>
             </div>
@@ -83,7 +83,7 @@ const Home = () => {
         <div className="container">
           <div className="section-head">
             <h2 id="latest-title">Latest reviews</h2>
-            <Link to="/explore" className="section-head__link">
+            <Link to="/reviews" className="section-head__link">
               View all
             </Link>
           </div>

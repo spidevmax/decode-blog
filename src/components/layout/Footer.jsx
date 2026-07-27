@@ -15,7 +15,6 @@ const Footer = () => {
           <Link to="/reviews">Reviews</Link>
           <Link to="/news">News</Link>
           <Link to="/features">Features</Link>
-          <Link to="/explore">Explore</Link>
           <Link to="/suggest">Suggest</Link>
         </nav>
 

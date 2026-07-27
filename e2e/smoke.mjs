@@ -56,21 +56,54 @@ await check('Home: asymmetric grid with 2x2 feature card', async (page) => {
   return `${cols} columns, ${feature} feature`;
 });
 
-await check('Explore and Reviews use the even grid', async (page) => {
-  await goto(page, '/explore', '.album-card');
-  const explore = await page.$eval(
-    '.album-grid',
-    (el) => getComputedStyle(el).gridAutoRows,
-  );
+await check('Reviews uses the even grid', async (page) => {
   await goto(page, '/reviews', '.album-card');
-  const reviews = await page.$eval(
-    '.album-grid',
-    (el) => getComputedStyle(el).gridAutoRows,
-  );
-  if (explore !== 'auto' || reviews !== 'auto') {
-    throw new Error(`explore=${explore} reviews=${reviews}`);
+  const rows = await page.$eval('.album-grid', (el) => getComputedStyle(el).gridAutoRows);
+  if (rows !== 'auto') throw new Error(`grid-auto-rows=${rows}`);
+  return `grid-auto-rows: ${rows}`;
+});
+
+await check('Reviews filters by genre and updates the URL', async (page) => {
+  if (!(await goto(page, '/reviews', '.album-card'))) {
+    throw new Error('listing never loaded');
   }
-  return 'both with grid-auto-rows: auto';
+  const before = await page.locator('.album-card').count();
+
+  // Pick whatever the first genre chip is, so this survives dataset changes.
+  const chip = page.locator('.filters__group').first().locator('.genre-tag').first();
+  const label = (await chip.textContent()).trim();
+  await chip.click();
+
+  await page.waitForFunction(
+    (g) => new URL(location.href).searchParams.get('genre') === g,
+    label,
+    { timeout: 4000 },
+  );
+  await page.waitForSelector('.album-card', { timeout: 6000 });
+  const after = await page.locator('.album-card').count();
+  if (after > before) throw new Error(`filter grew the list: ${before} → ${after}`);
+
+  // Every remaining card must carry the selected genre.
+  const allMatch = await page.$$eval(
+    '.album-card',
+    (cards, g) =>
+      cards.every((c) =>
+        [...c.querySelectorAll('.genre-tag')].some((t) => t.textContent.trim() === g),
+      ),
+    label,
+  );
+  if (!allMatch) throw new Error(`some cards lack the genre "${label}"`);
+  return `${before} → ${after} with ?genre=${label}`;
+});
+
+await check('/explore redirects to /reviews, keeping the query', async (page) => {
+  await page.goto(`${BASE}/explore?genre=Pop`);
+  await page.waitForURL('**/reviews?genre=Pop', { timeout: 5000 });
+  const url = new URL(page.url());
+  if (url.pathname !== '/reviews' || url.searchParams.get('genre') !== 'Pop') {
+    throw new Error(`landed on ${page.url()}`);
+  }
+  return `${url.pathname}${url.search}`;
 });
 
 await check('RatingBadge applies the tone by threshold', async (page) => {

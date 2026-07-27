@@ -4,6 +4,5 @@ export const LINKS = [
   { to: '/reviews', label: 'Reviews' },
   { to: '/news', label: 'News' },
   { to: '/features', label: 'Features' },
-  { to: '/explore', label: 'Explore' },
   { to: '/suggest', label: 'Suggest' },
 ];
