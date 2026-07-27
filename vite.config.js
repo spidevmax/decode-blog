@@ -12,4 +12,11 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  test: {
+    environment: 'node',
+    include: ['src/**/*.test.js'],
+    // api.js lee VITE_API_FAIL_RATE al importarse, así que hay que fijarla
+    // antes de que se cargue el módulo: en un beforeAll llegaría tarde.
+    env: { VITE_API_FAIL_RATE: '0' },
+  },
 });

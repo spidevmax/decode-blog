@@ -21,4 +21,9 @@ export default defineConfig([
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
   },
+  {
+    // La suite E2E corre en Node, no en el navegador.
+    files: ['e2e/**/*.mjs', '*.config.js'],
+    languageOptions: { globals: globals.node },
+  },
 ]);
