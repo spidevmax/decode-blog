@@ -2,8 +2,8 @@ import { Link } from 'react-router-dom';
 import './GenreTag.css';
 
 /**
- * Tag de género. Sin `to` es una etiqueta estática; con `to` navega.
- * `as="button"` lo convierte en chip seleccionable (usado en /explore).
+ * Genre tag. Without `to` it is a static label; with `to` it navigates.
+ * `as="button"` turns it into a selectable chip (used on /explore).
  */
 const GenreTag = ({ children, to, as, selected = false, onClick, ...rest }) => {
   const className = `genre-tag${selected ? ' genre-tag--selected' : ''}`;

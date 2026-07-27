@@ -2,7 +2,7 @@ import { ErrorState, Loader, TapeAccent } from '@/components/ui';
 import { useFeatures } from '@/hooks/useEditorial';
 import './Features.css';
 
-const DATE_FORMAT = new Intl.DateTimeFormat('es-AR', {
+const DATE_FORMAT = new Intl.DateTimeFormat('en-GB', {
   day: 'numeric',
   month: 'long',
   year: 'numeric',
@@ -15,14 +15,14 @@ const Features = () => {
     <div className="section">
       <div className="container">
         <header className="features__head">
-          <p className="eyebrow">Lecturas largas</p>
-          <h1 className="features__title">Artículos</h1>
+          <p className="eyebrow">Long reads</p>
+          <h1 className="features__title">Features</h1>
           <p className="features__lede">
-            Ensayos, informes y crónicas sobre la música que reseñamos.
+            Essays, reports and long-form pieces on the music we review.
           </p>
         </header>
 
-        {loading && <Loader label="Cargando artículos…" />}
+        {loading && <Loader label="Loading features…" />}
 
         {error && !loading && <ErrorState error={error} onRetry={retry} />}
 

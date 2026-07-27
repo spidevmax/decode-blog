@@ -41,14 +41,14 @@ h4 {
   text-wrap: balance;
 }
 
-/* H1 y H2 usan Bitcount Grid Double: al ser una tipografía de rejilla de
-   píxeles necesita menos tracking negativo y algo más de interlínea que
-   Space Grotesk, que sigue rigiendo H3/H4. */
+/* H1 and H2 use Bitcount Grid Double. As a pixel-grid face it needs different
+   tracking and a little more leading than Space Grotesk, which still governs
+   H3/H4. */
 h1,
 h2 {
   font-family: var(--font-heading);
-  /* Bitcount deja mucho aire entre glifos por su rejilla; sin tracking
-     negativo las palabras se leen como bloques sueltos. */
+  /* Bitcount leaves a lot of air between glyphs; without negative tracking the
+     words read as disconnected blocks. */
   letter-spacing: -0.04em;
   line-height: 1.15;
 }
@@ -94,7 +94,7 @@ select {
   outline-offset: 2px;
 }
 
-/* Las utilidades de layout (.container, .section, .eyebrow) viven en layout.css */
+/* Layout utilities (.container, .section, .eyebrow) live in layout.css */
 
 .visually-hidden {
   position: absolute;

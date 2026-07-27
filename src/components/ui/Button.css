@@ -45,7 +45,7 @@
   box-shadow: none;
 }
 
-/* El botón se "presiona" contra su sombra: el gesto físico del sistema */
+/* The button "presses" into its shadow: the physical gesture of the system */
 .btn:hover {
   transform: translate(2px, 2px);
   box-shadow: 1px 1px 0 var(--color-ink);

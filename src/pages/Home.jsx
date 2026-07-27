@@ -14,7 +14,7 @@ const Home = () => {
   if (loading) {
     return (
       <div className="container section">
-        <Loader variant="grid" count={6} label="Cargando reseñas…" />
+        <Loader variant="grid" count={6} label="Loading reviews…" />
       </div>
     );
   }
@@ -27,7 +27,7 @@ const Home = () => {
     );
   }
 
-  // El destacado es el marcado como `featured`; si no hay, el más reciente.
+  // The lead is whichever is flagged `featured`; otherwise the most recent.
   const hero = albums.find((a) => a.featured) ?? albums[0];
   const rest = albums.filter((a) => a.id !== hero?.id);
 
@@ -37,7 +37,7 @@ const Home = () => {
         <section className="hero" aria-labelledby="hero-title">
           <div className="container hero__inner">
             <div className="hero__text">
-              <p className="eyebrow">Reseña destacada</p>
+              <p className="eyebrow">Featured review</p>
               <h1 id="hero-title" className="hero__title">
                 {hero.title}
               </h1>
@@ -46,7 +46,7 @@ const Home = () => {
 
               <div className="hero__tags">
                 {hero.genres.map((g) => (
-                  <GenreTag key={g} to={`/explore?genero=${encodeURIComponent(g)}`}>
+                  <GenreTag key={g} to={`/explore?genre=${encodeURIComponent(g)}`}>
                     {g}
                   </GenreTag>
                 ))}
@@ -54,10 +54,10 @@ const Home = () => {
 
               <div className="hero__actions">
                 <Button to={`/reviews/${hero.id}`} variant="accent" size="lg">
-                  Leer la reseña
+                  Read the review
                 </Button>
                 <Button to="/explore" variant="ghost" size="lg">
-                  Explorar todo
+                  Explore all
                 </Button>
               </div>
             </div>
@@ -72,7 +72,7 @@ const Home = () => {
                 <RatingBadge score={hero.score} size="lg" />
               </div>
               <p className="hero__byline">
-                por {hero.reviewer} · {hero.year}
+                by {hero.reviewer} · {hero.year}
               </p>
             </div>
           </div>
@@ -82,9 +82,9 @@ const Home = () => {
       <section className="section section--panel" aria-labelledby="latest-title">
         <div className="container">
           <div className="section-head">
-            <h2 id="latest-title">Últimas reseñas</h2>
+            <h2 id="latest-title">Latest reviews</h2>
             <Link to="/explore" className="section-head__link">
-              Ver todas
+              View all
             </Link>
           </div>
 
@@ -93,7 +93,7 @@ const Home = () => {
               <AlbumCard
                 key={album.id}
                 album={album}
-                // La primera de la grilla ocupa 2x2
+                // The first one in the grid spans 2x2
                 variant={i === 0 ? 'feature' : 'default'}
               />
             ))}

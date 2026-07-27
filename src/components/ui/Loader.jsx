@@ -1,10 +1,10 @@
 import './Loader.css';
 
 /**
- * Estado de carga. `variant="grid"` pinta skeletons con la forma de las cards
- * para que el layout no salte cuando llegan los datos.
+ * Loading state. `variant="grid"` paints skeletons shaped like the cards
+ * so the layout does not jump when data arrives.
  */
-const Loader = ({ variant = 'spinner', count = 6, label = 'Cargando…' }) => {
+const Loader = ({ variant = 'spinner', count = 6, label = 'Loading…' }) => {
   if (variant === 'grid') {
     return (
       <div className="loader-grid" role="status" aria-live="polite">

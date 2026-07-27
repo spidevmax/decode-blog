@@ -3,7 +3,7 @@ import './Button.css';
 
 /**
  * @param {'primary'|'accent'|'ghost'} variant
- * Renderiza <Link> si recibe `to`, <a> si recibe `href`, si no <button>.
+ * Renders <Link> with `to`, <a> with `href`, otherwise <button>.
  */
 const Button = ({
   children,

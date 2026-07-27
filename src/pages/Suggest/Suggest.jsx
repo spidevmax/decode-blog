@@ -3,17 +3,16 @@ import NewsletterForm from './NewsletterForm';
 import SuggestionForm from './SuggestionForm';
 import './Suggest.css';
 
-/** Composición de los dos formularios; el estado vive en cada uno. */
+/** Composes both forms; each one owns its state. */
 const Suggest = () => {
   return (
     <div className="section">
       <div className="container">
         <header className="suggest__head">
-          <p className="eyebrow">Participá</p>
-          <h1 className="suggest__title">Sumate</h1>
+          <p className="eyebrow">Get involved</p>
+          <h1 className="suggest__title">Join in</h1>
           <p className="suggest__lede">
-            Recibe las reseñas por mail o cuéntanos qué disco tendríamos que estar
-            escuchando.
+            Get the reviews by email, or tell us what record we should be listening to.
           </p>
         </header>
 
@@ -29,7 +28,7 @@ const Suggest = () => {
           <section className="suggest__panel" aria-labelledby="suggestion-title">
             <TapeAccent position="top-right" rotate={5} width="7rem" color="red" />
             <h2 id="suggestion-title" className="suggest__panel-title">
-              Sugiere un álbum
+              Suggest an album
             </h2>
             <SuggestionForm />
           </section>

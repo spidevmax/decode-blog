@@ -1,4 +1,4 @@
-/** Enlaces principales de navegación, en el orden en que se muestran. */
+/** Primary navigation links, in display order. */
 export const LINKS = [
   { to: '/', label: 'Home', end: true },
   { to: '/reviews', label: 'Reviews' },

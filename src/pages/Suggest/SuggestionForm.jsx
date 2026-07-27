@@ -3,7 +3,7 @@ import { Button, FormField } from '@/components/ui';
 import { submitSuggestion } from '@/services/api';
 import { isNotBlank } from '@/utils/validation';
 
-/** Sugerencia de álbum. Subcomponente exclusivo de la página Suggest. */
+/** Album suggestion. Subcomponent used only by the Suggest page. */
 const SuggestionForm = () => {
   const [values, setValues] = useState({ artist: '', album: '', comment: '' });
   const [errors, setErrors] = useState({});
@@ -18,8 +18,8 @@ const SuggestionForm = () => {
     event.preventDefault();
 
     const nextErrors = {};
-    if (!isNotBlank(values.artist)) nextErrors.artist = 'Falta el artista.';
-    if (!isNotBlank(values.album)) nextErrors.album = 'Falta el álbum.';
+    if (!isNotBlank(values.artist)) nextErrors.artist = 'Artist is missing.';
+    if (!isNotBlank(values.album)) nextErrors.album = 'Album is missing.';
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) return;
 
@@ -39,10 +39,10 @@ const SuggestionForm = () => {
         <p className="form-success__mark" aria-hidden="true">
           ✓
         </p>
-        <h3>Anotado</h3>
-        <p>Lo escuchamos. Si nos mueve algo, lo reseñamos.</p>
+        <h3>Noted</h3>
+        <p>We will listen. If it moves us, we will review it.</p>
         <Button variant="ghost" size="sm" onClick={() => setStatus('idle')}>
-          Sugerir otro
+          Suggest another
         </Button>
       </div>
     );
@@ -51,42 +51,42 @@ const SuggestionForm = () => {
   return (
     <form className="suggest-form" onSubmit={handleSubmit} noValidate>
       <FormField
-        label="Artista"
+        label="Artist"
         name="artist"
         required
         value={values.artist}
-        placeholder="Los Brutos del Riachuelo"
+        placeholder="Charli XCX"
         error={errors.artist}
         onChange={update('artist')}
       />
 
       <FormField
-        label="Álbum"
+        label="Album"
         name="album"
         required
         value={values.album}
-        placeholder="Cemento"
+        placeholder="BRAT"
         error={errors.album}
         onChange={update('album')}
       />
 
       <FormField
-        label="Por qué deberíamos escucharlo"
+        label="Why we should listen to it"
         as="textarea"
         name="comment"
         value={values.comment}
-        placeholder="Contanos qué tiene de particular…"
+        placeholder="Tell us what makes it stand out…"
         onChange={update('comment')}
       />
 
       {status === 'error' && (
         <p className="form-error" role="alert">
-          No pudimos enviar tu sugerencia. Prueba de nuevo.
+          We could not send your suggestion. Try again.
         </p>
       )}
 
       <Button type="submit" variant="accent" disabled={status === 'sending'}>
-        {status === 'sending' ? 'Enviando…' : 'Enviar sugerencia'}
+        {status === 'sending' ? 'Sending…' : 'Send suggestion'}
       </Button>
     </form>
   );

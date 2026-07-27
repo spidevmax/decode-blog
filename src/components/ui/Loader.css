@@ -5,7 +5,7 @@
   padding-block: var(--space-8);
 }
 
-/* Un vinilo girando */
+/* A spinning record */
 .loader__disc {
   width: 3.5rem;
   height: 3.5rem;

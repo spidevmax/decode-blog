@@ -1,63 +1,71 @@
 import { describe, expect, it } from 'vitest';
 import { getAlbumById, getAlbums, getFacets, getFeatures, getNews } from './api';
 
-// La caída de red simulada se desactiva con VITE_API_FAIL_RATE=0, fijada en
-// vite.config.js: el módulo la lee al importarse, así que aquí ya sería tarde.
+// The simulated network failure is disabled via VITE_API_FAIL_RATE=0, set in
+// vite.config.js: the module reads it on import, so doing it here would be late.
 
 describe('getAlbums', () => {
-  it('devuelve todo el catálogo sin filtros', async () => {
+  it('returns the whole catalogue with no filters', async () => {
     const albums = await getAlbums();
     expect(albums.length).toBeGreaterThan(0);
     expect(albums[0]).toHaveProperty('title');
   });
 
-  it('ordena por fecha descendente por defecto', async () => {
+  it('sorts by date descending by default', async () => {
     const albums = await getAlbums();
     const dates = albums.map((a) => a.date);
     expect([...dates].sort().reverse()).toEqual(dates);
   });
 
-  it('ordena por puntaje cuando se pide', async () => {
+  it('sorts by score when asked', async () => {
     const albums = await getAlbums({ sort: 'score' });
     const scores = albums.map((a) => a.score);
     expect([...scores].sort((a, b) => b - a)).toEqual(scores);
   });
 
-  it('filtra por género', async () => {
-    const albums = await getAlbums({ genre: 'Folclore' });
+  // Values are derived from the dataset itself, so the tests survive any
+  // content change.
+  it('filters by genre', async () => {
+    const [first] = await getAlbums();
+    const genre = first.genres[0];
+    const albums = await getAlbums({ genre });
     expect(albums.length).toBeGreaterThan(0);
-    expect(albums.every((a) => a.genres.includes('Folclore'))).toBe(true);
+    expect(albums.every((a) => a.genres.includes(genre))).toBe(true);
   });
 
-  it('filtra por año, comparando como string o número', async () => {
-    const porNumero = await getAlbums({ year: 2025 });
-    const porString = await getAlbums({ year: '2025' });
-    expect(porNumero.map((a) => a.id)).toEqual(porString.map((a) => a.id));
-    expect(porNumero.every((a) => a.year === 2025)).toBe(true);
+  it('filters by year, comparing as string or number', async () => {
+    const [first] = await getAlbums();
+    const { year } = first;
+    const byNumber = await getAlbums({ year });
+    const byString = await getAlbums({ year: String(year) });
+    expect(byNumber.map((a) => a.id)).toEqual(byString.map((a) => a.id));
+    expect(byNumber.every((a) => a.year === year)).toBe(true);
   });
 
-  it('devuelve copias: mutar el resultado no altera el dataset', async () => {
-    const primera = await getAlbums();
-    primera[0].title = 'MUTADO';
-    const segunda = await getAlbums();
-    expect(segunda[0].title).not.toBe('MUTADO');
+  it('returns copies: mutating the result does not alter the dataset', async () => {
+    const first = await getAlbums();
+    const original = first[0].title;
+    first[0].title = 'MUTATED';
+    const second = await getAlbums();
+    expect(second[0].title).toBe(original);
   });
 });
 
 describe('getAlbumById', () => {
-  it('encuentra un álbum existente', async () => {
-    const album = await getAlbumById('cemento');
-    expect(album.title).toBe('Cemento');
+  it('finds an existing album', async () => {
+    const [first] = await getAlbums();
+    const album = await getAlbumById(first.id);
+    expect(album.title).toBe(first.title);
     expect(album.body.length).toBeGreaterThan(0);
   });
 
-  it('rechaza con 404 si no existe', async () => {
-    await expect(getAlbumById('no-existe')).rejects.toMatchObject({ status: 404 });
+  it('rejects with 404 when it does not exist', async () => {
+    await expect(getAlbumById('does-not-exist')).rejects.toMatchObject({ status: 404 });
   });
 });
 
 describe('getFacets', () => {
-  it('devuelve géneros y años únicos y ordenados', async () => {
+  it('returns unique, sorted genres and years', async () => {
     const { genres, years } = await getFacets();
     expect(new Set(genres).size).toBe(genres.length);
     expect([...genres].sort()).toEqual(genres);
@@ -65,14 +73,14 @@ describe('getFacets', () => {
   });
 });
 
-describe('contenido editorial', () => {
-  it('getNews ordena de más reciente a más antigua', async () => {
+describe('editorial content', () => {
+  it('getNews sorts newest first', async () => {
     const news = await getNews();
     const dates = news.map((n) => n.date);
     expect([...dates].sort().reverse()).toEqual(dates);
   });
 
-  it('getFeatures ordena de más reciente a más antiguo', async () => {
+  it('getFeatures sorts newest first', async () => {
     const features = await getFeatures();
     const dates = features.map((f) => f.date);
     expect([...dates].sort().reverse()).toEqual(dates);

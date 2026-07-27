@@ -8,7 +8,7 @@ import { useAlbum } from '@/hooks/useAlbums';
 import { useFavorites } from '@/hooks/useFavorites';
 import './ReviewDetail.css';
 
-/** Convierte *texto* en <em>texto</em>, preservando el resto como texto plano. */
+/** Turns *text* into <em>text</em>, leaving the rest as plain text. */
 const renderEmphasis = (text) => {
   return text
     .split(/(\*[^*]+\*)/g)
@@ -21,7 +21,7 @@ const renderEmphasis = (text) => {
     );
 };
 
-const DATE_FORMAT = new Intl.DateTimeFormat('es-AR', {
+const DATE_FORMAT = new Intl.DateTimeFormat('en-GB', {
   day: 'numeric',
   month: 'long',
   year: 'numeric',
@@ -32,7 +32,7 @@ const ReviewDetail = () => {
   const { album, loading, error, retry } = useAlbum(id);
   const { isFavorite, toggle } = useFavorites();
 
-  // Cada reseña arranca desde arriba.
+  // Every review starts at the top.
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [id]);
@@ -40,7 +40,7 @@ const ReviewDetail = () => {
   if (loading) {
     return (
       <div className="container section">
-        <Loader label="Cargando reseña…" />
+        <Loader label="Loading review…" />
       </div>
     );
   }
@@ -54,7 +54,7 @@ const ReviewDetail = () => {
   }
 
   const saved = isFavorite(album.id);
-  // El pull quote se intercala después del primer párrafo.
+  // The pull quote sits after the first paragraph.
   const [firstPara, ...restParas] = album.body;
 
   return (
@@ -71,21 +71,21 @@ const ReviewDetail = () => {
           </div>
 
           <div className="review__intro">
-            <p className="eyebrow">Reseña</p>
+            <p className="eyebrow">Review</p>
             <h1 className="review__title">{album.title}</h1>
             <p className="review__artist">{album.artist}</p>
 
             <dl className="review__facts">
               <div>
-                <dt>Año</dt>
+                <dt>Year</dt>
                 <dd>{album.year}</dd>
               </div>
               <div>
-                <dt>Sello</dt>
+                <dt>Label</dt>
                 <dd>{album.label}</dd>
               </div>
               <div>
-                <dt>Duración</dt>
+                <dt>Length</dt>
                 <dd>{album.duration}</dd>
               </div>
               <div>
@@ -96,7 +96,7 @@ const ReviewDetail = () => {
 
             <div className="review__tags">
               {album.genres.map((g) => (
-                <GenreTag key={g} to={`/explore?genero=${encodeURIComponent(g)}`}>
+                <GenreTag key={g} to={`/explore?genre=${encodeURIComponent(g)}`}>
                   {g}
                 </GenreTag>
               ))}
@@ -107,7 +107,7 @@ const ReviewDetail = () => {
               onClick={() => toggle(album.id)}
               aria-pressed={saved}
             >
-              {saved ? '★ Guardada' : '☆ Guardar reseña'}
+              {saved ? '★ Saved' : '☆ Save review'}
             </Button>
           </div>
         </div>
@@ -115,7 +115,7 @@ const ReviewDetail = () => {
 
       <div className="container review__body">
         <p className="review__byline">
-          Por {album.reviewer} ·{' '}
+          By {album.reviewer} ·{' '}
           <time dateTime={album.date}>{DATE_FORMAT.format(new Date(album.date))}</time>
         </p>
 
@@ -137,7 +137,7 @@ const ReviewDetail = () => {
             {album.title} — {album.artist}
           </p>
           <Link to="/explore" className="review__back">
-            ← Volver a explorar
+            ← Back to explore
           </Link>
         </footer>
       </div>

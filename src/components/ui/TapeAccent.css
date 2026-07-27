@@ -4,7 +4,7 @@
   width: var(--tape-width, 7rem);
   height: 2.15rem;
   transform: rotate(var(--tape-rotate, -8deg));
-  /* Translúcida, como cinta real sobre papel */
+  /* Translucent, like real tape on paper */
   opacity: 0.9;
   border-left: 1px dashed rgba(26, 26, 26, 0.25);
   border-right: 1px dashed rgba(26, 26, 26, 0.25);
@@ -21,7 +21,7 @@
   background-color: var(--color-kraft);
 }
 
-/* Brillo diagonal que insinúa el plástico */
+/* Diagonal sheen hinting at the plastic */
 .tape::after {
   content: '';
   position: absolute;

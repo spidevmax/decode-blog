@@ -7,8 +7,8 @@ import { useFavorites } from '@/hooks/useFavorites';
 import './AlbumCard.css';
 
 /**
- * @param {'default'|'feature'} variant  `feature` ocupa 2x2 en la grilla y
- *   muestra el extracto.
+ * @param {'default'|'feature'} variant  `feature` spans 2x2 in the grid and
+ *   shows the excerpt.
  */
 const AlbumCard = ({ album, variant = 'default' }) => {
   const { isFavorite, toggle } = useFavorites();
@@ -30,7 +30,7 @@ const AlbumCard = ({ album, variant = 'default' }) => {
         <p className="album-card__artist">{album.artist}</p>
 
         <h3 className="album-card__title">
-          {/* Stretched link: toda la card es clickeable, sin anidar interactivos */}
+          {/* Stretched link: the whole card is clickable, no nested interactives */}
           <Link to={`/reviews/${album.id}`} className="album-card__link">
             {album.title}
           </Link>
@@ -56,8 +56,8 @@ const AlbumCard = ({ album, variant = 'default' }) => {
         aria-pressed={saved}
         aria-label={
           saved
-            ? `Quitar ${album.title} de favoritos`
-            : `Guardar ${album.title} en favoritos`
+            ? `Remove ${album.title} from favourites`
+            : `Save ${album.title} to favourites`
         }
       >
         <span aria-hidden="true">{saved ? '★' : '☆'}</span>

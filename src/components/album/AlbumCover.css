@@ -12,7 +12,7 @@
   isolation: isolate;
 }
 
-/* Trama serigráfica por encima del degradado */
+/* Screen-print texture over the gradient */
 .cover::before {
   content: '';
   position: absolute;
@@ -71,7 +71,7 @@
   opacity: 0.9;
 }
 
-/* En la card destacada y en el detalle la portada respira más */
+/* On the feature card and the detail page the cover gets more room */
 .cover--lg {
   padding: var(--space-5);
 }

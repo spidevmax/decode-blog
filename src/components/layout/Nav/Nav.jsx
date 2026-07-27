@@ -5,8 +5,8 @@ import { LINKS } from './Nav.constants';
 import './Nav.css';
 
 const Nav = () => {
-  // El menú guarda en qué ruta se abrió. Si la ruta cambió, está cerrado:
-  // así se cierra al navegar sin necesidad de un efecto que sincronice estado.
+  // The menu records which route it opened on. If the route changed it is
+  // closed: it shuts on navigation without an effect syncing state.
   const [openedAt, setOpenedAt] = useState(null);
   const { count } = useFavorites();
   const location = useLocation();
@@ -20,7 +20,7 @@ const Nav = () => {
     [location.pathname],
   );
 
-  // Escape cierra el menú abierto.
+  // Escape closes the open menu.
   useEffect(() => {
     if (!open) return;
     const onKey = (e) => {
@@ -45,7 +45,7 @@ const Nav = () => {
           aria-expanded={open}
           aria-controls="nav-menu"
         >
-          {open ? 'Cerrar' : 'Menú'}
+          {open ? 'Close' : 'Menu'}
         </button>
 
         <nav

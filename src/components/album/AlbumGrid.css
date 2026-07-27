@@ -1,4 +1,4 @@
-/* ---- Grilla de álbumes ---- */
+/* ---- Album grid ---- */
 
 .album-grid {
   display: grid;
@@ -15,13 +15,13 @@
 @media (min-width: 960px) {
   .album-grid {
     grid-template-columns: repeat(3, 1fr);
-    /* Filas iguales para que el bloque 2x2 de la card destacada cierre parejo */
+    /* Equal rows so the feature card's 2x2 block closes evenly */
     grid-auto-rows: 1fr;
     gap: var(--space-6);
   }
 }
 
-/* Variante pareja: ninguna card domina (Explore, Reviews) */
+/* Even variant: no card dominates (Explore, Reviews) */
 .album-grid--even {
   grid-auto-rows: auto;
 }

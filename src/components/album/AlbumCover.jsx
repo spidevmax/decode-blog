@@ -1,9 +1,11 @@
 import './AlbumCover.css';
 
 /**
- * Portada generada por CSS a partir de `album.cover` ({from, to, pattern}).
- * Evita depender de imágenes binarias y mantiene la paleta del sistema.
- * Decorativa: el título ya se anuncia en el texto de la card.
+ * Cover art rendered in CSS from `album.cover` ({from, to, pattern}).
+ * Decorative: the title is already announced by the card text.
+ *
+ * NOTE: the dataset now ships `cover` as an image URL, so this renders blank.
+ * Either restore the {from, to, pattern} shape or switch this to an <img>.
  */
 const AlbumCover = ({ album, className = '' }) => {
   const { from, to, pattern } = album.cover;

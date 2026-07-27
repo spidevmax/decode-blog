@@ -15,7 +15,7 @@
   white-space: nowrap;
 }
 
-/* Variantes interactivas: sólo cuando es link o botón */
+/* Interactive variants: only when it is a link or button */
 a.genre-tag,
 button.genre-tag {
   cursor: pointer;

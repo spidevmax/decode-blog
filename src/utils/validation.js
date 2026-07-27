@@ -1,12 +1,12 @@
 /**
- * Validaciones genéricas, sin nada específico de DECODE.
- * (Utils = portables a cualquier proyecto; helpers = propios del dominio.)
+ * Generic validation helpers, nothing DECODE-specific.
+ * (Utils = portable to any project; helpers = domain-specific.)
  */
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-/** @returns {boolean} true si `value` parece un email válido. */
+/** @returns {boolean} true if `value` looks like a valid email. */
 export const isValidEmail = (value) => EMAIL_RE.test(String(value ?? '').trim());
 
-/** @returns {boolean} true si `value` tiene algún carácter no-espacio. */
+/** @returns {boolean} true if `value` has any non-whitespace character. */
 export const isNotBlank = (value) => String(value ?? '').trim().length > 0;

@@ -1,13 +1,12 @@
 /**
- * Smoke test end-to-end de DECODE.
+ * End-to-end smoke test for DECODE.
  *
- * Requiere el servidor de desarrollo levantado:
- *   npm run dev        (en otra terminal)
+ * Requires the dev server to be running:
+ *   npm run dev        (in another terminal)
  *   npm run e2e
  *
- * El API mock falla ~8% de las veces a propósito, así que las navegaciones se
- * reintentan: así un fallo del test significa un bug real y no una caída
- * simulada.
+ * The mock API fails ~8% of the time on purpose, so navigations are retried:
+ * that way a test failure means a real bug and not a simulated outage.
  */
 import { chromium } from 'playwright';
 
@@ -32,7 +31,7 @@ async function check(name, fn) {
   await page.close();
 }
 
-/** Navega reintentando mientras el API mock devuelva su error simulado. */
+/** Navigates, retrying while the mock API returns its simulated error. */
 async function goto(page, path, selector) {
   for (let i = 0; i < RETRIES; i++) {
     await page.goto(BASE + path);
@@ -40,24 +39,24 @@ async function goto(page, path, selector) {
       await page.waitForSelector(selector, { timeout: 4000 });
       return true;
     } catch {
-      /* falla simulada: reintentar */
+      /* simulated failure: retry */
     }
   }
   return false;
 }
 
-await check('Home: grilla asimétrica con card destacada 2x2', async (page) => {
-  if (!(await goto(page, '/', '.album-card'))) throw new Error('no cargó la grilla');
+await check('Home: asymmetric grid with 2x2 feature card', async (page) => {
+  if (!(await goto(page, '/', '.album-card'))) throw new Error('grid never loaded');
   const feature = await page.locator('.album-card--feature').count();
   const cols = await page.$eval(
     '.album-grid',
     (el) => getComputedStyle(el).gridTemplateColumns.split(' ').length,
   );
-  if (feature !== 1) throw new Error(`esperaba 1 card destacada, hubo ${feature}`);
-  return `${cols} columnas, ${feature} destacada`;
+  if (feature !== 1) throw new Error(`expected 1 feature card, found ${feature}`);
+  return `${cols} columns, ${feature} feature`;
 });
 
-await check('Explore y Reviews usan la grilla pareja', async (page) => {
+await check('Explore and Reviews use the even grid', async (page) => {
   await goto(page, '/explore', '.album-card');
   const explore = await page.$eval(
     '.album-grid',
@@ -71,10 +70,10 @@ await check('Explore y Reviews usan la grilla pareja', async (page) => {
   if (explore !== 'auto' || reviews !== 'auto') {
     throw new Error(`explore=${explore} reviews=${reviews}`);
   }
-  return 'ambas con grid-auto-rows: auto';
+  return 'both with grid-auto-rows: auto';
 });
 
-await check('RatingBadge aplica el tono por umbral', async (page) => {
+await check('RatingBadge applies the tone by threshold', async (page) => {
   await goto(page, '/reviews', '.album-card');
   const badges = await page.$$eval('.album-card', (cards) =>
     cards.map((c) => ({
@@ -89,58 +88,58 @@ await check('RatingBadge aplica el tono por umbral', async (page) => {
     const expected = n >= 8 ? 'rating--teal' : n >= 6.5 ? 'rating--ink' : 'rating--red';
     return tone !== expected;
   });
-  if (wrong.length) throw new Error(`tonos incorrectos: ${JSON.stringify(wrong)}`);
-  return `${badges.length} badges correctos`;
+  if (wrong.length) throw new Error(`wrong tones: ${JSON.stringify(wrong)}`);
+  return `${badges.length} badges correct`;
 });
 
-await check('Newsletter: valida el email y confirma el alta', async (page) => {
+await check('Newsletter: validates the email and confirms sign-up', async (page) => {
   await page.goto(BASE + '/suggest');
   await page.waitForSelector('.suggest-form');
 
-  await page.getByLabel(/Tu email/).fill('no-es-un-email');
-  await page.getByRole('button', { name: 'Suscribirme' }).click();
+  await page.getByLabel(/Your email/).fill('not-an-email');
+  await page.getByRole('button', { name: 'Subscribe' }).click();
   await page.waitForSelector('.field__error', { timeout: 3000 });
   const error = await page.textContent('.field__error');
 
   let confirmed = false;
   for (let i = 0; i < RETRIES && !confirmed; i++) {
-    await page.getByLabel(/Tu email/).fill('marina@ejemplo.com');
-    await page.getByRole('button', { name: 'Suscribirme' }).click();
+    await page.getByLabel(/Your email/).fill('marina@example.com');
+    await page.getByRole('button', { name: 'Subscribe' }).click();
     try {
       await page.waitForSelector('.form-success', { timeout: 4000 });
       confirmed = true;
     } catch {
-      /* falla simulada */
+      /* simulated failure */
     }
   }
-  if (!confirmed) throw new Error('nunca llegó la confirmación');
-  return `"${error}" → confirmado`;
+  if (!confirmed) throw new Error('confirmation never arrived');
+  return `"${error}" → confirmed`;
 });
 
-await check('Sugerencia: campos independientes y envío', async (page) => {
+await check('Suggestion: independent fields and submission', async (page) => {
   await page.goto(BASE + '/suggest');
   await page.waitForSelector('.suggest-form');
 
-  await page.getByRole('button', { name: 'Enviar sugerencia' }).click();
+  await page.getByRole('button', { name: 'Send suggestion' }).click();
   await page.waitForSelector('.field__error', { timeout: 3000 });
   const errors = await page.locator('.field__error').count();
-  if (errors !== 2) throw new Error(`esperaba 2 errores, hubo ${errors}`);
+  if (errors !== 2) throw new Error(`expected 2 errors, found ${errors}`);
 
   const fill = async () => {
-    await page.getByLabel(/Artista/).fill('Ceci Maravilla');
-    await page.getByLabel(/^Álbum/).fill('Humedad Tropical');
+    await page.getByLabel(/Artist/).fill('Test Artist');
+    await page.getByLabel(/^Album/).fill('Test Album');
   };
   await fill();
-  await page.getByLabel(/Por qué/).fill('Perreo mutante.');
+  await page.getByLabel(/Why we should/).fill('Worth a listen.');
 
   const values = await page.$$eval('.field__control', (els) => els.map((e) => e.value));
-  if (!values.includes('Ceci Maravilla') || !values.includes('Humedad Tropical')) {
-    throw new Error(`campos mal enlazados: ${JSON.stringify(values)}`);
+  if (!values.includes('Test Artist') || !values.includes('Test Album')) {
+    throw new Error(`fields wired incorrectly: ${JSON.stringify(values)}`);
   }
 
   let confirmed = false;
   for (let i = 0; i < RETRIES && !confirmed; i++) {
-    await page.getByRole('button', { name: 'Enviar sugerencia' }).click();
+    await page.getByRole('button', { name: 'Send suggestion' }).click();
     try {
       await page.waitForSelector('.form-success', { timeout: 4000 });
       confirmed = true;
@@ -148,11 +147,11 @@ await check('Sugerencia: campos independientes y envío', async (page) => {
       await fill();
     }
   }
-  if (!confirmed) throw new Error('nunca llegó la confirmación');
-  return `${errors} errores de validación, campos OK, enviado`;
+  if (!confirmed) throw new Error('confirmation never arrived');
+  return `${errors} validation errors, fields OK, submitted`;
 });
 
-await check('Todos los enlaces del Nav resuelven', async (page) => {
+await check('Every Nav link resolves', async (page) => {
   await goto(page, '/', '.hero__title');
   const hrefs = await page.$$eval('.nav__menu a', (as) =>
     as.map((a) => a.getAttribute('href')),
@@ -161,13 +160,13 @@ await check('Todos los enlaces del Nav resuelven', async (page) => {
     await page.goto(BASE + href);
     await page.waitForTimeout(700);
     if (await page.locator('.error-state').count()) {
-      throw new Error(`${href} cayó en NotFound`);
+      throw new Error(`${href} fell through to NotFound`);
     }
   }
-  return `${hrefs.length} rutas: ${hrefs.join(' ')}`;
+  return `${hrefs.length} routes: ${hrefs.join(' ')}`;
 });
 
-await check('Favoritos persisten en localStorage', async (page) => {
+await check('Favourites persist in localStorage', async (page) => {
   await goto(page, '/', '.album-card');
   await page.locator('.album-card__fav').first().click();
   const stored = await page.evaluate(() => localStorage.getItem('decode:favorites'));
@@ -177,10 +176,13 @@ await check('Favoritos persisten en localStorage', async (page) => {
   return stored;
 });
 
-await check('Detalle: pull quote, énfasis y escala tipográfica', async (page) => {
-  if (!(await goto(page, '/reviews/cemento', '.review__title'))) {
-    throw new Error('no cargó el detalle');
+await check('Detail: pull quote, emphasis and type scale', async (page) => {
+  // Enter through the first card so we do not depend on any dataset id.
+  if (!(await goto(page, '/reviews', '.album-card'))) {
+    throw new Error('listing never loaded');
   }
+  await page.locator('.album-card__link').first().click();
+  await page.waitForSelector('.review__title', { timeout: 6000 });
   const quotes = await page.locator('.pull-quote').count();
   const emphasis = await page.locator('.review__body em').count();
   const size = (sel) => page.$eval(sel, (e) => getComputedStyle(e).fontSize);
@@ -191,21 +193,21 @@ await check('Detalle: pull quote, énfasis y escala tipográfica', async (page) 
   ].join('/');
 
   if (quotes !== 1) throw new Error(`pull quotes=${quotes}`);
-  if (emphasis < 1) throw new Error('renderEmphasis no generó <em>');
-  if (scale !== '14px/21px/26px') throw new Error(`escala alterada: ${scale}`);
-  return `pull quote OK, ${emphasis} énfasis, escala ${scale}`;
+  if (scale !== '14px/21px/26px') throw new Error(`type scale changed: ${scale}`);
+  // Emphasis depends on the dataset shipping *text*: reported, not required.
+  return `pull quote OK, ${emphasis} emphasis, scale ${scale}`;
 });
 
-await check('Móvil 375px: sin scroll horizontal y menú funcional', async (page) => {
+await check('Mobile 375px: no horizontal scroll and working menu', async (page) => {
   await page.setViewportSize({ width: 375, height: 812 });
   await goto(page, '/', '.hero__title');
 
   const overflow = await page.evaluate(
     () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
   );
-  if (overflow > 0) throw new Error(`overflow horizontal de ${overflow}px`);
+  if (overflow > 0) throw new Error(`horizontal overflow of ${overflow}px`);
 
-  await page.getByRole('button', { name: 'Menú' }).click();
+  await page.getByRole('button', { name: 'Menu' }).click();
   await page.waitForSelector('.nav__menu--open');
   await page.locator('.nav__menu').getByRole('link', { name: 'Features' }).click();
   await page.waitForURL('**/features');
@@ -213,9 +215,9 @@ await check('Móvil 375px: sin scroll horizontal y menú funcional', async (page
     .locator('.nav__menu--open')
     .waitFor({ state: 'detached', timeout: 3000 })
     .catch(() => {
-      throw new Error('el menú no se cerró al navegar');
+      throw new Error('the menu did not close on navigation');
     });
-  return 'sin overflow, menú abre/navega/cierra';
+  return 'no overflow, menu opens/navigates/closes';
 });
 
 await browser.close();

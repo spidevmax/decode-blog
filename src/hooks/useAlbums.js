@@ -1,7 +1,7 @@
 import { getAlbumById, getAlbums, getFacets } from '@/services/api';
 import { useAsync } from './useAsync';
 
-/** Lista de álbumes, opcionalmente filtrada. */
+/** Album list, optionally filtered. */
 export const useAlbums = (filters = {}) => {
   const { genre = null, year = null, sort = 'recent' } = filters;
   const { data, loading, error, retry } = useAsync(
@@ -11,7 +11,7 @@ export const useAlbums = (filters = {}) => {
   return { albums: data ?? [], loading, error, retry };
 };
 
-/** Una reseña por id. */
+/** A single review by id. */
 export const useAlbum = (id) => {
   const { data, loading, error, retry } = useAsync(getAlbumById, [id], {
     enabled: Boolean(id),
@@ -19,7 +19,7 @@ export const useAlbum = (id) => {
   return { album: data, loading, error, retry };
 };
 
-/** Facetas (géneros / años) para los chips de filtro. */
+/** Facets (genres / years) for the filter chips. */
 export const useFacets = () => {
   const { data, loading, error, retry } = useAsync(getFacets, []);
   return { facets: data ?? { genres: [], years: [] }, loading, error, retry };

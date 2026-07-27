@@ -5,8 +5,8 @@ import { useAlbums } from '@/hooks/useAlbums';
 import './Reviews.css';
 
 /**
- * Archivo completo de reseñas, ordenado por puntaje.
- * A diferencia de /explore, no ofrece filtros: es el listado canónico.
+ * Full review archive, sorted by score.
+ * Unlike /explore it offers no filters: this is the canonical listing.
  */
 const Reviews = () => {
   const { albums, loading, error, retry } = useAlbums({ sort: 'score' });
@@ -15,21 +15,21 @@ const Reviews = () => {
     <div className="section">
       <div className="container">
         <header className="reviews__head">
-          <p className="eyebrow">Todas las reseñas</p>
-          <h1 className="reviews__title">Reseñas</h1>
+          <p className="eyebrow">Every review</p>
+          <h1 className="reviews__title">Reviews</h1>
           <p className="reviews__lede">
-            Cada disco que pasó por la redacción, del mejor puntaje al peor.
+            Every record that came through the newsroom, best score to worst.
           </p>
         </header>
 
-        {loading && <Loader variant="grid" count={6} label="Cargando reseñas…" />}
+        {loading && <Loader variant="grid" count={6} label="Loading reviews…" />}
 
         {error && !loading && <ErrorState error={error} onRetry={retry} />}
 
         {!loading && !error && (
           <>
             <p className="reviews__count" role="status" aria-live="polite">
-              {albums.length} {albums.length === 1 ? 'reseña' : 'reseñas'}
+              {albums.length} {albums.length === 1 ? 'review' : 'reviews'}
             </p>
 
             <AlbumGrid variant="even">

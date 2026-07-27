@@ -4,8 +4,8 @@ const NotFound = () => {
   return (
     <div className="container section">
       <ErrorState
-        title="Página fuera de catálogo"
-        message="La dirección que buscas no existe."
+        title="Page out of catalogue"
+        message="The address you are looking for does not exist."
       />
     </div>
   );

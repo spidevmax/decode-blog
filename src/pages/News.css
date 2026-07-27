@@ -21,7 +21,7 @@
   border-top: var(--border-ink);
 }
 
-/* Cada noticia es una franja separada por regla de tinta, como un teletipo */
+/* Each item is a band separated by an ink rule, like a ticker */
 .news-item {
   padding-block: var(--space-5);
   border-bottom: var(--border-hairline);

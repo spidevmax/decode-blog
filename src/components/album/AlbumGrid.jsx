@@ -1,14 +1,14 @@
 import './AlbumGrid.css';
 
 /**
- * Grilla de cards de álbum.
+ * Grid of album cards.
  *
- * Existe como componente —y no como clase suelta en el CSS de una página—
- * para que la dependencia sea explícita: la usan Home, Explore y Reviews,
- * y antes se definía en Home.css, de modo que tocar Home rompía a las otras.
+ * It exists as a component — rather than a loose class in a page stylesheet —
+ * so the dependency is explicit: Home, Explore and Reviews all use it, and it
+ * used to live in Home.css, so touching Home broke the others.
  *
- * @param {'asymmetric'|'even'} variant  `asymmetric` deja que la primera card
- *   ocupe 2x2 (portada de Home); `even` reparte todas por igual.
+ * @param {'asymmetric'|'even'} variant  `asymmetric` lets the first card span
+ *   2x2 (Home's lead); `even` spreads them evenly.
  */
 const AlbumGrid = ({ children, variant = 'asymmetric' }) => {
   return (

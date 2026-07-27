@@ -43,39 +43,39 @@ export const NEWS = [
 
 export const FEATURES = [
   {
-    id: 'ruido-como-lenguaje',
-    title: 'El ruido como lenguaje',
-    kicker: 'Ensayo',
-    date: '2026-07-18',
-    readingTime: '12 min',
+    id: 'streaming-algorithm-shift',
+    title: 'How Streaming Algorithms Are Changing Music Discovery',
+    kicker: 'Analysis',
+    date: '2026-07-20',
+    readingTime: '10 min',
     excerpt:
-      'De los galpones del conurbano a los festivales europeos: cómo una generación argentina convirtió la saturación en gramática.',
+      'Recommendation systems increasingly shape what listeners hear, raising new questions about visibility, diversity, and artistic independence.',
   },
   {
-    id: 'cumbia-mutante',
-    title: 'La cumbia que se fue de la fiesta',
-    kicker: 'Informe',
-    date: '2026-07-05',
-    readingTime: '9 min',
+    id: 'vinyl-comeback',
+    title: 'Why Vinyl Keeps Growing in the Digital Era',
+    kicker: 'Feature',
+    date: '2026-07-09',
+    readingTime: '8 min',
     excerpt:
-      'Qué pasa cuando un género de baile empieza a producirse para escuchar con auriculares y a las tres de la mañana.',
+      'Collectors, audiophiles, and younger audiences continue to fuel the resurgence of physical records despite the dominance of streaming.',
   },
   {
-    id: 'sellos-autogestion',
-    title: 'Autogestión, diez años después',
-    kicker: 'Investigación',
-    date: '2026-06-22',
-    readingTime: '15 min',
+    id: 'bedroom-producers',
+    title: 'The Rise of the Bedroom Producer',
+    kicker: 'Report',
+    date: '2026-06-25',
+    readingTime: '13 min',
     excerpt:
-      'Hablamos con once sellos independientes sobre plataformas, vinilos importados y por qué casi ninguno vive de la música.',
+      'Affordable software and online collaboration have made it possible for independent musicians to build global audiences from home studios.',
   },
   {
-    id: 'archivo-que-desaparece',
-    title: 'El archivo que desaparece',
-    kicker: 'Crónica',
-    date: '2026-06-03',
+    id: 'live-music-revival',
+    title: 'Inside the New Wave of Independent Live Venues',
+    kicker: 'Interview',
+    date: '2026-06-08',
     readingTime: '11 min',
     excerpt:
-      'Miles de horas de grabaciones de radio se están perdiendo por falta de soporte. Recorrimos tres archivos que intentan evitarlo.',
+      'Venue owners, promoters, and artists discuss how smaller stages are becoming the backbone of emerging music scenes.',
   },
 ];

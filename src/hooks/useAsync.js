@@ -1,24 +1,24 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 /**
- * Envuelve una función async de services/api en el ciclo idle → loading →
- * success | error, con reintento y protección contra respuestas fuera de orden.
+ * Wraps an async function from services/api in the idle → loading →
+ * success | error cycle, with retry and out-of-order response protection.
  *
- * Infraestructura genérica: no sabe nada del dominio. Los hooks de cada entidad
- * (useAlbums, useNews…) se construyen encima.
+ * Generic infrastructure: it knows nothing about the domain. Per-entity hooks
+ * (useAlbums, useNews…) build on top of it.
  *
  * @param {(...args:any[]) => Promise<T>} fetcher
- * @param {any[]} deps  argumentos que se le pasan al fetcher; también disparan refetch
+ * @param {any[]} deps  arguments passed to the fetcher; they also trigger refetch
  * @param {{ enabled?: boolean }} [options]
  */
 export const useAsync = (fetcher, deps, { enabled = true } = {}) => {
-  // Sólo la petición más reciente puede escribir en el estado.
+  // Only the most recent request may write to state.
   const requestId = useRef(0);
   const [attempt, setAttempt] = useState(0);
 
-  // El fetcher y los args se redefinen en cada render; los leemos por ref para
-  // que no cuenten como dependencias del efecto. Lo que sí dispara un refetch
-  // es `depsKey`, la serialización de los args.
+  // Fetcher and args are recreated every render; we read them via refs so they
+  // do not count as effect dependencies. What does trigger a refetch is
+  // `depsKey`, the serialised args.
   const fetcherRef = useRef(fetcher);
   const depsRef = useRef(deps);
   useEffect(() => {
@@ -28,8 +28,8 @@ export const useAsync = (fetcher, deps, { enabled = true } = {}) => {
 
   const depsKey = JSON.stringify(deps);
 
-  // Identidad de la petición vigente. Cambiarla es, por sí sola, la señal de
-  // "hay que volver a pedir": no hace falta un efecto que sincronice loading.
+  // Identity of the current request. Changing it is, on its own, the signal to
+  // refetch: no effect is needed to sync the loading flag.
   const key = `${depsKey}|${attempt}`;
   const [settled, setSettled] = useState(null);
 
@@ -51,15 +51,15 @@ export const useAsync = (fetcher, deps, { enabled = true } = {}) => {
       });
 
     return () => {
-      // Invalida esta petición: su respuesta ya no puede escribir estado.
+      // Invalidate this request: its response can no longer write state.
       active = false;
     };
   }, [enabled, key]);
 
   const retry = useCallback(() => setAttempt((n) => n + 1), []);
 
-  // El resultado sólo cuenta si corresponde a la petición vigente; si no,
-  // seguimos cargando. Todo derivado del render, sin setState en efectos.
+  // The result only counts if it matches the current request; otherwise we are
+  // still loading. All derived during render, no setState inside effects.
   const fresh = settled?.key === key ? settled : null;
 
   if (!enabled) {

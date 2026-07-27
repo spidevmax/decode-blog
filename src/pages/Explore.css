@@ -14,7 +14,7 @@
   margin: 0;
 }
 
-/* ---- Filtros ---- */
+/* ---- Filters ---- */
 
 .filters {
   display: flex;
@@ -75,4 +75,4 @@
   color: var(--color-muted);
 }
 
-/* La grilla y su variante pareja viven en components/album/AlbumGrid.css */
+/* The grid and its even variant live in components/album/AlbumGrid.css */

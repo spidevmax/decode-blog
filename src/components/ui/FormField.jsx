@@ -2,8 +2,8 @@ import { useId } from 'react';
 import './FormField.css';
 
 /**
- * Campo de formulario con label, hint y error asociados por id.
- * `as="textarea"` para el comentario largo.
+ * Form field with label, hint and error wired together by id.
+ * `as="textarea"` for the long comment.
  */
 const FormField = ({
   label,
@@ -19,7 +19,7 @@ const FormField = ({
   const errorId = `${id}-error`;
   const Element = as;
 
-  // Sólo describimos por lo que existe, para no dejar ids colgados.
+  // Only describe what exists, so no dangling ids are referenced.
   const describedBy = [hint ? hintId : null, error ? errorId : null]
     .filter(Boolean)
     .join(' ');
@@ -28,7 +28,7 @@ const FormField = ({
     <div className={`field ${className}`.trim()}>
       <label className="field__label" htmlFor={id}>
         {label}
-        {!required && <span className="field__optional"> (opcional)</span>}
+        {!required && <span className="field__optional"> (optional)</span>}
       </label>
 
       {hint && (

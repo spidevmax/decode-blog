@@ -9,8 +9,8 @@ const readStored = () => {
     const parsed = raw ? JSON.parse(raw) : [];
     return Array.isArray(parsed) ? parsed : [];
   } catch {
-    // localStorage puede fallar (modo privado, cuota, JSON corrupto).
-    // No es motivo para tirar la app abajo.
+    // localStorage can fail (private mode, quota, corrupt JSON).
+    // That is no reason to bring the app down.
     return [];
   }
 };
@@ -22,7 +22,7 @@ export const FavoritesProvider = ({ children }) => {
     try {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
     } catch {
-      /* sin persistencia, pero la sesión sigue funcionando */
+      /* no persistence, but the session keeps working */
     }
   }, [ids]);
 

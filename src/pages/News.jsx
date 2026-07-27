@@ -2,7 +2,7 @@ import { ErrorState, Loader } from '@/components/ui';
 import { useNews } from '@/hooks/useEditorial';
 import './News.css';
 
-const DATE_FORMAT = new Intl.DateTimeFormat('es-AR', {
+const DATE_FORMAT = new Intl.DateTimeFormat('en-GB', {
   day: 'numeric',
   month: 'long',
   year: 'numeric',
@@ -15,14 +15,14 @@ const News = () => {
     <div className="section">
       <div className="container">
         <header className="news__head">
-          <p className="eyebrow">Actualidad</p>
-          <h1 className="news__title">Noticias</h1>
+          <p className="eyebrow">Latest</p>
+          <h1 className="news__title">News</h1>
           <p className="news__lede">
-            Lo que pasa alrededor de los discos: sellos, ciclos, giras y archivos.
+            What happens around the records: labels, gigs, tours and archives.
           </p>
         </header>
 
-        {loading && <Loader label="Cargando noticias…" />}
+        {loading && <Loader label="Loading news…" />}
 
         {error && !loading && <ErrorState error={error} onRetry={retry} />}
 

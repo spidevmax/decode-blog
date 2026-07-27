@@ -7,10 +7,10 @@ const Footer = () => {
       <div className="container footer__inner">
         <div>
           <p className="footer__brand">DECODE</p>
-          <p className="footer__tag">Crítica musical sin cortesías.</p>
+          <p className="footer__tag">Music criticism without courtesies.</p>
         </div>
 
-        <nav className="footer__nav" aria-label="Pie de página">
+        <nav className="footer__nav" aria-label="Footer">
           <Link to="/">Home</Link>
           <Link to="/reviews">Reviews</Link>
           <Link to="/news">News</Link>

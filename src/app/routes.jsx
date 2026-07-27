@@ -4,12 +4,12 @@ import { Loader } from '@/components/ui';
 import Home from '@/pages/Home';
 
 /**
- * Tabla de rutas.
+ * Route table.
  *
- * Home se importa de forma estática porque es la entrada más frecuente y no
- * conviene diferirla. El resto va en chunks aparte: sólo se descargan al
- * navegar, lo que mantiene chico el bundle inicial a medida que crecen las
- * páginas. (Por eso `pages/` no tiene barrel: anularía esta división.)
+ * Home is imported statically because it is the most common entry point and
+ * should not be deferred. The rest are split into chunks: downloaded only on
+ * navigation, which keeps the initial bundle small as pages grow.
+ * (This is why `pages/` has no barrel: it would defeat the splitting.)
  */
 const Explore = lazy(() => import('@/pages/Explore'));
 const Features = lazy(() => import('@/pages/Features'));
@@ -24,7 +24,7 @@ const AppRoutes = () => {
     <Suspense
       fallback={
         <div className="container section">
-          <Loader label="Cargando…" />
+          <Loader label="Loading…" />
         </div>
       }
     >

@@ -2,36 +2,36 @@ import { describe, expect, it } from 'vitest';
 import { isNotBlank, isValidEmail } from './validation';
 
 describe('isValidEmail', () => {
-  it('acepta emails con forma válida', () => {
-    expect(isValidEmail('hola@ejemplo.com')).toBe(true);
-    expect(isValidEmail('m.lopez+decode@sub.dominio.ar')).toBe(true);
+  it('accepts well-formed emails', () => {
+    expect(isValidEmail('hello@example.com')).toBe(true);
+    expect(isValidEmail('m.lopez+decode@sub.domain.co.uk')).toBe(true);
   });
 
-  it('recorta espacios antes de validar', () => {
-    expect(isValidEmail('  hola@ejemplo.com  ')).toBe(true);
+  it('trims whitespace before validating', () => {
+    expect(isValidEmail('  hello@example.com  ')).toBe(true);
   });
 
-  it('rechaza lo que no tiene forma de email', () => {
-    expect(isValidEmail('malo')).toBe(false);
-    expect(isValidEmail('sin@dominio')).toBe(false);
-    expect(isValidEmail('@ejemplo.com')).toBe(false);
-    expect(isValidEmail('con espacio@ejemplo.com')).toBe(false);
+  it('rejects anything not shaped like an email', () => {
+    expect(isValidEmail('bad')).toBe(false);
+    expect(isValidEmail('no@domain')).toBe(false);
+    expect(isValidEmail('@example.com')).toBe(false);
+    expect(isValidEmail('with space@example.com')).toBe(false);
   });
 
-  it('no explota con null/undefined', () => {
+  it('does not blow up on null/undefined', () => {
     expect(isValidEmail(null)).toBe(false);
     expect(isValidEmail(undefined)).toBe(false);
   });
 });
 
 describe('isNotBlank', () => {
-  it('distingue contenido real de espacios', () => {
-    expect(isNotBlank('Cemento')).toBe(true);
+  it('tells real content from whitespace', () => {
+    expect(isNotBlank('Content')).toBe(true);
     expect(isNotBlank('   ')).toBe(false);
     expect(isNotBlank('')).toBe(false);
   });
 
-  it('no explota con null/undefined', () => {
+  it('does not blow up on null/undefined', () => {
     expect(isNotBlank(null)).toBe(false);
     expect(isNotBlank(undefined)).toBe(false);
   });

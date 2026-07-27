@@ -48,7 +48,7 @@
   gap: var(--space-3);
 }
 
-/* Collage: portada inclinada sobre un panel de color */
+/* Collage: tilted cover over a colour panel */
 .hero__collage {
   position: relative;
   padding: var(--space-5);
@@ -94,7 +94,7 @@
     grid-template-columns: 1.05fr 0.95fr;
   }
 
-  /* La portada entra primero en el orden visual en desktop */
+  /* The cover comes first in the visual order on desktop */
   .hero__text {
     order: 1;
   }
@@ -103,4 +103,4 @@
   }
 }
 
-/* .section-head vive en styles/layout.css; la grilla en components/album/AlbumGrid.css */
+/* .section-head lives in styles/layout.css; the grid in components/album/AlbumGrid.css */

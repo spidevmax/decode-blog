@@ -1,9 +1,9 @@
 /**
- * Utilidades de layout compartidas por varias páginas.
+ * Layout utilities shared by several pages.
  *
- * Separadas de global.css —que sólo trae reset, tipografía base y helpers de
- * accesibilidad— para que quede claro qué es estructura reutilizable y qué es
- * base del documento.
+ * Kept apart from global.css — which only holds reset, base typography and
+ * accessibility helpers — so it is clear what is reusable structure and what
+ * is document baseline.
  */
 
 .container {
@@ -44,7 +44,7 @@
   margin: 0 0 var(--space-2);
 }
 
-/* ---- Encabezado de sección: título + enlace "ver todas" ---- */
+/* ---- Section header: title + "view all" link ---- */
 
 .section-head {
   display: flex;

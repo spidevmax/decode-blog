@@ -48,7 +48,7 @@
   border-radius: var(--radius-sm);
 }
 
-/* Mobile-first: el menú se despliega debajo de la barra */
+/* Mobile-first: the menu unfolds below the bar */
 .nav__menu {
   display: none;
   width: 100%;

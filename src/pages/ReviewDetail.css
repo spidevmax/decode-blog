@@ -27,7 +27,7 @@
   position: absolute;
   right: calc(var(--space-5) * -1);
   bottom: calc(var(--space-5) * -1);
-  /* Por encima de la cinta, que si no le pasa por encima al puntaje */
+  /* Above the tape, which would otherwise cover the score */
   z-index: 5;
 }
 
@@ -87,7 +87,7 @@
   }
 }
 
-/* ---- Cuerpo ---- */
+/* ---- Body ---- */
 
 .review__body {
   max-width: 42rem;
@@ -104,8 +104,8 @@
   margin-bottom: var(--space-5);
 }
 
-/* Párrafos de prosa: excluye bajada y firma, que tienen su propia escala.
-   El pull quote queda fuera por no ser hijo directo. */
+/* Prose paragraphs: excludes lede and byline, which have their own scale.
+   The pull quote is out of scope as it is not a direct child. */
 .review__body > p:not(.review__lede):not(.review__byline) {
   font-size: 1.125rem;
   line-height: 1.7;
