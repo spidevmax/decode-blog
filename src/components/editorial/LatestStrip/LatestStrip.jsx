@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import TypeChip from '@/components/editorial/TypeChip';
+import { formatLongDate } from '@/utils/dates';
 import './LatestStrip.css';
 
 /**
@@ -12,6 +13,10 @@ import './LatestStrip.css';
  * problem — the project already disables animation under
  * `prefers-reduced-motion`, which would leave a marquee frozen mid-scroll.
  * A fixed strip carries the same information and stays legible.
+ *
+ * Nothing announced here appears again in the grid below: the page holds
+ * these three back, so the strip carries news rather than a preview of the
+ * next screenful.
  *
  * Renders nothing until there is something to announce.
  */
@@ -33,6 +38,11 @@ const LatestStrip = ({ items = [] }) => {
               <Link to={to} className="latest-strip__link">
                 {item.title}
               </Link>
+              {/* What makes it the latest. Drops out on narrow screens,
+                  where the titles need the room more. */}
+              <time className="latest-strip__date" dateTime={item.date}>
+                {formatLongDate(item.date)}
+              </time>
             </li>
           ))}
         </ul>

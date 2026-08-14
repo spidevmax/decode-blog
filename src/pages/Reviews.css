@@ -14,22 +14,20 @@
   margin: 0;
 }
 
-/* ---- Filter bar ----
-   One line between two rules: "Showing [genre] [year] [sort] … 45 reviews".
-   The options live inside the controls, so the archive's 49 genres and 33
-   years cost one row instead of ten. */
+/* ---- The scale, as navigation ----
+   The four bands the footer publishes, in the colours the badges paint, doing
+   the filtering. Their own row above the grid rather than a fourth dropdown:
+   this is what the archive is sorted by and argues about. */
 
-.filters {
+.verdicts {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   flex-wrap: wrap;
-  gap: var(--space-3);
-  padding-block: var(--space-4);
+  gap: var(--space-3) var(--space-4);
   margin-bottom: var(--space-6);
-  border-block: var(--border-rule);
 }
 
-.filters__lead {
+.verdicts__lead {
   font-family: var(--font-ui);
   font-weight: 600;
   text-transform: uppercase;
@@ -40,42 +38,84 @@
   flex: none;
 }
 
-.filters__controls {
+.verdicts__bands {
   display: flex;
-  align-items: center;
   flex-wrap: wrap;
   gap: var(--space-2);
 }
 
-/* Pushed to the far end: it reports on the row rather than joining it. */
-.filters__count {
+.verdict {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: none;
+  border: 2px solid var(--verdict-color);
+  color: var(--color-paper-text);
+  cursor: pointer;
+  transition:
+    background-color var(--transition),
+    color var(--transition);
+}
+
+.verdict--magenta {
+  --verdict-color: var(--color-magenta);
+}
+
+.verdict--petrol {
+  --verdict-color: var(--color-petrol);
+}
+
+.verdict--mostaza {
+  --verdict-color: var(--color-mostaza);
+}
+
+.verdict--terracota {
+  --verdict-color: var(--color-terracota);
+}
+
+.verdict__label {
   font-family: var(--font-ui);
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.14em;
+  font-size: 0.8125rem;
+}
+
+/* The numbers the band actually covers: the colour is a shorthand, not the
+   definition, and it has to work for anyone who cannot separate the hues. */
+.verdict__range {
+  font-family: var(--font-ui);
+  font-weight: 500;
   font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
   color: var(--color-muted);
-  margin: 0 0 0 auto;
-  white-space: nowrap;
 }
 
-.filters__page-of {
-  color: var(--color-magenta);
+.verdict:hover {
+  background-color: var(--verdict-color);
 }
 
-@media (max-width: 599px) {
-  .filters {
-    gap: var(--space-2);
+/* Selected: the band fills with its own colour, so the page states its filter
+   in the same paint the badges below it use. */
+.verdict--on {
+  background-color: var(--verdict-color);
+}
+
+.verdict:hover .verdict__range,
+.verdict--on .verdict__range {
+  color: inherit;
+}
+
+/* Mostaza is the one light fill in the set, so its text flips to ink — the
+   same exception the badge makes. */
+.verdict--mostaza:hover,
+.verdict--mostaza.verdict--on {
+  color: var(--color-night);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .verdict {
+    transition: none;
   }
-
-  /* The tally drops below the controls instead of squeezing them. */
-  .filters__count {
-    margin-left: 0;
-    flex-basis: 100%;
-  }
-}
-
-.reviews__empty {
-  padding: var(--space-7) 0;
-  border-top: var(--border-dim);
 }

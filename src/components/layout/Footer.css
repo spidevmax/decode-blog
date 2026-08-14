@@ -70,14 +70,37 @@
 }
 
 .footer__band {
+  display: flex;
+}
+
+/* The whole row is the target — swatch, range and word — so the key reads as
+   one thing to click rather than three labels with a link among them. */
+.footer__band-link {
   display: grid;
   grid-template-columns: auto auto 1fr;
   align-items: center;
   gap: var(--space-2);
+  /* Padded to clear the minimum target size, then pulled back so the key
+     still lines up with the brand block beside it. */
+  min-height: 2rem;
+  padding-inline: var(--space-2);
+  margin-inline: calc(var(--space-2) * -1);
   font-family: var(--font-ui);
   font-size: 0.75rem;
   letter-spacing: 0.08em;
   white-space: nowrap;
+  text-decoration: none;
+  transition: background-color var(--transition);
+}
+
+.footer__band-link:hover {
+  background-color: rgba(244, 241, 232, 0.08);
+}
+
+.footer__band-link:hover .footer__band-label {
+  color: var(--color-paper-text);
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 /* A swatch, not a badge: small and flat, so it is never mistaken for a score

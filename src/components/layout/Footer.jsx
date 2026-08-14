@@ -1,5 +1,8 @@
 import { Link } from 'react-router-dom';
-import { RATING_BANDS } from '@/components/album/RatingBadge/RatingBadge.helpers';
+import {
+  bandRangeLabel,
+  RATING_BANDS,
+} from '@/components/album/RatingBadge/RatingBadge.helpers';
 import './Footer.css';
 
 /** Every destination, including the shelf, which the top nav reaches by star. */
@@ -15,10 +18,14 @@ const LINKS = [
 /**
  * Site footer.
  *
- * Carries the scoring key. Every score on the site is a coloured circle, and
- * until now nothing said what the colours meant — a reader could see a pink
- * 9.4 and an amber 6.9 with no way to tell what separated them. The bands come
- * from RatingBadge.helpers, so the key cannot drift from the badge.
+ * Carries the scoring key. The four band colours run through the whole site —
+ * the circle on every score, the rule at the foot of every card, the verdict
+ * that closes every review — and this is the one place that says what they
+ * mean. Bands, ranges and slugs all come from RatingBadge.helpers, so the key
+ * cannot drift from the badge it explains or the filter it opens.
+ *
+ * Each band is a link: the page that defines the scale is also the shortest
+ * way into it, and /reviews already filters by exactly these four.
  */
 const Footer = () => {
   return (
@@ -34,19 +41,20 @@ const Footer = () => {
             How we score
           </h2>
           <ul className="footer__bands">
-            {RATING_BANDS.map(({ tone, min, label }, i) => (
+            {RATING_BANDS.map(({ tone, label, slug }) => (
               <li key={tone} className="footer__band">
-                <span
-                  className={`footer__swatch footer__swatch--${tone}`}
-                  aria-hidden="true"
-                />
-                {/* The lowest band has no floor to quote, only a ceiling. */}
-                <span className="footer__band-range">
-                  {i === RATING_BANDS.length - 1
-                    ? `Under ${RATING_BANDS[i - 1].min}`
-                    : `${min} and up`}
-                </span>
-                <span className="footer__band-label">{label}</span>
+                <Link
+                  to={`/reviews?rated=${slug}`}
+                  className="footer__band-link"
+                  aria-label={`${label}: every review scoring ${bandRangeLabel(slug)}`}
+                >
+                  <span
+                    className={`footer__swatch footer__swatch--${tone}`}
+                    aria-hidden="true"
+                  />
+                  <span className="footer__band-range">{bandRangeLabel(slug)}</span>
+                  <span className="footer__band-label">{label}</span>
+                </Link>
               </li>
             ))}
           </ul>

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { alternateEditorial, buildHomeFeed } from './homeFeed.helpers';
+import { alternateEditorial, buildHomeFeed, excludeShown } from './homeFeed.helpers';
 
 const reviews = (n) => Array.from({ length: n }, (_, i) => ({ id: `r${i + 1}` }));
 const news = (n) => Array.from({ length: n }, (_, i) => ({ id: `n${i + 1}` }));
@@ -95,5 +95,23 @@ describe('buildHomeFeed', () => {
 
   it('survives nullish input', () => {
     expect(buildHomeFeed(undefined, undefined)).toEqual([]);
+  });
+});
+
+describe('excludeShown', () => {
+  const list = [{ id: 'a' }, { id: 'b' }, { id: 'c' }];
+
+  it('drops the items already on the page', () => {
+    expect(excludeShown(list, list[0], list[2]).map((i) => i.id)).toEqual(['b']);
+  });
+
+  // The hero may be the only review, or the strip may have nothing to show.
+  it('ignores anything missing', () => {
+    expect(excludeShown(list, undefined, null)).toEqual(list);
+    expect(excludeShown()).toEqual([]);
+  });
+
+  it('leaves the list alone when nothing was shown', () => {
+    expect(excludeShown(list)).toEqual(list);
   });
 });

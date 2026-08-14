@@ -14,22 +14,164 @@
   margin: 0;
 }
 
-/* Sections stack with generous air, each opening on its own rule. */
-.saved__section + .saved__section {
-  margin-top: var(--space-8);
+/* ---- The shelf ----
+   One row per saved thing, whatever kind it is. The type chip carries the
+   distinction that used to cost three different layouts, which also means
+   this page no longer borrows markup from /news and /features — redesigning
+   either of those used to break this one. */
+
+.shelf {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: var(--border-rule);
 }
 
-/* The listing grid draws its cell dividers with the cards' own borders, which
-   leaves a dangling rule when the shelf holds an odd number. Here the cards
-   stand alone, so each is boxed and the grid gets real gaps. */
-.saved__section .features__grid {
-  border-top: none;
-  gap: var(--space-5);
+.shelf-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-areas:
+    'chip weight remove'
+    'text text text';
+  align-items: center;
+  gap: var(--space-3) var(--space-4);
+  padding-block: var(--space-4);
+  border-bottom: var(--border-dim);
+  transition: background-color var(--transition);
 }
 
-.saved__section .feature-card,
-.saved__section .feature-card:nth-child(odd) {
-  border: var(--border-rule);
+.shelf-row:hover,
+.shelf-row:focus-within {
+  background-color: var(--color-ink);
+}
+
+@media (min-width: 720px) {
+  .shelf-row {
+    grid-template-columns: 7rem 1fr auto auto;
+    grid-template-areas: 'chip text weight remove';
+    gap: var(--space-5);
+  }
+}
+
+.shelf-row .type-chip {
+  grid-area: chip;
+  justify-self: start;
+}
+
+.shelf-row__text {
+  grid-area: text;
+  min-width: 0;
+}
+
+.shelf-row__title {
+  font-size: clamp(1.0625rem, 2.2vw, 1.375rem);
+  margin: 0 0 var(--space-1);
+}
+
+.shelf-row__link {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* The whole row opens the item; the two buttons sit above it. */
+.shelf-row__link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.shelf-row__link:hover {
+  color: var(--color-magenta);
+}
+
+.shelf-row__sub {
+  font-family: var(--font-ui);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  margin: 0;
+}
+
+/* What it costs you to take this off the shelf: a score, a source, a length. */
+.shelf-row__weight {
+  grid-area: weight;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 0;
+}
+
+.shelf-row__note {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  text-align: right;
+}
+
+.shelf-row__remove {
+  grid-area: remove;
+  position: relative;
+  z-index: 2;
+  justify-self: end;
+  background: none;
+  border: none;
+  padding: var(--space-1);
+  font-size: 1.25rem;
+  line-height: 1;
+  color: var(--color-mostaza);
+  cursor: pointer;
+  transition: color var(--transition);
+}
+
+.shelf-row__remove:hover {
+  color: var(--color-magenta);
+}
+
+/* ---- On its way out ----
+   Removing is one click, and until now it was also irreversible. The row
+   holds its place with the way back, rather than vanishing under the cursor. */
+
+.shelf-row--removed {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  background-color: var(--color-ink);
+}
+
+.shelf-row__removed-text {
+  font-family: var(--font-ui);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  margin: 0;
+}
+
+.shelf-row__undo {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: var(--font-ui);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.8125rem;
+  color: var(--color-magenta);
+  cursor: pointer;
+}
+
+.shelf-row__undo:hover {
+  text-decoration: underline;
 }
 
 /* ---- Empty state ---- */

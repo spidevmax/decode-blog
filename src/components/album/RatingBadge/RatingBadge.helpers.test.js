@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { RATING_BANDS, ratingTone } from './RatingBadge.helpers';
+import {
+  bandRange,
+  bandRangeLabel,
+  ratingBand,
+  RATING_BANDS,
+  ratingTone,
+} from './RatingBadge.helpers';
 
 describe('ratingTone', () => {
   it('uses magenta from 8.5 inclusive', () => {
@@ -53,5 +59,66 @@ describe('RATING_BANDS', () => {
 
   it('still paints something below the lowest floor', () => {
     expect(ratingTone(-1)).toBe('terracota');
+  });
+});
+
+describe('bandRange', () => {
+  it('runs from its own floor to the next band up', () => {
+    expect(bandRange('recommended')).toEqual({ min: 7, max: 8.5 });
+    expect(bandRange('flawed')).toEqual({ min: 5.5, max: 7 });
+  });
+
+  // Nothing scores above ten today, but the range should not be the thing
+  // that decides that.
+  it('leaves the top band open', () => {
+    expect(bandRange('essential')).toEqual({ min: 8.5, max: Infinity });
+  });
+
+  // Every band has to be reachable from a URL, or a chip filters nothing.
+  it('resolves every published band', () => {
+    expect(RATING_BANDS.every((band) => bandRange(band.slug))).toBe(true);
+  });
+
+  // A hand-edited ?rated= should show the whole archive, not none of it.
+  it('returns null for anything it does not know', () => {
+    expect(bandRange('masterpiece')).toBe(null);
+    expect(bandRange(null)).toBe(null);
+  });
+});
+
+describe('ratingBand', () => {
+  it('names the band, not just its colour', () => {
+    expect(ratingBand(10).label).toBe('Essential');
+    expect(ratingBand(7.4).label).toBe('Recommended');
+  });
+
+  // Each boundary belongs to the band above it.
+  it('puts a boundary score in the upper band', () => {
+    expect(ratingBand(8.5).label).toBe('Essential');
+    expect(ratingBand(8.4).label).toBe('Recommended');
+  });
+
+  it('lands somewhere for a score below the floor', () => {
+    expect(ratingBand(-1)).toBe(RATING_BANDS[RATING_BANDS.length - 1]);
+  });
+});
+
+describe('bandRangeLabel', () => {
+  it('opens the top band and closes the rest', () => {
+    expect(bandRangeLabel('essential')).toBe('8.5+');
+    expect(bandRangeLabel('recommended')).toBe('7–8.5');
+    expect(bandRangeLabel('skip')).toBe('0–5.5');
+  });
+
+  // Each band ends where the next begins: no gap, no overlap, so the key
+  // cannot describe a score as belonging to two of them.
+  it('meets the band above it exactly', () => {
+    RATING_BANDS.slice(1).forEach((band, i) => {
+      expect(bandRangeLabel(band.slug).endsWith(String(RATING_BANDS[i].min))).toBe(true);
+    });
+  });
+
+  it('prints nothing for a band that does not exist', () => {
+    expect(bandRangeLabel('masterpiece')).toBe('');
   });
 });

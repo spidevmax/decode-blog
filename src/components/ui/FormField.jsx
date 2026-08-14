@@ -4,6 +4,10 @@ import './FormField.css';
 /**
  * Form field with label, hint and error wired together by id.
  * `as="textarea"` for the long comment.
+ *
+ * A `ref` reaches the control itself: it travels in `...rest`, which React 19
+ * forwards to the DOM element like any other prop. That is what lets a form
+ * put the focus on the first field it had to reject.
  */
 const FormField = ({
   label,

@@ -1,4 +1,5 @@
-/* Trading card: media → body → solid accent strip. Square, flat, no rotation. */
+/* Trading card: media → body → foot strip ruled in the verdict colour.
+   Square, flat, no rotation. */
 
 .album-card {
   position: relative;
@@ -9,7 +10,10 @@
   transition: border-color var(--transition);
 }
 
-.album-card:hover {
+/* Pointer and keyboard reach the same card: the stretched link's own focus
+   ring outlines the title text, not the card it opens. */
+.album-card:hover,
+.album-card:focus-within {
   border-color: var(--color-paper-text);
 }
 
@@ -77,7 +81,11 @@
   margin: var(--space-4) 0 0;
 }
 
-/* ---- Foot strip ---- */
+/* ---- Foot strip ----
+   Ruled, not filled. The four band colours cannot carry 13px text at 4.5:1 in
+   either direction — petrol against night is 2.5:1, terracota against paper
+   is 4.2:1 — so the colour states the verdict as a rule and the type sits on
+   a ground that can hold it. */
 
 .album-card__strip {
   display: flex;
@@ -87,7 +95,8 @@
   flex-wrap: wrap;
   padding: var(--space-3) var(--space-4);
   margin: 0;
-  background-color: var(--card-accent, var(--color-petrol));
+  background-color: var(--color-night);
+  border-top: 4px solid var(--verdict-color, var(--color-muted));
 }
 
 .album-card__genres {
@@ -96,10 +105,8 @@
   gap: var(--space-2);
 }
 
-/* On the strip the tags outline in night, not paper. */
+/* Smaller than a standalone tag, but the same paper rule. */
 .album-card__strip .genre-tag {
-  border-color: var(--color-night);
-  color: var(--color-night);
   font-size: 0.6875rem;
   padding: 0.3rem 0.5rem;
 }
@@ -109,7 +116,8 @@
   font-weight: 700;
   letter-spacing: 0.12em;
   font-size: 0.8125rem;
-  color: var(--color-night);
+  color: var(--color-paper-text);
+  font-variant-numeric: tabular-nums;
 }
 
 /* Type chip: only shown in a grid that mixes content types. Sits at the foot
@@ -217,7 +225,9 @@
     padding-right: 3rem;
   }
 
-  /* Moves off the artwork and onto the strip, where there is room. */
+  /* Moves off the artwork and onto the strip, where there is room. The strip
+     is night now rather than a colour block, so the toggle keeps the look it
+     has everywhere else instead of inverting to dark-on-colour. */
   .album-card__fav {
     position: static;
     grid-area: strip;
@@ -228,14 +238,5 @@
     font-size: 0.875rem;
     margin-right: var(--space-3);
     background-color: transparent;
-    border-color: var(--color-night);
-    color: var(--color-night);
-  }
-
-  /* On the coloured strip the toggle inverts: dark rule, dark glyph. */
-  .album-card__fav.save--on {
-    background-color: var(--color-night);
-    border-color: var(--color-night);
-    color: var(--color-mostaza);
   }
 }

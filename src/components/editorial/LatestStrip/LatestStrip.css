@@ -65,9 +65,23 @@
   text-decoration: underline;
 }
 
-/* Mobile: the label goes, the announcements stay scrollable. */
+/* The date is what makes the line an announcement rather than a list of
+   links: it is the only thing here the grid below does not repeat. */
+.latest-strip__date {
+  font-family: var(--font-ui);
+  font-weight: 500;
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  white-space: nowrap;
+  flex: none;
+}
+
+/* Mobile: the label and the dates go, the announcements stay scrollable. */
 @media (max-width: 599px) {
-  .latest-strip__label {
+  .latest-strip__label,
+  .latest-strip__date {
     display: none;
   }
 

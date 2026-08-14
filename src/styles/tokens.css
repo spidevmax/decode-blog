@@ -11,12 +11,6 @@
   --color-magenta: #c93b6b;
   --color-muted: #8b8577;
 
-  /* Accent rotation for card strips and kickers, indexed 0-3. */
-  --accent-0: var(--color-mostaza);
-  --accent-1: var(--color-oliva);
-  --accent-2: var(--color-terracota);
-  --accent-3: var(--color-petrol);
-
   /* ---- Type ----
      Oswald for everything functional; Lora only for long-form prose and pull
      quotes. The two never share a block. */

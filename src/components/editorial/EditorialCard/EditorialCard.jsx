@@ -18,13 +18,9 @@ import './EditorialCard.css';
 const EditorialCard = ({ kind, item }) => {
   const to = kind === 'news' ? `/news/${item.id}` : `/features/${item.id}`;
 
-  // News carries a source, features carry an author and a reading time.
+  // News carries a source, features carry a reading time.
   const meta =
-    kind === 'news'
-      ? item.source
-      : [item.author, item.readingTime && `${item.readingTime} read`]
-          .filter(Boolean)
-          .join(' · ');
+    kind === 'news' ? item.source : item.readingTime && `${item.readingTime} read`;
 
   return (
     <article className={`editorial-card editorial-card--${kind}`}>

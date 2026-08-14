@@ -42,22 +42,46 @@ const respond = (value, { canFail = true } = {}) => {
   });
 };
 
+/** Release year → the decade it opens, e.g. 1997 → 1990. */
+const decadeOf = (year) => Math.floor(Number(year) / 10) * 10;
+
 /**
- * @param {{ genre?: string, year?: number|string, sort?: 'recent'|'score' }} [filters]
+ * Ordering. `recent` and `score` read the review — when we published it, what
+ * we thought of it. `newest` and `oldest` read the record, which is a
+ * different archive running on different dates.
+ */
+const COMPARE = {
+  score: (a, b) => b.score - a.score,
+  recent: (a, b) => b.date.localeCompare(a.date),
+  newest: (a, b) => b.year - a.year || b.score - a.score,
+  oldest: (a, b) => a.year - b.year || b.score - a.score,
+};
+
+/**
+ * @param {{
+ *   genre?: string,
+ *   year?: number|string,
+ *   decade?: number|string,
+ *   minScore?: number,
+ *   maxScore?: number,
+ *   sort?: 'recent'|'score'|'newest'|'oldest'
+ * }} [filters]  `maxScore` is exclusive: the rating bands meet at their
+ *   boundaries, and a record cannot be in two of them.
  * @returns {Promise<Album[]>}
  */
 export const getAlbums = (filters = {}) => {
-  const { genre, year, sort = 'recent' } = filters;
+  const { genre, year, decade, minScore, maxScore, sort = 'recent' } = filters;
 
-  let result = ALBUMS.filter((album) => {
+  const result = ALBUMS.filter((album) => {
     if (genre && !album.genres.includes(genre)) return false;
     if (year && String(album.year) !== String(year)) return false;
+    if (decade && decadeOf(album.year) !== decadeOf(decade)) return false;
+    if (minScore != null && album.score < minScore) return false;
+    if (maxScore != null && album.score >= maxScore) return false;
     return true;
   });
 
-  result = [...result].sort((a, b) =>
-    sort === 'score' ? b.score - a.score : b.date.localeCompare(a.date),
-  );
+  result.sort(COMPARE[sort] ?? COMPARE.recent);
 
   return respond(result);
 };
@@ -86,7 +110,12 @@ export const getAlbumById = (id) => {
 export const getFacets = () => {
   const genres = [...new Set(ALBUMS.flatMap((a) => a.genres))].sort();
   const years = [...new Set(ALBUMS.map((a) => a.year))].sort((a, b) => b - a);
-  return respond({ genres, years }, { canFail: false });
+  // Decades, not years: the archive spans enough of them that a per-year list
+  // is a scroll, and nobody browses records one year at a time.
+  const decades = [...new Set(ALBUMS.map((a) => decadeOf(a.year)))].sort(
+    (a, b) => b - a,
+  );
+  return respond({ genres, years, decades }, { canFail: false });
 };
 
 /** Submission from the /suggest form. Simulates a POST. */

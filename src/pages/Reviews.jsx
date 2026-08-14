@@ -1,6 +1,11 @@
 import { useSearchParams } from 'react-router-dom';
 import AlbumCard from '@/components/album/AlbumCard';
 import AlbumGrid from '@/components/album/AlbumGrid';
+import {
+  bandRange,
+  bandRangeLabel,
+  RATING_BANDS,
+} from '@/components/album/RatingBadge/RatingBadge.helpers';
 import { Button, ErrorState, FilterSelect, Loader, Pagination } from '@/components/ui';
 import { useAlbums, useFacets } from '@/hooks/useAlbums';
 import { usePagination } from '@/hooks/usePagination';
@@ -12,24 +17,40 @@ const PER_PAGE = 12;
 /** Sort is always one of these; `score` is the default and stays out of the URL. */
 const SORT_OPTIONS = [
   { value: 'score', label: 'Highest rated' },
-  { value: 'recent', label: 'Most recent' },
+  { value: 'recent', label: 'Latest reviews' },
+  { value: 'newest', label: 'Newest records' },
+  { value: 'oldest', label: 'Oldest records' },
 ];
 
 /**
  * The review archive and its filters, in one place.
  *
- * Filters live in the URL (?genre, ?year, ?sort) so a filtered view is
- * shareable and the back button works. Default sort is by score: with no
+ * Filters live in the URL (?genre, ?decade, ?rated, ?sort) so a filtered view
+ * is shareable and the back button works. Default sort is by score: with no
  * filters applied this is still the canonical "best to worst" listing.
+ *
+ * The verdict bands get their own row above the grid rather than another
+ * dropdown. They are the scale this publication runs on — the same four names
+ * the footer prints, in the same colours the badges paint — so they are the
+ * argument of the page, not one more control on it.
  */
 const Reviews = () => {
   const [params, setParams] = useSearchParams();
   const genre = params.get('genre');
-  const year = params.get('year');
+  const decade = params.get('decade');
+  const rated = params.get('rated');
   const sort = params.get('sort') ?? 'score';
 
   const { facets } = useFacets();
-  const { albums, loading, error, retry } = useAlbums({ genre, year, sort });
+
+  const range = bandRange(rated);
+  const { albums, loading, error, retry } = useAlbums({
+    genre,
+    decade,
+    sort,
+    minScore: range?.min,
+    maxScore: range?.max,
+  });
   const { page, pages, pageItems, setPage } = usePagination(albums, PER_PAGE);
 
   /** Sets a param, or clears it when the value is null. */
@@ -42,7 +63,7 @@ const Reviews = () => {
     setParams(next, { replace: true });
   };
 
-  const hasFilters = Boolean(genre || year);
+  const hasFilters = Boolean(genre || decade || rated);
 
   // Each list opens with the way out of the filter, so clearing one never
   // means hunting for a separate control.
@@ -51,9 +72,9 @@ const Reviews = () => {
     ...facets.genres.map((g) => ({ value: g, label: g })),
   ];
 
-  const yearOptions = [
-    { value: null, label: 'All years' },
-    ...facets.years.map((y) => ({ value: String(y), label: String(y) })),
+  const decadeOptions = [
+    { value: null, label: 'All decades' },
+    ...facets.decades.map((d) => ({ value: String(d), label: `${d}s` })),
   ];
 
   return (
@@ -63,7 +84,8 @@ const Reviews = () => {
           <p className="eyebrow">Every review</p>
           <h1 className="reviews__title">Reviews</h1>
           <p className="reviews__lede">
-            Every record that came through the newsroom, filtered by genre and year.
+            Every record that came through the newsroom, scored out of ten and kept
+            on file.
           </p>
         </header>
 
@@ -82,10 +104,10 @@ const Reviews = () => {
               onSelect={(value) => setFilter('genre', value)}
             />
             <FilterSelect
-              label="Year"
-              value={year}
-              options={yearOptions}
-              onSelect={(value) => setFilter('year', value)}
+              label="Decade"
+              value={decade}
+              options={decadeOptions}
+              onSelect={(value) => setFilter('decade', value)}
             />
             <FilterSelect
               label="Sort by"
@@ -120,7 +142,35 @@ const Reviews = () => {
           )}
         </div>
 
-        {loading && <Loader variant="grid" count={6} label="Loading reviews…" />}
+        {/* The scale, as navigation. Each band is painted in the colour its
+            badges already carry, which is also the only place that code is
+            explained where it is used. */}
+        <div className="verdicts">
+          <p className="verdicts__lead" id="verdicts-label">
+            Verdict
+          </p>
+
+          <div className="verdicts__bands" role="group" aria-labelledby="verdicts-label">
+            {RATING_BANDS.map((band) => {
+              const active = rated === band.slug;
+
+              return (
+                <button
+                  key={band.slug}
+                  type="button"
+                  className={`verdict verdict--${band.tone}${active ? ' verdict--on' : ''}`}
+                  aria-pressed={active}
+                  onClick={() => setFilter('rated', active ? null : band.slug)}
+                >
+                  <span className="verdict__label">{band.label}</span>
+                  <span className="verdict__range">{bandRangeLabel(band.slug)}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {loading && <Loader variant="grid" count={PER_PAGE} label="Loading reviews…" />}
 
         {error && !loading && (
           <ErrorState subject="the reviews" error={error} onRetry={retry} />
@@ -129,7 +179,7 @@ const Reviews = () => {
         {!loading && !error && (
           <>
             {albums.length === 0 ? (
-              <div className="reviews__empty">
+              <div className="listing-empty">
                 <p>No reviews match those filters.</p>
                 <Button variant="accent" onClick={() => setParams({}, { replace: true })}>
                   Show all
@@ -138,8 +188,8 @@ const Reviews = () => {
             ) : (
               <>
                 <AlbumGrid variant="even">
-                  {pageItems.map((album, i) => (
-                    <AlbumCard key={album.id} album={album} index={i} />
+                  {pageItems.map((album) => (
+                    <AlbumCard key={album.id} album={album} />
                   ))}
                 </AlbumGrid>
 

@@ -1,0 +1,26 @@
+/* The reading rule: same 2px weight as every other rule in the design, fixed
+   to the top edge, filling in the colour of the piece it belongs to. */
+
+.reading-progress {
+  position: fixed;
+  inset: 0 0 auto;
+  height: 2px;
+  z-index: 20;
+  background-color: rgba(244, 241, 232, 0.12);
+  pointer-events: none;
+}
+
+.reading-progress__rule {
+  height: 100%;
+  background-color: var(--kicker-color, var(--color-magenta));
+  transform-origin: left center;
+  /* Scroll already moves it; the transition only smooths the gap between
+     frames, so it stays well under the length of one. */
+  transition: transform 80ms linear;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reading-progress__rule {
+    transition: none;
+  }
+}

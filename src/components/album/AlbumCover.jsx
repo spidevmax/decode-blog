@@ -37,10 +37,13 @@ const AlbumCover = ({ album, className = '' }) => {
   if (isUrl && !imageFailed) {
     return (
       <div className={`cover cover--image ${className}`.trim()}>
+        {/* Decorative: every card and header that shows a cover prints the
+            title and the artist as text beside it, so describing the sleeve
+            here only makes a screen reader say the record's name twice. */}
         <img
           className="cover__img"
           src={cover}
-          alt={`${album.title} by ${album.artist}`}
+          alt=""
           loading="lazy"
           onError={() => setImageFailed(true)}
         />

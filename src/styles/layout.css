@@ -72,3 +72,73 @@
 .section-head__link:hover {
   text-decoration: underline;
 }
+
+/* ---- Filter bar: one line that states what you are looking at ----
+   Shared by every listing (reviews, news, features) so the three archives
+   are navigated the same way. Lives here rather than in Reviews.css, which
+   is code-split with its route and would not reach the others. */
+
+.filters {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  padding-block: var(--space-4);
+  margin-bottom: var(--space-6);
+  border-block: var(--border-rule);
+}
+
+.filters__lead {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  margin: 0;
+  flex: none;
+}
+
+.filters__controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* Pushed to the far end: it reports on the row rather than joining it. */
+.filters__count {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  margin: 0 0 0 auto;
+  white-space: nowrap;
+}
+
+.filters__page-of {
+  color: var(--color-magenta);
+}
+
+@media (max-width: 599px) {
+  .filters {
+    gap: var(--space-2);
+  }
+
+  /* The tally drops below the controls instead of squeezing them. */
+  .filters__count {
+    margin-left: 0;
+    flex-basis: 100%;
+  }
+}
+
+/* ---- Empty listing ----
+   Every archive can be filtered down to nothing, and every one of them says
+   so the same way: what happened, and the way back. */
+
+.listing-empty {
+  padding: var(--space-7) 0;
+  border-top: var(--border-dim);
+}

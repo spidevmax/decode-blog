@@ -6,6 +6,22 @@
  * to guess a type from the shape of the object.
  */
 
+/**
+ * Drops items the page has already shown somewhere else — the hero, the
+ * announcement strip — so nothing is offered twice on one screen.
+ *
+ * Filters a list against its own kind only: ids are unique within a dataset,
+ * not across them, so a news id that happens to match an album's must not
+ * remove it.
+ *
+ * @param {object[]} list
+ * @param {...(object|undefined)} shown  items already on the page, if any
+ */
+export const excludeShown = (list = [], ...shown) => {
+  const ids = new Set(shown.filter(Boolean).map((item) => item.id));
+  return list.filter((item) => !ids.has(item.id));
+};
+
 /** How many reviews run between two editorial pieces. */
 export const EDITORIAL_EVERY = 4;
 

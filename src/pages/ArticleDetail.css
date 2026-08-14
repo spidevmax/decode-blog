@@ -1,9 +1,42 @@
 /* Shared by NewsDetail and FeatureDetail: a single centred column, no image.
-   The header band and prose column come from the editorial components. */
+   The header band and prose column come from the editorial components.
+
+   The prose keeps the 42rem measure ArticleBody sets — around 66 characters
+   a line. This file used to widen it to 50rem, which read at nearly 90 and
+   made a fourteen-minute feature hard to track line to line.
+
+   The header band is pulled to the same 42rem so both share one left edge:
+   two centred blocks of different widths align on nothing. */
 
 .article--plain .article__body {
-  max-width: 50rem;
   margin-inline: auto;
+}
+
+.article--plain .article__header-inner--plain {
+  max-width: 42rem;
+}
+
+/* ---- Header band ---- */
+
+.article__kicker-link {
+  display: inline-block;
+  color: var(--kicker-color, var(--color-magenta));
+  text-decoration: none;
+}
+
+.article__kicker-link:hover {
+  text-decoration: underline;
+}
+
+/* The dek: prose, so it is set in the body face rather than in the header's
+   uppercase utility type. */
+.article__dek {
+  font-family: var(--font-body);
+  font-size: clamp(1.125rem, 2.2vw, 1.3125rem);
+  line-height: 1.55;
+  color: rgba(244, 241, 232, 0.82);
+  max-width: 44ch;
+  margin: 0 0 var(--space-4);
 }
 
 .article__meta {
@@ -12,9 +45,39 @@
   text-transform: uppercase;
   letter-spacing: 0.16em;
   font-size: 0.8125rem;
-  color: var(--color-magenta);
+  color: var(--color-muted);
   margin: 0;
 }
+
+.article__meta-sep {
+  padding-inline: var(--space-2);
+}
+
+.article__meta-link {
+  color: var(--kicker-color, var(--color-magenta));
+  text-decoration: none;
+}
+
+.article__meta-link:hover {
+  text-decoration: underline;
+}
+
+/* Saving is decided in the first minute of a long read, not the last, so the
+   toggle is offered here as well as at the foot. */
+.article__actions {
+  margin-top: var(--space-5);
+}
+
+/* The row variant is a full-width bar where it was designed to sit, under the
+   review cover. Here it is one control among prose, so it takes only the room
+   it needs and carries a rule on all four sides instead of one. */
+.article__actions .save--row {
+  width: auto;
+  padding: var(--space-2) var(--space-4);
+  border: var(--border-rule);
+}
+
+/* ---- Foot of the article ---- */
 
 .article__footer {
   display: flex;
@@ -44,4 +107,76 @@
 /* Pushes the back link to the far end, away from the save toggle. */
 .article__footer .article__back {
   margin-left: auto;
+}
+
+/* ---- Where to go next ----
+   Two ruled bands, so finishing a piece hands you another one instead of
+   ending the page. */
+
+.article__nav {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin-top: var(--space-6);
+  border-top: var(--border-dim);
+}
+
+.article-step {
+  display: block;
+  padding-block: var(--space-4);
+  border-bottom: var(--border-dim);
+  color: inherit;
+  text-decoration: none;
+  transition: background-color var(--transition);
+}
+
+.article-step:hover,
+.article-step:focus-visible {
+  background-color: var(--color-ink);
+}
+
+.article-step__label {
+  display: block;
+  font-family: var(--font-ui);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.75rem;
+  color: var(--kicker-color, var(--color-magenta));
+  margin-bottom: var(--space-2);
+}
+
+.article-step__title {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 1.125rem;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.article-step:hover .article-step__title {
+  color: var(--kicker-color, var(--color-magenta));
+}
+
+@media (min-width: 700px) {
+  .article__nav {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* The older piece sits on the right, reading left to right as recent to
+     older — the same direction the archive above runs in. */
+  .article-step--earlier {
+    text-align: right;
+    padding-left: var(--space-5);
+  }
+
+  .article-step:not(.article-step--earlier) {
+    padding-right: var(--space-5);
+    border-right: var(--border-dim);
+  }
+
+  /* Alone in the row, a step keeps its own side rather than stretching. */
+  .article-step--earlier:only-child {
+    grid-column: 2;
+    border-right: none;
+  }
 }

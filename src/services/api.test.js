@@ -50,6 +50,44 @@ describe('getAlbums', () => {
     expect(byNumber.every((a) => a.year === year)).toBe(true);
   });
 
+  it('sorts by release year, newest and oldest', async () => {
+    const newest = await getAlbums({ sort: 'newest' });
+    const oldest = await getAlbums({ sort: 'oldest' });
+
+    const years = newest.map((a) => a.year);
+    expect([...years].sort((a, b) => b - a)).toEqual(years);
+    expect(oldest[0].year).toBeLessThanOrEqual(newest[0].year);
+  });
+
+  it('filters by decade, whichever year of it is given', async () => {
+    const albums = await getAlbums({ decade: 1990 });
+    expect(albums.length).toBeGreaterThan(0);
+    expect(albums.every((a) => a.year >= 1990 && a.year < 2000)).toBe(true);
+
+    const sameDecade = await getAlbums({ decade: 1997 });
+    expect(sameDecade.map((a) => a.id)).toEqual(albums.map((a) => a.id));
+  });
+
+  // The bands meet at their boundaries: maxScore is exclusive, so a record
+  // scoring exactly 8.5 is Essential and nothing else.
+  it('filters by score range, with an exclusive ceiling', async () => {
+    const recommended = await getAlbums({ minScore: 7, maxScore: 8.5 });
+    expect(recommended.every((a) => a.score >= 7 && a.score < 8.5)).toBe(true);
+
+    const essential = await getAlbums({ minScore: 8.5 });
+    expect(essential.every((a) => a.score >= 8.5)).toBe(true);
+
+    const ids = new Set(essential.map((a) => a.id));
+    expect(recommended.some((a) => ids.has(a.id))).toBe(false);
+  });
+
+  it('combines filters', async () => {
+    const [first] = await getAlbums({ sort: 'score' });
+    const genre = first.genres[0];
+    const albums = await getAlbums({ genre, minScore: 8.5 });
+    expect(albums.every((a) => a.genres.includes(genre) && a.score >= 8.5)).toBe(true);
+  });
+
   it('returns copies: mutating the result does not alter the dataset', async () => {
     const first = await getAlbums();
     const original = first[0].title;
@@ -79,6 +117,15 @@ describe('getFacets', () => {
     expect([...genres].sort()).toEqual(genres);
     expect([...years].sort((a, b) => b - a)).toEqual(years);
   });
+
+  it('returns the decades those years fall in, newest first', async () => {
+    const { years, decades } = await getFacets();
+    expect(new Set(decades).size).toBe(decades.length);
+    expect([...decades].sort((a, b) => b - a)).toEqual(decades);
+    expect(decades.every((d) => d % 10 === 0)).toBe(true);
+    // Every year in the archive has a decade to be filtered under.
+    expect(years.every((y) => decades.includes(Math.floor(y / 10) * 10))).toBe(true);
+  });
 });
 
 describe('editorial content', () => {
@@ -100,10 +147,9 @@ describe('editorial content', () => {
     expect(news.every((n) => Array.isArray(n.body) && n.body.length > 0)).toBe(true);
   });
 
-  it('every feature carries a body, an author and a pull quote', async () => {
+  it('every feature carries a body and a pull quote', async () => {
     const features = await getFeatures();
     expect(features.every((f) => Array.isArray(f.body) && f.body.length > 0)).toBe(true);
-    expect(features.every((f) => Boolean(f.author))).toBe(true);
     expect(features.every((f) => Boolean(f.pullQuote))).toBe(true);
   });
 });

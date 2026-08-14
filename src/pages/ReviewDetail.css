@@ -114,7 +114,17 @@
   border-bottom: var(--border-rule);
 }
 
+/* ---- The close ----
+   The verdict said in words, which is the one thing the page never stated:
+   the number is overlaid on the cover and the band name only lived in the
+   footer key and in the archive filter. Ruled in its own band colour, on the
+   page ground — the colour never sits behind the type, for the same contrast
+   reason the card strips stopped being filled blocks. */
+
 .review__verdict {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
   font-family: var(--font-ui);
   font-weight: 600;
   text-transform: uppercase;
@@ -122,6 +132,37 @@
   font-size: 0.9375rem;
   color: var(--color-paper-text);
   margin: 0;
+  padding-left: var(--space-4);
+  border-left: 4px solid var(--verdict-color, var(--color-muted));
   flex: 1;
   min-width: 12rem;
+}
+
+.review__verdict--magenta {
+  --verdict-color: var(--color-magenta);
+}
+
+.review__verdict--petrol {
+  --verdict-color: var(--color-petrol);
+}
+
+.review__verdict--mostaza {
+  --verdict-color: var(--color-mostaza);
+}
+
+.review__verdict--terracota {
+  --verdict-color: var(--color-terracota);
+}
+
+.review__verdict-label {
+  font-size: 1.125rem;
+  letter-spacing: 0.12em;
+}
+
+/* The figure the badge shows, spelled out once at the end for anyone who read
+   past the artwork rather than at it. */
+.review__verdict-score {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-muted);
 }

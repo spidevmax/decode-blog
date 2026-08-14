@@ -68,7 +68,12 @@
 
 /* ---- Cover block ---- */
 
-.hero__collage {
+/* The badge hangs off the sleeve, so the sleeve is what it is measured from.
+   It used to be positioned against the collage, whose box includes the
+   caption — which is how a `bottom` of −2rem put the score on top of the
+   text. The badge is a sibling of the link, not a child, so this block is
+   what has to carry the positioning. */
+.hero__artwork {
   position: relative;
 }
 
@@ -91,6 +96,9 @@
   --rating-ring: var(--hero-bg, var(--color-night));
 }
 
+/* Cleared by the badge's overhang rather than by a padding sized to its
+   width: the caption keeps the full column whatever it says, and the gap
+   holds if the credits ever run long enough to wrap. */
 .hero__byline {
   font-family: var(--font-ui);
   font-weight: 600;
@@ -98,12 +106,17 @@
   letter-spacing: 0.14em;
   font-size: 0.8125rem;
   color: var(--color-muted);
-  margin: var(--space-5) 0 0;
+  margin: var(--space-7) 0 0;
 }
 
 @media (max-width: 599px) {
   .hero__rating {
     right: var(--space-3);
     bottom: calc(var(--space-5) * -1);
+  }
+
+  /* Shorter overhang here, so a shorter clearance. */
+  .hero__byline {
+    margin-top: var(--space-6);
   }
 }

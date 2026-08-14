@@ -14,8 +14,8 @@
   margin: 0;
 }
 
-/* 2x2 with rules between cells rather than gaps: the divisions are drawn by
-   the cards' own borders, so the grid reads as one ruled block. */
+/* Rules between cells rather than gaps: the divisions are drawn by the cards'
+   own borders, so the grid reads as one ruled block. */
 .features__grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -27,9 +27,19 @@
     grid-template-columns: repeat(2, 1fr);
   }
 
-  /* Vertical divider on the left column only. */
-  .feature-card:nth-child(odd) {
+  /* The lead spans the block, so every other card in the left column is an
+     even child — parity that holds whatever the page count is. */
+  .feature-card:nth-child(even) {
     border-right: var(--border-rule);
+  }
+
+  /* An odd tail leaves the right column empty: no rule to draw against. */
+  .feature-card:last-child:nth-child(even) {
+    border-right: none;
+  }
+
+  .feature-card--lead {
+    grid-column: 1 / -1;
   }
 }
 
@@ -39,11 +49,14 @@
   flex-direction: column;
   padding: var(--space-5);
   background-color: transparent;
-  border-bottom: var(--border-rule);
+  border-bottom: var(--border-dim);
   transition: background-color var(--transition);
 }
 
-.feature-card:hover {
+/* Keyboard and pointer land on the same card: the stretched link's own focus
+   ring would only outline the title text, not the card it opens. */
+.feature-card:hover,
+.feature-card:focus-within {
   background-color: var(--color-ink);
 }
 
@@ -111,4 +124,28 @@
   color: var(--color-muted);
   margin: auto 0 0;
   padding-top: var(--space-3);
+}
+
+/* ---- The lead ----
+   One piece per page opens the section. It earns the width and the type size;
+   everything else on the page stays exactly as it was. */
+
+.feature-card--lead {
+  border-bottom: var(--border-rule);
+}
+
+.feature-card--lead .feature-card__title {
+  font-size: clamp(1.75rem, 4.4vw, 2.75rem);
+  max-width: 22ch;
+}
+
+.feature-card--lead .feature-card__excerpt {
+  font-size: 1.125rem;
+  max-width: 52ch;
+}
+
+@media (min-width: 760px) {
+  .feature-card--lead {
+    padding-block: var(--space-6);
+  }
 }

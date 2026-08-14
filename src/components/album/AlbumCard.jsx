@@ -3,28 +3,41 @@ import { Link } from 'react-router-dom';
 import AlbumCover from './AlbumCover';
 import GenreTag from './GenreTag';
 import RatingBadge from './RatingBadge';
+import { ratingTone } from './RatingBadge/RatingBadge.helpers';
 import TypeChip from '@/components/editorial/TypeChip';
 import { SaveButton } from '@/components/ui';
 import './AlbumCard.css';
 
+/** The verdict bands, as paint. Same four the badge and the footer key use. */
+const TONE_COLORS = {
+  magenta: 'var(--color-magenta)',
+  petrol: 'var(--color-petrol)',
+  mostaza: 'var(--color-mostaza)',
+  terracota: 'var(--color-terracota)',
+};
+
 /**
- * Trading card: cover, rating overlaid top-right, then a solid colour strip
- * at the foot carrying the genres and the year.
+ * Trading card: cover, rating overlaid top-right, then a foot strip carrying
+ * the genres and the year, ruled in the colour of the record's verdict.
+ *
+ * That rule used to be a solid block of colour picked by grid position, which
+ * meant the largest colour area on the card said nothing — and said it in the
+ * same four hues the scoring bands use, so a magenta strip on a 6.0 actively
+ * contradicted the badge above it. Now the only colour left on the card is
+ * the one the score earns.
  *
  * @param {'default'|'feature'} variant  `feature` spans 2x2 in the grid and
  *   shows the excerpt.
- * @param {number} index  position in the grid; picks the strip colour from the
- *   four-step accent rotation.
  * @param {boolean} showType  adds the REVIEW chip. Only worth it in a grid
  *   that mixes content types — on /reviews everything is a review already.
  */
-const AlbumCard = ({ album, variant = 'default', index = 0, showType = false }) => {
+const AlbumCard = ({ album, variant = 'default', showType = false }) => {
   const isFeature = variant === 'feature';
 
   return (
     <article
       className={`album-card album-card--${variant}`}
-      style={{ '--card-accent': `var(--accent-${index % 4})` }}
+      style={{ '--verdict-color': TONE_COLORS[ratingTone(album.score)] }}
     >
       <div className="album-card__media">
         <AlbumCover album={album} />
@@ -54,7 +67,7 @@ const AlbumCard = ({ album, variant = 'default', index = 0, showType = false }) 
         {isFeature && <p className="album-card__excerpt">{album.excerpt}</p>}
       </div>
 
-      {/* Solid strip: genres carried as real tags so filtering can read them. */}
+      {/* Foot strip: genres carried as real tags so filtering can read them. */}
       <div className="album-card__strip">
         <span className="album-card__genres">
           {album.genres.map((genre) => (

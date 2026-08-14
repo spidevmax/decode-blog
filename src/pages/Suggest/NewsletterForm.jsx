@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Button, FormField } from '@/components/ui';
 import { submitSuggestion } from '@/services/api';
 import { isValidEmail } from '@/utils/validation';
@@ -14,11 +14,27 @@ const NewsletterForm = () => {
   const [status, setStatus] = useState('idle'); // idle | sending | done | error
   const [fieldError, setFieldError] = useState(null);
 
+  const emailRef = useRef(null);
+  const doneRef = useRef(null);
+
+  // The row is replaced by the confirmation, so the focus that was on the
+  // subscribe button would otherwise fall back to the top of the document.
+  useEffect(() => {
+    if (status === 'done') doneRef.current?.focus();
+  }, [status]);
+
+  const update = (event) => {
+    setEmail(event.target.value);
+    // Corrected is corrected: the message goes as soon as the address does.
+    if (fieldError) setFieldError(null);
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (!isValidEmail(email)) {
       setFieldError('Enter a valid email address.');
+      emailRef.current?.focus();
       return;
     }
     setFieldError(null);
@@ -36,7 +52,9 @@ const NewsletterForm = () => {
   if (status === 'done') {
     return (
       <div className="form-success form-success--inline" role="status">
-        <h3 className="form-success__title">Subscribed</h3>
+        <h3 className="form-success__title" ref={doneRef} tabIndex={-1}>
+          Subscribed
+        </h3>
         <p>The next review lands in your inbox.</p>
         <Button variant="ghost" size="sm" onClick={() => setStatus('idle')}>
           Use another email
@@ -56,10 +74,12 @@ const NewsletterForm = () => {
         type="email"
         name="email"
         required
+        autoComplete="email"
+        ref={emailRef}
         value={email}
         placeholder="hello@example.com"
         error={fieldError}
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={update}
       />
 
       <Button type="submit" variant="accent" disabled={status === 'sending'}>
