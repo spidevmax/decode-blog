@@ -1,0 +1,66 @@
+.saved__head {
+  max-width: 40rem;
+  margin-bottom: var(--space-6);
+}
+
+.saved__title {
+  margin-bottom: var(--space-3);
+}
+
+.saved__lede {
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  color: rgba(244, 241, 232, 0.8);
+  margin: 0;
+}
+
+/* Sections stack with generous air, each opening on its own rule. */
+.saved__section + .saved__section {
+  margin-top: var(--space-8);
+}
+
+/* The listing grid draws its cell dividers with the cards' own borders, which
+   leaves a dangling rule when the shelf holds an odd number. Here the cards
+   stand alone, so each is boxed and the grid gets real gaps. */
+.saved__section .features__grid {
+  border-top: none;
+  gap: var(--space-5);
+}
+
+.saved__section .feature-card,
+.saved__section .feature-card:nth-child(odd) {
+  border: var(--border-rule);
+}
+
+/* ---- Empty state ---- */
+
+.saved__empty {
+  max-width: 34rem;
+  padding: var(--space-7) 0;
+  border-top: var(--border-rule);
+}
+
+.saved__empty-mark {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 2.5rem;
+  line-height: 1;
+  color: var(--color-mostaza);
+  margin: 0 0 var(--space-4);
+}
+
+.saved__empty h2 {
+  margin-bottom: var(--space-3);
+}
+
+.saved__empty p {
+  font-family: var(--font-body);
+  color: rgba(244, 241, 232, 0.8);
+  margin-bottom: var(--space-5);
+}
+
+.saved__empty-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}

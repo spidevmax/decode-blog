@@ -1,0 +1,47 @@
+/* Shared by NewsDetail and FeatureDetail: a single centred column, no image.
+   The header band and prose column come from the editorial components. */
+
+.article--plain .article__body {
+  max-width: 50rem;
+  margin-inline: auto;
+}
+
+.article__meta {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.8125rem;
+  color: var(--color-magenta);
+  margin: 0;
+}
+
+.article__footer {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-top: var(--space-7);
+  padding-top: var(--space-5);
+  border-top: var(--border-rule);
+}
+
+.article__back {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.875rem;
+  color: var(--color-magenta);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.article__back:hover {
+  text-decoration: underline;
+}
+
+/* Pushes the back link to the far end, away from the save toggle. */
+.article__footer .article__back {
+  margin-left: auto;
+}

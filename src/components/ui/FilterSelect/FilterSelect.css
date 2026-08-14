@@ -1,0 +1,127 @@
+/* Collapsed filter. Square, ruled, Oswald — the chip language, with the
+   options moved into a panel so 49 genres cost one line instead of ten. */
+
+.filter-select {
+  position: relative;
+}
+
+.filter-select__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-ui);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.75rem;
+  line-height: 1;
+  padding: 0.45rem 0.7rem;
+  background-color: transparent;
+  color: var(--color-paper-text);
+  border: 2px solid var(--color-paper-text);
+  border-radius: 0;
+  cursor: pointer;
+  transition:
+    background-color var(--transition),
+    border-color var(--transition),
+    color var(--transition);
+}
+
+.filter-select__trigger:hover {
+  background-color: var(--color-paper-text);
+  color: var(--color-night);
+}
+
+/* An applied filter carries the same magenta as the selected chip it replaced,
+   so what is filtering the archive is legible without opening anything. */
+.filter-select__trigger--set {
+  background-color: var(--color-magenta);
+  border-color: var(--color-magenta);
+  color: var(--color-paper-text);
+}
+
+.filter-select__trigger--set:hover {
+  background-color: var(--color-paper-text);
+  border-color: var(--color-paper-text);
+  color: var(--color-night);
+}
+
+/* Drawn, not typed: a glyph would carry the font's own metrics and sit off
+   the optical centre. */
+.filter-select__caret {
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid currentColor;
+  transition: transform var(--transition);
+}
+
+.filter-select__trigger[aria-expanded='true'] .filter-select__caret {
+  transform: rotate(180deg);
+}
+
+/* ---- Panel ---- */
+
+.filter-select__panel {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  min-width: 100%;
+  max-width: 20rem;
+  max-height: 20rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background-color: var(--color-ink);
+  border: var(--border-rule);
+}
+
+.filter-select__option {
+  font-family: var(--font-ui);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.75rem;
+  line-height: 1.2;
+  text-align: left;
+  white-space: nowrap;
+  padding: 0.55rem 0.85rem;
+  background-color: transparent;
+  color: var(--color-paper-text);
+  border: none;
+  border-bottom: var(--border-dim);
+  border-radius: 0;
+  cursor: pointer;
+  transition:
+    background-color var(--transition),
+    color var(--transition);
+}
+
+.filter-select__option:last-child {
+  border-bottom: none;
+}
+
+.filter-select__option:hover {
+  background-color: var(--color-paper-text);
+  color: var(--color-night);
+}
+
+.filter-select__option--current {
+  font-weight: 700;
+  color: var(--color-magenta);
+}
+
+.filter-select__option--current:hover {
+  background-color: var(--color-magenta);
+  color: var(--color-paper-text);
+}
+
+/* The panel would otherwise run off the right edge on a narrow screen. */
+@media (max-width: 599px) {
+  .filter-select__panel {
+    max-width: min(20rem, calc(100vw - var(--space-6)));
+  }
+}

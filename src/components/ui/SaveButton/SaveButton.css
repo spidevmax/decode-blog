@@ -1,0 +1,89 @@
+/* Square, ruled, Oswald — same language as the pager and the chips. */
+
+.save {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  background-color: transparent;
+  color: var(--color-paper-text);
+  border: 2px solid var(--color-paper-text);
+  border-radius: 0;
+  cursor: pointer;
+  transition:
+    background-color var(--transition),
+    border-color var(--transition),
+    color var(--transition);
+}
+
+/* Hover reads as "this will become saved": the mostaza of the saved state,
+   rather than the paper fill that swallowed the outlined glyph. */
+.save:hover {
+  background-color: var(--color-mostaza);
+  border-color: var(--color-mostaza);
+  color: var(--color-night);
+}
+
+.save--on {
+  background-color: var(--color-mostaza);
+  border-color: var(--color-mostaza);
+  color: var(--color-night);
+}
+
+/* Hovering something already saved offers removal, so it steps back to the
+   plain outline instead of deepening the saved colour. */
+.save--on:hover {
+  background-color: transparent;
+  border-color: var(--color-paper-text);
+  color: var(--color-paper-text);
+}
+
+/* Bare star, used on cards and list rows. */
+.save--icon {
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  font-size: 1.125rem;
+  /* A lone glyph has no text to space out, and the trailing gap would push it
+     off centre. The star also sits low in its own em box, so nudge it back. */
+  letter-spacing: 0;
+  padding: 0;
+}
+
+.save--icon > span {
+  display: block;
+  line-height: 1;
+  transform: translateY(-0.06em);
+}
+
+/* Full-width bar at the foot of a detail column. */
+.save--row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  width: 100%;
+  padding: var(--space-4);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  border: none;
+  border-top: var(--border-rule);
+}
+
+.save--row:hover {
+  background-color: var(--color-paper-text);
+  color: var(--color-night);
+}
+
+.save--row.save--on {
+  background-color: transparent;
+  color: var(--color-mostaza);
+}
+
+.save--row.save--on:hover {
+  background-color: var(--color-paper-text);
+  color: var(--color-night);
+}

@@ -4,25 +4,32 @@
 }
 
 .features__title {
-  text-transform: uppercase;
   margin-bottom: var(--space-3);
 }
 
 .features__lede {
-  font-size: 1.1875rem;
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  color: rgba(244, 241, 232, 0.8);
   margin: 0;
 }
 
+/* 2x2 with rules between cells rather than gaps: the divisions are drawn by
+   the cards' own borders, so the grid reads as one ruled block. */
 .features__grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--space-5);
+  border-top: var(--border-rule);
 }
 
 @media (min-width: 760px) {
   .features__grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-6);
+  }
+
+  /* Vertical divider on the left column only. */
+  .feature-card:nth-child(odd) {
+    border-right: var(--border-rule);
   }
 }
 
@@ -31,46 +38,77 @@
   display: flex;
   flex-direction: column;
   padding: var(--space-5);
-  background-color: var(--color-card);
-  border: var(--border-ink);
-  box-shadow: var(--shadow-offset-sm);
-  transition:
-    transform var(--transition),
-    box-shadow var(--transition);
+  background-color: transparent;
+  border-bottom: var(--border-rule);
+  transition: background-color var(--transition);
 }
 
 .feature-card:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: var(--shadow-offset);
+  background-color: var(--color-ink);
+}
+
+.feature-card__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
 }
 
 .feature-card__kicker {
   font-family: var(--font-ui);
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
-  font-size: 0.8125rem;
-  color: var(--color-accent-red);
-  margin: 0 0 var(--space-2);
+  letter-spacing: 0.18em;
+  font-size: 0.75rem;
+  color: var(--kicker-color, var(--color-magenta));
+  margin: 0;
+}
+
+/* Above the stretched link, which would otherwise swallow the click. */
+.feature-card__save {
+  position: relative;
+  z-index: 2;
+  flex: none;
 }
 
 .feature-card__title {
-  font-size: clamp(1.375rem, 3vw, 1.75rem);
+  font-size: clamp(1.25rem, 2.6vw, 1.625rem);
   margin-bottom: var(--space-3);
 }
 
+.feature-card__link {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* The whole card is a click target */
+.feature-card__link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.feature-card__link:hover {
+  color: var(--color-magenta);
+}
+
 .feature-card__excerpt {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.65;
+  color: rgba(244, 241, 232, 0.78);
   margin-bottom: var(--space-4);
 }
 
 .feature-card__meta {
   font-family: var(--font-ui);
-  font-weight: 700;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-size: 0.8125rem;
+  letter-spacing: 0.14em;
+  font-size: 0.75rem;
   color: var(--color-muted);
   margin: auto 0 0;
   padding-top: var(--space-3);
-  border-top: var(--border-hairline);
 }

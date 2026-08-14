@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { retryDelay, shouldRetry } from './useAsync.helpers';
 
 /**
  * Wraps an async function from services/api in the idle → loading →
@@ -6,6 +7,11 @@ import { useCallback, useEffect, useRef, useState } from 'react';
  *
  * Generic infrastructure: it knows nothing about the domain. Per-entity hooks
  * (useAlbums, useNews…) build on top of it.
+ *
+ * A dropped request retries itself a couple of times before the reader is told
+ * anything, so a blip stays a slightly longer load rather than becoming a wall
+ * asking them to press a button. `loading` covers those attempts; by the time
+ * `error` is set, retrying has already been tried and has stopped helping.
  *
  * @param {(...args:any[]) => Promise<T>} fetcher
  * @param {any[]} deps  arguments passed to the fetcher; they also trigger refetch
@@ -38,21 +44,42 @@ export const useAsync = (fetcher, deps, { enabled = true } = {}) => {
 
     const id = ++requestId.current;
     let active = true;
+    let timer = null;
 
-    fetcherRef
-      .current(...depsRef.current)
-      .then((data) => {
-        if (!active || id !== requestId.current) return;
-        setSettled({ key, data, error: null });
-      })
-      .catch((error) => {
-        if (!active || id !== requestId.current) return;
-        setSettled({ key, data: null, error });
-      });
+    // Still the only gate on writing state: a superseded request stays silent,
+    // whether it is on its first attempt or its last.
+    const isCurrent = () => active && id === requestId.current;
+
+    const run = async () => {
+      for (let failures = 0; ; failures += 1) {
+        try {
+          const data = await fetcherRef.current(...depsRef.current);
+          if (!isCurrent()) return;
+          setSettled({ key, data, error: null });
+          return;
+        } catch (error) {
+          if (!isCurrent()) return;
+
+          if (!shouldRetry(error, failures)) {
+            setSettled({ key, data: null, error });
+            return;
+          }
+
+          await new Promise((resolve) => {
+            timer = setTimeout(resolve, retryDelay(failures));
+          });
+          if (!isCurrent()) return;
+        }
+      }
+    };
+
+    run();
 
     return () => {
       // Invalidate this request: its response can no longer write state.
       active = false;
+      // And stop a pending retry from firing after the deps changed.
+      if (timer) clearTimeout(timer);
     };
   }, [enabled, key]);
 

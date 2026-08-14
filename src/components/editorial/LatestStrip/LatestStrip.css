@@ -1,0 +1,77 @@
+/* Fixed announcement line under the nav. Ruled, not moving. */
+
+.latest-strip {
+  background-color: var(--color-ink);
+  border-bottom: var(--border-rule);
+}
+
+.latest-strip__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding-block: var(--space-3);
+}
+
+.latest-strip__label {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.6875rem;
+  color: var(--color-muted);
+  margin: 0;
+  flex: none;
+}
+
+.latest-strip__list {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+  /* Too many announcements for the width scroll rather than wrap, keeping the
+     strip one line tall next to the nav. */
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.latest-strip__list::-webkit-scrollbar {
+  display: none;
+}
+
+.latest-strip__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.latest-strip__link {
+  font-family: var(--font-ui);
+  font-weight: 500;
+  font-size: 0.8125rem;
+  letter-spacing: 0.04em;
+  color: var(--color-paper-text);
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.latest-strip__link:hover {
+  color: var(--color-magenta);
+  text-decoration: underline;
+}
+
+/* Mobile: the label goes, the announcements stay scrollable. */
+@media (max-width: 599px) {
+  .latest-strip__label {
+    display: none;
+  }
+
+  .latest-strip__list {
+    gap: var(--space-4);
+  }
+}

@@ -1,29 +1,31 @@
+/* Trading card: media → body → solid accent strip. Square, flat, no rotation. */
+
 .album-card {
   position: relative;
   display: flex;
   flex-direction: column;
-  background-color: var(--color-card);
-  border: var(--border-ink);
-  box-shadow: var(--shadow-offset-sm);
-  transition:
-    transform var(--transition),
-    box-shadow var(--transition);
+  background-color: var(--color-ink);
+  border: var(--border-dim);
+  transition: border-color var(--transition);
 }
 
-.album-card:hover,
-.album-card:focus-within {
-  transform: translate(-2px, -2px);
-  box-shadow: var(--shadow-offset);
+.album-card:hover {
+  border-color: var(--color-paper-text);
 }
 
 .album-card__media {
   position: relative;
 }
 
+.album-card__media .cover {
+  aspect-ratio: 1;
+}
+
+/* Rating sits over the top-right corner, its ring matching the card fill. */
 .album-card__rating {
   position: absolute;
+  top: var(--space-3);
   right: var(--space-3);
-  bottom: calc(var(--space-3) * -1);
   z-index: 2;
 }
 
@@ -31,25 +33,13 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  padding: var(--space-5) var(--space-4) var(--space-4);
-}
-
-.album-card__artist {
-  font-family: var(--font-ui);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-size: 0.8125rem;
-  color: var(--color-accent-red);
-  margin: 0 0 var(--space-1);
-  /* Room so the badge does not overlap the text */
-  padding-right: 3.25rem;
+  padding: var(--space-4);
 }
 
 .album-card__title {
-  font-size: 1.25rem;
+  font-size: 1.125rem;
+  line-height: 1.15;
   margin-bottom: var(--space-2);
-  padding-right: 3.25rem;
 }
 
 .album-card__link {
@@ -57,7 +47,7 @@
   text-decoration: none;
 }
 
-/* Toda la card es un target de click */
+/* The whole card is a click target */
 .album-card__link::after {
   content: '';
   position: absolute;
@@ -66,91 +56,186 @@
 }
 
 .album-card__link:hover {
-  text-decoration: underline;
+  color: var(--color-magenta);
 }
 
-.album-card__meta {
-  font-size: 0.9375rem;
+.album-card__artist {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.8125rem;
   color: var(--color-muted);
-  margin: 0 0 var(--space-3);
+  margin: 0;
 }
 
 .album-card__excerpt {
-  font-size: 1.0625rem;
+  font-family: var(--font-body);
+  font-size: 1rem;
   line-height: 1.6;
-  margin-bottom: var(--space-4);
+  color: rgba(244, 241, 232, 0.82);
+  margin: var(--space-4) 0 0;
 }
 
-.album-card__tags {
+/* ---- Foot strip ---- */
+
+.album-card__strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  padding: var(--space-3) var(--space-4);
+  margin: 0;
+  background-color: var(--card-accent, var(--color-petrol));
+}
+
+.album-card__genres {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2);
-  margin-top: auto;
-  /* Above the stretched link so the tags stay usable */
-  position: relative;
+}
+
+/* On the strip the tags outline in night, not paper. */
+.album-card__strip .genre-tag {
+  border-color: var(--color-night);
+  color: var(--color-night);
+  font-size: 0.6875rem;
+  padding: 0.3rem 0.5rem;
+}
+
+.album-card__year {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  font-size: 0.8125rem;
+  color: var(--color-night);
+}
+
+/* Type chip: only shown in a grid that mixes content types. Sits at the foot
+   of the artwork, clear of the save toggle and the score. */
+.album-card__type {
+  position: absolute;
+  left: var(--space-3);
+  bottom: var(--space-3);
   z-index: 2;
 }
 
-/* Favourite */
+/* ---- Favourite toggle ---- */
+
+/* Placement only: the button's own look comes from SaveButton (.save). */
 .album-card__fav {
   position: absolute;
   top: var(--space-3);
   left: var(--space-3);
   z-index: 3;
-  width: 2.25rem;
-  height: 2.25rem;
-  display: grid;
-  place-items: center;
-  font-size: 1.15rem;
-  line-height: 1;
-  cursor: pointer;
-  color: var(--color-ink);
-  background-color: var(--color-paper);
-  border: var(--border-hairline);
-  border-radius: 50%;
-  transition:
-    background-color var(--transition),
-    color var(--transition);
 }
 
-.album-card__fav:hover {
-  background-color: var(--color-accent-amber);
+/* Opaque only while unsaved and unhovered, so the artwork does not show
+   through the outline. Saved and hover states keep SaveButton's own fills. */
+.album-card__fav:not(.save--on):not(:hover) {
+  background-color: var(--color-night);
 }
 
-.album-card__fav--on {
-  background-color: var(--color-accent-amber);
-  color: var(--color-ink);
-}
+/* ---- Feature variant: 2x2, larger type ---- */
 
-/* ---- Feature variant: 2x2 in the asymmetric grid ---- */
-@media (min-width: 960px) {
+@media (min-width: 1024px) {
   .album-card--feature {
     grid-column: span 2;
     grid-row: span 2;
   }
 
   .album-card--feature .album-card__title {
-    font-size: 2rem;
-  }
-  .album-card--feature .album-card__artist {
-    font-size: 0.9375rem;
+    font-size: 1.75rem;
   }
 
-  /* The cover absorbs the leftover height so the text does not float over a
-     gap: the image grows, not the whitespace. */
-  .album-card--feature .album-card__media {
-    flex: 1;
-    display: flex;
-    min-height: 0;
+  .album-card--feature .album-card__media .cover {
+    aspect-ratio: 16 / 11;
+  }
+}
+
+/* ---- Mobile: compact horizontal row ---- */
+
+@media (max-width: 599px) {
+  .album-card {
+    display: grid;
+    /* The rating column is sized explicitly: an `auto` track collapses to 0
+       here, because the badge takes its size from aspect-ratio rather than
+       from intrinsic content. */
+    grid-template-columns: 88px minmax(0, 1fr) 3.5rem;
+    grid-template-areas:
+      'media body rating'
+      'strip strip strip';
+    align-items: center;
+    column-gap: var(--space-3);
   }
 
-  .album-card--feature .cover {
-    flex: 1;
-    aspect-ratio: auto;
-    min-height: 22rem;
+  .album-card__media {
+    grid-area: media;
   }
 
-  .album-card--feature .album-card__body {
-    flex: 0 0 auto;
+  /* At 88px the generated cover's caption is unreadable; the title is right
+     next to it in the body column anyway. */
+  .album-card__media .cover__title,
+  .album-card__media .cover__artist {
+    display: none;
+  }
+
+  /* The badge leaves the cover and becomes its own column. The double ring is
+     drawn with box-shadow, which sits outside the element box, so the margin
+     has to clear it as well as the card edge. */
+  .album-card__rating {
+    position: static;
+    grid-area: rating;
+    justify-self: center;
+    align-self: center;
+  }
+
+  .album-card__body {
+    grid-area: body;
+    padding: var(--space-3) 0;
+  }
+
+  .album-card__title {
+    font-size: 1rem;
+  }
+
+  /* Too tall for a compact row. */
+  .album-card__excerpt {
+    display: none;
+  }
+
+  /* The 88px thumbnail has no room for it, and in the compact row the format
+     itself already separates reviews from editorial cards. */
+  .album-card__type {
+    display: none;
+  }
+
+  /* Leaves a gap at the end for the favourite toggle, which shares this row. */
+  .album-card__strip {
+    grid-area: strip;
+    padding-right: 3rem;
+  }
+
+  /* Moves off the artwork and onto the strip, where there is room. */
+  .album-card__fav {
+    position: static;
+    grid-area: strip;
+    justify-self: end;
+    align-self: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    font-size: 0.875rem;
+    margin-right: var(--space-3);
+    background-color: transparent;
+    border-color: var(--color-night);
+    color: var(--color-night);
+  }
+
+  /* On the coloured strip the toggle inverts: dark rule, dark glyph. */
+  .album-card__fav.save--on {
+    background-color: var(--color-night);
+    border-color: var(--color-night);
+    color: var(--color-mostaza);
   }
 }

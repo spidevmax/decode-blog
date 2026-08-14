@@ -1,9 +1,12 @@
 .nav {
   position: sticky;
+  /* Anchors the mobile dropdown, which is absolutely positioned below. */
+  isolation: isolate;
   top: 0;
   z-index: 50;
-  background-color: var(--color-paper);
-  border-bottom: var(--border-heavy);
+  background-color: var(--color-night);
+  /* A solid rule replaces the old drop shadow. */
+  border-bottom: 3px solid var(--color-paper-text);
 }
 
 .nav__inner {
@@ -11,110 +14,149 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-4);
-  min-height: 4rem;
-  flex-wrap: wrap;
+  min-height: 4.25rem;
 }
 
+/* ---- Wordmark: one coloured circle per letter ---- */
+
 .nav__brand {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 0.35rem;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 1.5rem;
-  letter-spacing: -0.04em;
-  color: var(--color-ink);
+  gap: 0.25rem;
   text-decoration: none;
 }
 
 .nav__brand-dot {
-  width: 0.6rem;
-  height: 0.6rem;
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
   border-radius: 50%;
-  background-color: var(--color-accent-red);
-}
-
-.nav__toggle {
+  background-color: var(--dot-bg);
+  color: var(--color-night);
   font-family: var(--font-ui);
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-size: 0.875rem;
-  padding: 0.45rem 0.8rem;
-  cursor: pointer;
-  background-color: var(--color-card);
-  color: var(--color-ink);
-  border: var(--border-ink);
-  border-radius: var(--radius-sm);
+  font-size: 0.9375rem;
+  line-height: 1;
+  text-transform: lowercase;
 }
 
-/* Mobile-first: the menu unfolds below the bar */
+@media (min-width: 768px) {
+  .nav__brand-dot {
+    width: 2rem;
+    height: 2rem;
+    font-size: 1.0625rem;
+  }
+}
+
+/* ---- Links ---- */
+
 .nav__menu {
   display: none;
-  width: 100%;
-  padding-bottom: var(--space-4);
 }
 
 .nav__menu--open {
   display: block;
+  position: absolute;
+  inset: 100% 0 auto;
+  background-color: var(--color-night);
+  border-bottom: 3px solid var(--color-paper-text);
+  padding: var(--space-4) var(--space-4) var(--space-5);
 }
 
 .nav__list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
   list-style: none;
   margin: 0;
   padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
 }
 
-.nav__link,
-.nav__favs {
-  display: block;
+.nav__link {
   font-family: var(--font-ui);
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-size: 1rem;
-  padding: 0.5rem 0;
-  color: var(--color-ink);
+  letter-spacing: 0.16em;
+  font-size: 0.875rem;
+  color: var(--color-paper-text);
   text-decoration: none;
+  padding-bottom: 2px;
   border-bottom: 2px solid transparent;
+  transition:
+    color var(--transition),
+    border-color var(--transition);
 }
 
 .nav__link:hover {
-  color: var(--color-accent-red);
+  color: var(--color-magenta);
 }
 
 .nav__link--active {
-  border-bottom-color: var(--color-accent-red);
-  color: var(--color-accent-red);
+  border-bottom-color: var(--color-magenta);
 }
 
 .nav__favs {
-  color: var(--color-muted);
+  font-family: var(--font-ui);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  font-size: 0.875rem;
+  color: var(--color-mostaza);
   white-space: nowrap;
+  text-decoration: none;
+  padding-bottom: 2px;
+  border-bottom: 2px solid transparent;
+  transition:
+    color var(--transition),
+    border-color var(--transition);
 }
 
-@media (min-width: 768px) {
+.nav__favs:hover {
+  color: var(--color-paper-text);
+}
+
+.nav__favs--active {
+  border-bottom-color: var(--color-mostaza);
+}
+
+/* ---- Hamburger (mobile only) ---- */
+
+.nav__toggle {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.8125rem;
+  padding: 0.45rem 0.85rem;
+  background-color: transparent;
+  color: var(--color-paper-text);
+  border: 2px solid var(--color-paper-text);
+  border-radius: 0;
+  cursor: pointer;
+}
+
+.nav__toggle:hover {
+  background-color: var(--color-paper-text);
+  color: var(--color-night);
+}
+
+@media (min-width: 900px) {
   .nav__toggle {
     display: none;
   }
 
-  .nav__menu {
+  .nav__menu,
+  .nav__menu--open {
     display: block;
-    width: auto;
-    padding-bottom: 0;
+    position: static;
+    border-bottom: none;
+    padding: 0;
+    background-color: transparent;
   }
 
   .nav__list {
     flex-direction: row;
     align-items: center;
     gap: var(--space-5);
-  }
-
-  .nav__link,
-  .nav__favs {
-    padding: 0.25rem 0;
   }
 }

@@ -1,42 +1,39 @@
+/* Skeletons are flat blocks with a dim rule — no rounding, no offset shadow. */
+
 .loader {
   display: grid;
-  place-items: center;
+  justify-items: start;
   gap: var(--space-4);
-  padding-block: var(--space-8);
+  padding-block: var(--space-6);
 }
 
-/* A spinning record */
+/* The one spinning element in the system: a record, so it stays a circle. */
 .loader__disc {
-  width: 3.5rem;
-  height: 3.5rem;
+  width: 2.75rem;
+  height: 2.75rem;
   border-radius: 50%;
-  border: var(--border-ink);
-  background:
-    radial-gradient(circle at 50% 50%, var(--color-paper) 0 14%, transparent 14%),
-    repeating-radial-gradient(
-      circle at 50% 50%,
-      var(--color-ink) 0 2px,
-      var(--color-accent-teal) 2px 5px
-    );
-  animation: decode-spin 1.1s linear infinite;
+  border: 3px solid rgba(244, 241, 232, 0.2);
+  border-top-color: var(--color-magenta);
+  animation: loader-spin 900ms linear infinite;
 }
 
-.loader__label {
-  margin: 0;
-  font-family: var(--font-ui);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: var(--color-muted);
-}
-
-@keyframes decode-spin {
+@keyframes loader-spin {
   to {
     transform: rotate(360deg);
   }
 }
 
-/* ---- Skeletons ---- */
+.loader__label {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.8125rem;
+  color: var(--color-muted);
+  margin: 0;
+}
+
+/* ---- Grid variant: card-shaped skeletons ---- */
 
 .loader-grid {
   display: grid;
@@ -50,17 +47,16 @@
   }
 }
 
-@media (min-width: 960px) {
+@media (min-width: 1024px) {
   .loader-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
 .skeleton-card {
-  border: var(--border-ink);
-  background-color: var(--color-card);
-  padding: var(--space-4);
-  box-shadow: var(--shadow-offset-sm);
+  background-color: var(--color-ink);
+  border: var(--border-dim);
+  padding-bottom: var(--space-4);
 }
 
 .skeleton-card__cover {
@@ -69,8 +65,8 @@
 }
 
 .skeleton-card__line {
-  height: 1rem;
-  margin-bottom: var(--space-2);
+  height: 0.75rem;
+  margin: 0 var(--space-4) var(--space-3);
 }
 
 .skeleton-card__line--short {
@@ -78,21 +74,16 @@
 }
 
 .shimmer {
-  background: linear-gradient(
-    90deg,
-    var(--color-kraft) 25%,
-    var(--color-panel) 50%,
-    var(--color-kraft) 75%
-  );
-  background-size: 200% 100%;
-  animation: decode-shimmer 1.4s ease-in-out infinite;
+  background-color: rgba(244, 241, 232, 0.09);
+  animation: loader-pulse 1.4s ease-in-out infinite;
 }
 
-@keyframes decode-shimmer {
-  from {
-    background-position: 200% 0;
+@keyframes loader-pulse {
+  0%,
+  100% {
+    opacity: 1;
   }
-  to {
-    background-position: -200% 0;
+  50% {
+    opacity: 0.45;
   }
 }

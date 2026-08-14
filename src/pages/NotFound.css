@@ -1,0 +1,67 @@
+/* A failed catalogue lookup. The address carries the page, so everything
+   around it stays quiet. */
+
+.notfound {
+  padding-block: var(--space-8) var(--space-9);
+}
+
+.notfound__eyebrow {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.8125rem;
+  color: var(--color-terracota);
+  margin: 0 0 var(--space-4);
+}
+
+/* The one loud element. Terracota is already the system's failure colour, so
+   it says "this did not resolve" without a second device. */
+.notfound__path {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: clamp(1.75rem, 7vw, 4rem);
+  line-height: 1.05;
+  letter-spacing: 0.01em;
+  color: var(--color-terracota);
+  margin: 0 0 var(--space-5);
+  /* An address has no spaces to break at, so it has to break anywhere. */
+  overflow-wrap: anywhere;
+  max-width: 20ch;
+}
+
+.notfound__note {
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: rgba(244, 241, 232, 0.8);
+  margin: 0 0 var(--space-7);
+  max-width: 40ch;
+}
+
+.notfound__ways {
+  padding-top: var(--space-5);
+  border-top: var(--border-rule);
+}
+
+.notfound__ways-label {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  margin: 0 0 var(--space-4);
+}
+
+.notfound__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+@media (min-width: 768px) {
+  .notfound__path {
+    max-width: 24ch;
+  }
+}

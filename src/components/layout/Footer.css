@@ -1,70 +1,168 @@
+/* The footer sits flush against whatever precedes it: the 3px rule is the
+   separator, so no gap of page ground shows between two ink blocks. */
+
 .footer {
   background-color: var(--color-ink);
-  color: var(--color-paper);
-  padding-block: var(--space-7);
-  margin-top: auto;
+  border-top: 3px solid var(--color-paper-text);
+  padding-block: var(--space-6) var(--space-5);
 }
 
 .footer__inner {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-5);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+  padding-bottom: var(--space-5);
+}
+
+@media (min-width: 760px) {
+  .footer__inner {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--space-8);
+    align-items: start;
+  }
 }
 
 .footer__brand {
-  font-family: var(--font-display);
+  font-family: var(--font-ui);
   font-weight: 700;
-  font-size: 1.75rem;
-  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 1.25rem;
+  color: var(--color-paper-text);
   margin: 0 0 var(--space-1);
 }
 
 .footer__tag {
   font-family: var(--font-ui);
-  font-weight: 700;
+  font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  font-size: 0.875rem;
-  color: var(--color-accent-amber);
+  font-size: 0.75rem;
+  color: var(--color-muted);
   margin: 0;
+}
+
+/* ---- Scoring key ---- */
+
+.footer__scale-title {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.6875rem;
+  color: var(--color-muted);
+  margin: 0 0 var(--space-3);
+}
+
+.footer__bands {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: var(--space-2) var(--space-5);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+@media (max-width: 479px) {
+  .footer__bands {
+    grid-template-columns: 1fr;
+  }
+}
+
+.footer__band {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+/* A swatch, not a badge: small and flat, so it is never mistaken for a score
+   you could click. */
+.footer__swatch {
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 50%;
+  flex: none;
+}
+
+.footer__swatch--magenta {
+  background-color: var(--color-magenta);
+}
+.footer__swatch--petrol {
+  background-color: var(--color-petrol);
+}
+.footer__swatch--mostaza {
+  background-color: var(--color-mostaza);
+}
+.footer__swatch--terracota {
+  background-color: var(--color-terracota);
+}
+
+.footer__band-range {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-paper-text);
+}
+
+/* The words are the point of the key, so they keep real contrast; the weight
+   difference against the range carries the hierarchy instead of a dimmer tone. */
+.footer__band-label {
+  font-weight: 400;
+  text-transform: uppercase;
+  color: rgba(244, 241, 232, 0.82);
+}
+
+/* ---- Foot: navigation and legal ---- */
+
+.footer__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3) var(--space-5);
+  padding-top: var(--space-5);
+  border-top: var(--border-dim);
 }
 
 .footer__nav {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-5);
+  /* Row gap carries the space instead of link padding, so the targets can
+     stay large without the row looking loose. */
+  gap: 0 var(--space-2);
+  margin-inline: calc(var(--space-2) * -1);
 }
 
 .footer__nav a {
+  display: inline-flex;
+  align-items: center;
+  /* Padded to clear the 24px minimum target size with room to spare. */
+  min-height: 2.75rem;
+  padding-inline: var(--space-2);
   font-family: var(--font-ui);
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-size: 0.9375rem;
-  color: var(--color-paper);
+  letter-spacing: 0.14em;
+  font-size: 0.8125rem;
+  color: var(--color-paper-text);
   text-decoration: none;
 }
 
 .footer__nav a:hover {
-  color: var(--color-accent-amber);
+  color: var(--color-magenta);
   text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 .footer__legal {
-  font-size: 0.9375rem;
-  color: var(--color-kraft);
+  font-family: var(--font-ui);
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  font-size: 0.75rem;
+  color: var(--color-muted);
   margin: 0;
-}
-
-@media (min-width: 768px) {
-  .footer__inner {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-  }
-
-  .footer__legal {
-    width: 100%;
-  }
 }

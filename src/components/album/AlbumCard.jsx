@@ -1,34 +1,47 @@
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import AlbumCover from './AlbumCover';
 import GenreTag from './GenreTag';
 import RatingBadge from './RatingBadge';
-import TapeAccent from '@/components/ui/TapeAccent';
-import { useFavorites } from '@/hooks/useFavorites';
+import TypeChip from '@/components/editorial/TypeChip';
+import { SaveButton } from '@/components/ui';
 import './AlbumCard.css';
 
 /**
+ * Trading card: cover, rating overlaid top-right, then a solid colour strip
+ * at the foot carrying the genres and the year.
+ *
  * @param {'default'|'feature'} variant  `feature` spans 2x2 in the grid and
  *   shows the excerpt.
+ * @param {number} index  position in the grid; picks the strip colour from the
+ *   four-step accent rotation.
+ * @param {boolean} showType  adds the REVIEW chip. Only worth it in a grid
+ *   that mixes content types — on /reviews everything is a review already.
  */
-const AlbumCard = ({ album, variant = 'default' }) => {
-  const { isFavorite, toggle } = useFavorites();
-  const saved = isFavorite(album.id);
+const AlbumCard = ({ album, variant = 'default', index = 0, showType = false }) => {
   const isFeature = variant === 'feature';
 
   return (
-    <article className={`album-card album-card--${variant}`}>
-      {isFeature && <TapeAccent position="top-right" rotate={7} width="8rem" />}
-
+    <article
+      className={`album-card album-card--${variant}`}
+      style={{ '--card-accent': `var(--accent-${index % 4})` }}
+    >
       <div className="album-card__media">
-        <AlbumCover album={album} className={isFeature ? 'cover--lg' : ''} />
-        <div className="album-card__rating">
-          <RatingBadge score={album.score} size={isFeature ? 'md' : 'sm'} />
-        </div>
+        <AlbumCover album={album} />
+        {showType && (
+          <div className="album-card__type">
+            <TypeChip kind="review" />
+          </div>
+        )}
+      </div>
+
+      {/* A direct child of the card: overlays the cover on desktop, and takes
+          its own column in the compact mobile row. */}
+      <div className="album-card__rating">
+        <RatingBadge score={album.score} size={isFeature ? 'md' : 'sm'} />
       </div>
 
       <div className="album-card__body">
-        <p className="album-card__artist">{album.artist}</p>
-
         <h3 className="album-card__title">
           {/* Stretched link: the whole card is clickable, no nested interactives */}
           <Link to={`/reviews/${album.id}`} className="album-card__link">
@@ -36,34 +49,29 @@ const AlbumCard = ({ album, variant = 'default' }) => {
           </Link>
         </h3>
 
-        <p className="album-card__meta">
-          {album.year} · {album.label}
-        </p>
+        <p className="album-card__artist">{album.artist}</p>
 
         {isFeature && <p className="album-card__excerpt">{album.excerpt}</p>}
+      </div>
 
-        <div className="album-card__tags">
+      {/* Solid strip: genres carried as real tags so filtering can read them. */}
+      <div className="album-card__strip">
+        <span className="album-card__genres">
           {album.genres.map((genre) => (
             <GenreTag key={genre}>{genre}</GenreTag>
           ))}
-        </div>
+        </span>
+        <span className="album-card__year">{album.year}</span>
       </div>
 
-      <button
-        type="button"
-        className={`album-card__fav${saved ? ' album-card__fav--on' : ''}`}
-        onClick={() => toggle(album.id)}
-        aria-pressed={saved}
-        aria-label={
-          saved
-            ? `Remove ${album.title} from favourites`
-            : `Save ${album.title} to favourites`
-        }
-      >
-        <span aria-hidden="true">{saved ? '★' : '☆'}</span>
-      </button>
+      <SaveButton
+        type="review"
+        id={album.id}
+        title={album.title}
+        className="album-card__fav"
+      />
     </article>
   );
 };
 
-export default AlbumCard;
+export default memo(AlbumCard);

@@ -1,3 +1,6 @@
+/* Two shapes only: solid (paper fill, dark text) and outline (transparent,
+   2px rule). Square corners, no shadow, no translate on hover. */
+
 .btn {
   display: inline-flex;
   align-items: center;
@@ -6,66 +9,60 @@
   font-family: var(--font-ui);
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   text-decoration: none;
   cursor: pointer;
-  border: var(--border-ink);
-  border-radius: var(--radius-sm);
-  box-shadow: var(--shadow-offset-sm);
+  border: 2px solid transparent;
+  border-radius: 0;
   transition:
-    transform var(--transition),
-    box-shadow var(--transition),
-    background-color var(--transition);
+    background-color var(--transition),
+    border-color var(--transition),
+    color var(--transition);
 }
 
 .btn--sm {
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
   padding: 0.5rem 0.9rem;
 }
 .btn--md {
-  font-size: 0.9375rem;
-  padding: 0.7rem 1.3rem;
+  font-size: 0.875rem;
+  padding: 0.7rem 1.4rem;
 }
 .btn--lg {
-  font-size: 1.0625rem;
-  padding: 0.9rem 1.8rem;
+  font-size: 1rem;
+  padding: 0.9rem 1.9rem;
 }
 
-.btn--primary {
-  background-color: var(--color-ink);
-  color: var(--color-paper);
-}
+/* Solid: the default call to action. `--btn-on` lets a coloured panel invert
+   the pairing, so the label picks up the panel colour instead of night. */
+.btn--primary,
 .btn--accent {
-  background-color: var(--color-accent-red);
-  color: var(--color-paper);
+  background-color: var(--color-paper-text);
+  border-color: var(--color-paper-text);
+  color: var(--btn-on, var(--color-night));
 }
+
+.btn--primary:hover,
+.btn--accent:hover {
+  background-color: var(--color-magenta);
+  border-color: var(--color-magenta);
+  color: var(--color-paper-text);
+}
+
+/* Outline */
 .btn--ghost {
   background-color: transparent;
-  color: var(--color-ink);
-  box-shadow: none;
-}
-
-/* The button "presses" into its shadow: the physical gesture of the system */
-.btn:hover {
-  transform: translate(2px, 2px);
-  box-shadow: 1px 1px 0 var(--color-ink);
+  border-color: currentColor;
+  color: var(--color-paper-text);
 }
 
 .btn--ghost:hover {
-  background-color: var(--color-ink);
-  color: var(--color-paper);
-  transform: none;
-  box-shadow: none;
-}
-
-.btn:active {
-  transform: translate(3px, 3px);
-  box-shadow: none;
+  background-color: var(--color-paper-text);
+  border-color: var(--color-paper-text);
+  color: var(--color-night);
 }
 
 .btn:disabled {
-  opacity: 0.5;
+  opacity: 0.45;
   cursor: not-allowed;
-  transform: none;
-  box-shadow: var(--shadow-offset-sm);
 }

@@ -1,0 +1,97 @@
+/* Compact counterpart to AlbumCard: same square, ruled language, but text
+   only — no media well, no score. */
+
+.editorial-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-4);
+  background-color: var(--color-ink);
+  /* A left rule in the type's colour, so the card reads as "not a review"
+     even before the chip is read. */
+  border: var(--border-dim);
+  border-left: 4px solid var(--card-type-color, var(--color-magenta));
+  transition: border-color var(--transition);
+}
+
+.editorial-card--news {
+  --card-type-color: var(--color-magenta);
+}
+
+.editorial-card--feature {
+  --card-type-color: var(--color-oliva);
+}
+
+.editorial-card__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+/* Above the stretched link, which would otherwise swallow the click. */
+.editorial-card__save {
+  position: relative;
+  z-index: 2;
+  flex: none;
+}
+
+.editorial-card__date {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  margin: 0 0 var(--space-2);
+}
+
+.editorial-card__title {
+  font-size: 1.125rem;
+  line-height: 1.15;
+  margin-bottom: var(--space-3);
+}
+
+.editorial-card__link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.editorial-card__link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.editorial-card__link:hover {
+  color: var(--color-magenta);
+}
+
+.editorial-card__excerpt {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: rgba(244, 241, 232, 0.78);
+  margin: 0 0 var(--space-4);
+}
+
+/* The grid gives every cell the row's full height, which leaves a text-only
+   card mostly empty. Sitting at the top keeps it compact; the row stays tidy
+   because the card's own border ends with the content. */
+.editorial-card {
+  align-self: start;
+}
+
+.editorial-card__meta {
+  font-family: var(--font-ui);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.6875rem;
+  color: var(--color-muted);
+  margin: 0;
+  padding-top: var(--space-3);
+  border-top: var(--border-dim);
+}

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Bitcount+Grid+Double:wght@400;700&family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Space+Grotesk:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Oswald:wght@400;500;600;700&display=swap');
 
 *,
 *::before,
@@ -12,57 +12,36 @@ html {
 
 body {
   margin: 0;
-  background-color: var(--color-paper);
-  color: var(--color-body-text);
+  background-color: var(--color-night);
+  color: var(--color-paper-text);
   font-family: var(--font-body);
   font-size: 1.125rem;
   line-height: 1.7;
-  /* Faint paper grain so large flat areas don't read as flat screen white */
-  background-image:
-    radial-gradient(rgba(26, 26, 26, 0.035) 1px, transparent 1px),
-    radial-gradient(rgba(26, 26, 26, 0.025) 1px, transparent 1px);
-  background-size:
-    24px 24px,
-    24px 24px;
-  background-position:
-    0 0,
-    12px 12px;
 }
 
+/* Everything functional is Oswald, uppercase, tight. */
 h1,
 h2,
 h3,
 h4 {
-  font-family: var(--font-display);
-  color: var(--color-ink);
-  line-height: 1.08;
-  letter-spacing: -0.02em;
+  font-family: var(--font-ui);
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-paper-text);
+  line-height: 1.05;
+  letter-spacing: 0.01em;
   margin: 0;
   text-wrap: balance;
 }
 
-/* H1 and H2 use Bitcount Grid Double. As a pixel-grid face it needs different
-   tracking and a little more leading than Space Grotesk, which still governs
-   H3/H4. */
-h1,
-h2 {
-  font-family: var(--font-heading);
-  /* Bitcount leaves a lot of air between glyphs; without negative tracking the
-     words read as disconnected blocks. */
-  letter-spacing: -0.04em;
-  line-height: 1.15;
-}
-
 h1 {
-  font-size: clamp(2.5rem, 8vw, 4.5rem);
-  font-weight: 700;
+  font-size: clamp(2.25rem, 6vw, 3.5rem);
 }
 h2 {
-  font-size: clamp(1.75rem, 4.5vw, 2.75rem);
-  font-weight: 700;
+  font-size: clamp(1.5rem, 3.5vw, 2.25rem);
 }
 h3 {
-  font-size: clamp(1.25rem, 2.6vw, 1.6rem);
+  font-size: clamp(1.125rem, 2.2vw, 1.5rem);
   font-weight: 600;
 }
 
@@ -71,9 +50,13 @@ p {
 }
 
 a {
-  color: var(--color-ink);
+  color: var(--color-paper-text);
   text-decoration-thickness: 2px;
   text-underline-offset: 3px;
+}
+
+a:hover {
+  color: var(--color-magenta);
 }
 
 img {
@@ -90,7 +73,7 @@ select {
 }
 
 :focus-visible {
-  outline: 3px solid var(--color-accent-red);
+  outline: 3px solid var(--color-magenta);
   outline-offset: 2px;
 }
 

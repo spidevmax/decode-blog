@@ -1,3 +1,5 @@
+/* Inputs sit inside coloured panels: transparent ground, 2px rule, square. */
+
 .field {
   display: flex;
   flex-direction: column;
@@ -6,57 +8,71 @@
 
 .field__label {
   font-family: var(--font-ui);
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-size: 0.9375rem;
-  color: var(--color-ink);
+  letter-spacing: 0.14em;
+  font-size: 0.8125rem;
+  color: var(--color-paper-text);
   margin-bottom: var(--space-2);
 }
 
 .field__optional {
-  color: var(--color-muted);
-  letter-spacing: 0.06em;
+  font-weight: 400;
+  opacity: 0.65;
+  letter-spacing: 0.08em;
 }
 
 .field__hint {
-  font-size: 0.9375rem;
-  color: var(--color-muted);
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: 0.8125rem;
+  letter-spacing: 0.04em;
+  color: rgba(244, 241, 232, 0.75);
   margin: 0 0 var(--space-2);
 }
 
 .field__control {
-  font-family: var(--font-body);
-  font-size: 1.0625rem;
+  font-family: var(--font-ui);
+  font-weight: 500;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
   padding: 0.7rem 0.85rem;
-  background-color: var(--color-card);
-  border: var(--border-ink);
-  border-radius: var(--radius-sm);
+  background-color: transparent;
+  color: var(--color-paper-text);
+  border: 2px solid var(--color-paper-text);
+  border-radius: 0;
   width: 100%;
-  transition: box-shadow var(--transition);
+  transition: border-color var(--transition);
 }
 
-.field__control:focus {
-  box-shadow: var(--shadow-offset-sm);
+.field__control::placeholder {
+  color: rgba(244, 241, 232, 0.5);
+}
+
+/* Focus is drawn, not removed: an outline offset from the rule reads on the
+   night ground and on a coloured panel alike. Pages on a light ground
+   override the colour. */
+.field__control:focus-visible {
+  outline: 2px solid var(--color-magenta);
+  outline-offset: 2px;
+  border-color: var(--color-magenta);
 }
 
 textarea.field__control {
   resize: vertical;
-  min-height: 8rem;
-  line-height: 1.6;
+  min-height: 7rem;
 }
 
 .field__control--error {
-  border-color: var(--color-accent-red);
-  box-shadow: 3px 3px 0 var(--color-accent-red);
+  border-color: var(--color-terracota);
 }
 
 .field__error {
   font-family: var(--font-ui);
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-size: 0.8125rem;
-  color: var(--color-accent-red);
+  letter-spacing: 0.1em;
+  font-size: 0.75rem;
+  color: var(--color-terracota);
   margin: var(--space-2) 0 0;
 }

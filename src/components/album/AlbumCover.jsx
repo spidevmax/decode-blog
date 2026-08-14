@@ -8,12 +8,12 @@ import './AlbumCover.css';
  */
 const PATTERNS = ['stripes', 'dots', 'grid', 'waves'];
 const PAIRS = [
-  ['var(--color-accent-teal)', 'var(--color-accent-red)'],
-  ['var(--color-accent-red)', 'var(--color-accent-amber)'],
-  ['var(--color-accent-amber)', 'var(--color-accent-teal)'],
-  ['var(--color-ink)', 'var(--color-accent-teal)'],
-  ['var(--color-accent-teal)', 'var(--color-kraft)'],
-  ['var(--color-accent-red)', 'var(--color-ink)'],
+  ['var(--color-petrol)', 'var(--color-magenta)'],
+  ['var(--color-magenta)', 'var(--color-terracota)'],
+  ['var(--color-mostaza)', 'var(--color-oliva)'],
+  ['var(--color-ink)', 'var(--color-petrol)'],
+  ['var(--color-oliva)', 'var(--color-mostaza)'],
+  ['var(--color-terracota)', 'var(--color-night)'],
 ];
 
 const hash = (seed) =>

@@ -3,7 +3,12 @@ import { Button, FormField } from '@/components/ui';
 import { submitSuggestion } from '@/services/api';
 import { isValidEmail } from '@/utils/validation';
 
-/** Newsletter sign-up. Subcomponent used only by the Suggest page. */
+/**
+ * Newsletter sign-up. Subcomponent used only by the Suggest page.
+ *
+ * One field, so it lays out as a single row inside the subscribe band. The
+ * cadence is stated once, by the band itself, so there is no hint here.
+ */
 const NewsletterForm = () => {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState('idle'); // idle | sending | done | error
@@ -30,12 +35,9 @@ const NewsletterForm = () => {
 
   if (status === 'done') {
     return (
-      <div className="form-success" role="status">
-        <p className="form-success__mark" aria-hidden="true">
-          ✓
-        </p>
-        <h3>Done</h3>
-        <p>You will hear about every new review before anyone else.</p>
+      <div className="form-success form-success--inline" role="status">
+        <h3 className="form-success__title">Subscribed</h3>
+        <p>The next review lands in your inbox.</p>
         <Button variant="ghost" size="sm" onClick={() => setStatus('idle')}>
           Use another email
         </Button>
@@ -44,7 +46,11 @@ const NewsletterForm = () => {
   }
 
   return (
-    <form className="suggest-form" onSubmit={handleSubmit} noValidate>
+    <form
+      className="suggest-form suggest-form--inline"
+      onSubmit={handleSubmit}
+      noValidate
+    >
       <FormField
         label="Your email"
         type="email"
@@ -52,20 +58,19 @@ const NewsletterForm = () => {
         required
         value={email}
         placeholder="hello@example.com"
-        hint="Once a week. No spam, no promotions."
         error={fieldError}
         onChange={(e) => setEmail(e.target.value)}
       />
 
-      {status === 'error' && (
-        <p className="form-error" role="alert">
-          We could not sign you up. Try again in a moment.
-        </p>
-      )}
-
       <Button type="submit" variant="accent" disabled={status === 'sending'}>
         {status === 'sending' ? 'Sending…' : 'Subscribe'}
       </Button>
+
+      {status === 'error' && (
+        <p className="form-error" role="alert">
+          Sign-up did not go through. Try again in a moment.
+        </p>
+      )}
     </form>
   );
 };

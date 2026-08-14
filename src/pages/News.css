@@ -4,12 +4,13 @@
 }
 
 .news__title {
-  text-transform: uppercase;
   margin-bottom: var(--space-3);
 }
 
 .news__lede {
-  font-size: 1.1875rem;
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  color: rgba(244, 241, 232, 0.8);
   margin: 0;
 }
 
@@ -17,32 +18,100 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  max-width: 46rem;
-  border-top: var(--border-ink);
+  border-top: var(--border-rule);
 }
 
-/* Each item is a band separated by an ink rule, like a ticker */
+/* Three columns per row: date · title+dek · source. */
 .news-item {
+  position: relative; /* anchors the stretched link */
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-2) var(--space-5);
+  align-items: start;
   padding-block: var(--space-5);
-  border-bottom: var(--border-hairline);
+  border-bottom: var(--border-rule);
+  transition: background-color var(--transition);
 }
 
-.news-item__meta {
+.news-item:hover {
+  background-color: var(--color-ink);
+}
+
+@media (min-width: 900px) {
+  .news-item {
+    grid-template-columns: 12rem 1fr 12rem;
+  }
+}
+
+.news-item__date {
   font-family: var(--font-ui);
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   font-size: 0.8125rem;
-  color: var(--color-accent-red);
-  margin: 0 0 var(--space-2);
+  color: var(--color-magenta);
+  margin: 0;
 }
 
 .news-item__title {
-  font-size: clamp(1.25rem, 2.8vw, 1.6rem);
+  font-size: clamp(1.125rem, 2.4vw, 1.5rem);
   margin-bottom: var(--space-2);
 }
 
+.news-item__link {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* The whole band is a click target */
+.news-item__link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.news-item__link:hover {
+  color: var(--color-magenta);
+}
+
 .news-item__excerpt {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.65;
+  color: rgba(244, 241, 232, 0.78);
   margin: 0;
-  color: var(--color-body-text);
+}
+
+.news-item__aside {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.news-item__source {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  margin: 0;
+}
+
+/* Above the stretched link, which would otherwise swallow the click. */
+.news-item__save {
+  position: relative;
+  z-index: 2;
+  flex: none;
+}
+
+@media (min-width: 900px) {
+  .news-item__aside {
+    justify-content: flex-end;
+  }
+
+  .news-item__source {
+    text-align: right;
+  }
 }

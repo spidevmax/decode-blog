@@ -7,15 +7,12 @@ const App = () => {
   return (
     <div className="app">
       <a className="skip-link" href="#main">
-        Saltar al contenido
+        Skip to main content
       </a>
-
       <Nav />
-
       <main id="main" className="app__main">
         <AppRoutes />
       </main>
-
       <Footer />
     </div>
   );

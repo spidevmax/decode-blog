@@ -1,0 +1,31 @@
+/* Solid chip, square, Oswald — the filled counterpart to GenreTag's outline,
+   so the type reads before the genre does. */
+
+.type-chip {
+  display: inline-block;
+  font-family: var(--font-ui);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.6875rem;
+  line-height: 1;
+  padding: 0.35rem 0.55rem;
+  border-radius: 0;
+  color: var(--color-night);
+  white-space: nowrap;
+}
+
+.type-chip--review {
+  background-color: var(--color-petrol);
+  color: var(--color-paper-text);
+}
+
+.type-chip--news {
+  background-color: var(--color-magenta);
+  color: var(--color-paper-text);
+}
+
+.type-chip--feature {
+  background-color: var(--color-oliva);
+  color: var(--color-paper-text);
+}

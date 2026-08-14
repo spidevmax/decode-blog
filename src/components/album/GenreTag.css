@@ -1,16 +1,18 @@
+/* Chip: 2px rule, no fill. Only the selected state takes a magenta ground. */
+
 .genre-tag {
   display: inline-block;
   font-family: var(--font-ui);
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-size: 0.8125rem;
+  letter-spacing: 0.12em;
+  font-size: 0.75rem;
   line-height: 1;
-  padding: 0.4rem 0.65rem;
-  background-color: var(--color-kraft);
-  color: var(--color-ink);
-  border: var(--border-hairline);
-  border-radius: var(--radius-sm);
+  padding: 0.45rem 0.75rem;
+  background-color: transparent;
+  color: var(--color-paper-text);
+  border: 2px solid var(--color-paper-text);
+  border-radius: 0;
   text-decoration: none;
   white-space: nowrap;
 }
@@ -21,20 +23,19 @@ button.genre-tag {
   cursor: pointer;
   transition:
     background-color var(--transition),
-    color var(--transition),
-    transform var(--transition);
+    border-color var(--transition),
+    color var(--transition);
 }
 
 a.genre-tag:hover,
 button.genre-tag:hover {
-  background-color: var(--color-ink);
-  color: var(--color-paper);
-  transform: translateY(-1px);
+  background-color: var(--color-paper-text);
+  color: var(--color-night);
 }
 
 .genre-tag--selected,
 button.genre-tag--selected:hover {
-  background-color: var(--color-accent-red);
-  border-color: var(--color-ink);
-  color: var(--color-paper);
+  background-color: var(--color-magenta);
+  border-color: var(--color-magenta);
+  color: var(--color-paper-text);
 }

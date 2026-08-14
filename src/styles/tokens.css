@@ -1,24 +1,31 @@
 :root {
-  /* Color */
-  --color-ink: #1a1a1a;
-  --color-paper: #f5f1e6;
-  --color-panel: #efe6d0;
-  --color-card: #fbf6e8;
-  --color-accent-red: #d6408a;
-  --color-accent-amber: #b5c934;
-  --color-accent-teal: #4b2e83;
-  --color-kraft: #c9bfa6;
-  --color-muted: #77705f;
-  --color-body-text: #332f28;
+  /* ---- Colour: Swiss/metro, "Retro Clásica" ----
+     Dark base. Everything sits on night or ink; paper-text is the foreground. */
+  --color-night: #0e0e0c;
+  --color-ink: #1c1b18;
+  --color-paper-text: #f4f1e8;
+  --color-terracota: #c1502e;
+  --color-mostaza: #e0a93a;
+  --color-oliva: #6e7c3d;
+  --color-petrol: #1f5c63;
+  --color-magenta: #c93b6b;
+  --color-muted: #8b8577;
 
-  /* Type */
-  /* H1/H2 headings: pixel-grid, contrasts with the rest of the system */
-  --font-heading: 'Bitcount Grid Double', 'Space Grotesk', system-ui, sans-serif;
-  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  /* Accent rotation for card strips and kickers, indexed 0-3. */
+  --accent-0: var(--color-mostaza);
+  --accent-1: var(--color-oliva);
+  --accent-2: var(--color-terracota);
+  --accent-3: var(--color-petrol);
+
+  /* ---- Type ----
+     Oswald for everything functional; Lora only for long-form prose and pull
+     quotes. The two never share a block. */
+  --font-ui: 'Oswald', 'Arial Narrow', sans-serif;
+  --font-display: 'Oswald', 'Arial Narrow', sans-serif;
+  --font-heading: 'Oswald', 'Arial Narrow', sans-serif;
   --font-body: 'Lora', Georgia, serif;
-  --font-ui: 'Barlow Condensed', 'Arial Narrow', sans-serif;
 
-  /* Space — 4px scale */
+  /* ---- Space — 4px scale ---- */
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
@@ -29,14 +36,14 @@
   --space-8: 4rem;
   --space-9: 6rem;
 
-  /* Borders & elevation — the print look: hard 2px ink rules, offset shadows */
-  --border-hairline: 1px solid var(--color-ink);
-  --border-ink: 2px solid var(--color-ink);
-  --border-heavy: 3px solid var(--color-ink);
-  --radius-sm: 2px;
-  --shadow-offset: 6px 6px 0 var(--color-ink);
-  --shadow-offset-sm: 3px 3px 0 var(--color-ink);
+  /* ---- Rules ----
+     Straight edges only: no radius, no offset shadows, no rotation. */
+  --border-hairline: 1px solid var(--color-muted);
+  --border-rule: 2px solid var(--color-paper-text);
+  --border-heavy: 3px solid var(--color-paper-text);
+  --border-dim: 2px solid rgba(244, 241, 232, 0.18);
+  --radius-sm: 0;
 
-  --maxw: 1200px;
+  --maxw: 1240px;
   --transition: 160ms ease;
 }

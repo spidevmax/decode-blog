@@ -1,0 +1,56 @@
+/* Banded header shared by review, news and feature detail pages. */
+
+.article__header {
+  background-color: var(--color-ink);
+  border-bottom: var(--border-rule);
+  padding-block: var(--space-7);
+  overflow: hidden;
+}
+
+.article__header-inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-8) var(--space-7);
+  align-items: center;
+}
+
+/* No artwork: a single centred column, matching the prose below it. */
+.article__header-inner--plain {
+  max-width: 50rem;
+  margin-inline: auto;
+}
+
+.article__media {
+  position: relative;
+  border: var(--border-rule);
+}
+
+.article__media .cover {
+  border-bottom: none;
+}
+
+.article__title {
+  text-transform: uppercase;
+  margin-bottom: var(--space-2);
+}
+
+.article__subtitle {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 1rem;
+  color: var(--color-mostaza);
+  margin-bottom: var(--space-5);
+}
+
+@media (min-width: 900px) {
+  .article__header {
+    padding-block: var(--space-8);
+  }
+
+  /* Only the media variant splits into two columns. */
+  .article__header-inner:not(.article__header-inner--plain) {
+    grid-template-columns: 0.9fr 1.1fr;
+  }
+}

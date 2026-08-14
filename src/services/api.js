@@ -62,18 +62,24 @@ export const getAlbums = (filters = {}) => {
   return respond(result);
 };
 
-/** @returns {Promise<Album>} */
-export const getAlbumById = (id) => {
-  const album = ALBUMS.find((a) => a.id === id);
-  if (!album) {
+/**
+ * Looks an entry up by id in `collection`, rejecting with a 404 after the same
+ * simulated delay a hit would have taken. Shared by every by-id getter so the
+ * three of them cannot drift apart.
+ */
+const findById = (collection, id, notFoundMessage) => {
+  const found = collection.find((entry) => entry.id === id);
+  if (!found) {
     return new Promise((_, reject) => {
-      setTimeout(
-        () => reject(new ApiError('We could not find that review.', 404)),
-        latency(),
-      );
+      setTimeout(() => reject(new ApiError(notFoundMessage, 404)), latency());
     });
   }
-  return respond(album);
+  return respond(found);
+};
+
+/** @returns {Promise<Album>} */
+export const getAlbumById = (id) => {
+  return findById(ALBUMS, id, 'We could not find that review.');
 };
 
 /** Facets for the /reviews chips. Never fails: it is local metadata. */
@@ -94,8 +100,18 @@ export const getNews = () => {
   return respond(result);
 };
 
+/** A single news item by id. @returns {Promise<News>} */
+export const getNewsById = (id) => {
+  return findById(NEWS, id, 'We could not find that story.');
+};
+
 /** Long-form features. @returns {Promise<Feature[]>} */
 export const getFeatures = () => {
   const result = [...FEATURES].sort((a, b) => b.date.localeCompare(a.date));
   return respond(result);
+};
+
+/** A single feature by id. @returns {Promise<Feature>} */
+export const getFeatureById = (id) => {
+  return findById(FEATURES, id, 'We could not find that feature.');
 };

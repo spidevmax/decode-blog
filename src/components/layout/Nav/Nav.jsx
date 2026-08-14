@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useFavorites } from '@/hooks/useFavorites';
-import { LINKS } from './Nav.constants';
+import { LINKS, LOGO_LETTERS } from './Nav.constants';
 import './Nav.css';
 
 const Nav = () => {
@@ -34,7 +34,17 @@ const Nav = () => {
     <header className="nav">
       <div className="nav__inner container">
         <NavLink to="/" className="nav__brand" aria-label="DECODE, home">
-          Decode
+          {/* The wordmark repeats letters, so position is the identity here. */}
+          {LOGO_LETTERS.map(({ letter, color }, i) => (
+            <span
+              key={`${letter}-${i}`}
+              className="nav__brand-dot"
+              style={{ '--dot-bg': color }}
+              aria-hidden="true"
+            >
+              {letter}
+            </span>
+          ))}
         </NavLink>
 
         <button
@@ -50,7 +60,7 @@ const Nav = () => {
         <nav
           id="nav-menu"
           className={`nav__menu${open ? ' nav__menu--open' : ''}`}
-          aria-label="Principal"
+          aria-label="Primary"
         >
           <ul className="nav__list">
             {LINKS.map((link) => (
@@ -67,9 +77,15 @@ const Nav = () => {
               </li>
             ))}
             <li>
-              <span className="nav__favs" title="Saved reviews">
-                ★ {count}
-              </span>
+              <NavLink
+                to="/saved"
+                className={({ isActive }) =>
+                  `nav__favs${isActive ? ' nav__favs--active' : ''}`
+                }
+                aria-label={`Saved items, ${count} ${count === 1 ? 'item' : 'items'}`}
+              >
+                <span aria-hidden="true">★ {count}</span>
+              </NavLink>
             </li>
           </ul>
         </nav>

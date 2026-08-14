@@ -1,0 +1,58 @@
+/* Prose column shared by reviews, news and features.
+   Lives here rather than in a page stylesheet so the three article types
+   cannot drift apart typographically. */
+
+.article__body {
+  max-width: 42rem;
+  padding-block: var(--space-6);
+}
+
+/* Inside the review's two-column grid the column sets its own measure. */
+.review__main .article__body {
+  max-width: none;
+}
+
+/* Metadata lines are Oswald; only the prose below is Lora. */
+.article__byline {
+  font-family: var(--font-ui);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.8125rem;
+  color: var(--color-muted);
+  margin-bottom: var(--space-5);
+}
+
+.article__lede {
+  font-family: var(--font-body);
+  font-size: 1.25rem;
+  line-height: 1.6;
+  font-weight: 600;
+  color: var(--color-paper-text);
+  margin-bottom: var(--space-5);
+  padding-bottom: var(--space-5);
+  border-bottom: var(--border-dim);
+}
+
+.article__para {
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  line-height: 1.75;
+  color: rgba(244, 241, 232, 0.86);
+}
+
+.pull-quote {
+  margin: var(--space-7) 0;
+  padding: var(--space-2) 0 var(--space-2) var(--space-5);
+  border-left: 4px solid var(--color-magenta);
+}
+
+.pull-quote p {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: clamp(1.25rem, 3vw, 1.5rem);
+  line-height: 1.45;
+  color: var(--color-paper-text);
+  margin: 0;
+  text-wrap: balance;
+}

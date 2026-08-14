@@ -3,25 +3,25 @@
 .album-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--space-5);
+  gap: var(--space-4);
 }
 
 @media (min-width: 600px) {
   .album-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-5);
   }
 }
 
-@media (min-width: 960px) {
+@media (min-width: 1024px) {
   .album-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     /* Equal rows so the feature card's 2x2 block closes evenly */
     grid-auto-rows: 1fr;
-    gap: var(--space-6);
   }
 }
 
-/* Even variant: no card dominates (Explore, Reviews) */
+/* Even variant: no card dominates (Reviews) */
 .album-grid--even {
   grid-auto-rows: auto;
 }

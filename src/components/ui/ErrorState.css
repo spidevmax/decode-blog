@@ -1,29 +1,26 @@
 .error-state {
   max-width: 34rem;
-  margin-inline: auto;
-  padding: var(--space-6) var(--space-5);
-  text-align: center;
-  background-color: var(--color-card);
-  border: var(--border-ink);
-  box-shadow: var(--shadow-offset);
+  padding: var(--space-6);
+  background-color: var(--color-ink);
+  border: var(--border-rule);
 }
 
 .error-state__mark {
-  font-family: var(--font-display);
+  font-family: var(--font-ui);
   font-weight: 700;
-  font-size: 2.5rem;
+  font-size: 2rem;
   line-height: 1;
+  color: var(--color-terracota);
   margin: 0 0 var(--space-3);
-  color: var(--color-accent-red);
 }
 
 .error-state__title {
-  font-size: clamp(1.5rem, 4vw, 2rem);
   margin-bottom: var(--space-3);
 }
 
 .error-state__message {
-  color: var(--color-muted);
+  font-family: var(--font-body);
+  color: rgba(244, 241, 232, 0.8);
   margin-bottom: var(--space-5);
 }
 
@@ -31,5 +28,4 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-3);
-  justify-content: center;
 }

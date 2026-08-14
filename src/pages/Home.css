@@ -1,45 +1,63 @@
 /* ---- Hero ---- */
 
 .hero {
-  padding-block: var(--space-7) var(--space-8);
-  border-bottom: var(--border-heavy);
-  overflow: hidden;
+  background-color: var(--hero-bg, var(--color-night));
+  border-bottom: var(--border-rule);
+  padding-block: var(--space-7);
 }
 
 .hero__inner {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--space-8) var(--space-7);
+  gap: var(--space-6);
   align-items: center;
 }
 
+@media (min-width: 900px) {
+  .hero {
+    padding-block: var(--space-8);
+  }
+
+  /* Fixed cover column + fluid text, per the design system. */
+  .hero__inner {
+    grid-template-columns: 420px 1fr;
+    gap: var(--space-8);
+  }
+
+  /* Cover first, text second. */
+  .hero__collage {
+    order: -1;
+  }
+}
+
 .hero__title {
-  margin-bottom: var(--space-2);
-  text-transform: uppercase;
+  margin-bottom: var(--space-3);
 }
 
 .hero__artist {
   font-family: var(--font-ui);
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
-  font-size: 1.125rem;
-  color: var(--color-ink);
+  letter-spacing: 0.16em;
+  font-size: 1rem;
+  color: var(--color-mostaza);
   margin-bottom: var(--space-4);
 }
 
 .hero__excerpt {
-  font-size: 1.1875rem;
-  line-height: 1.65;
-  max-width: 34rem;
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: rgba(244, 241, 232, 0.85);
   margin-bottom: var(--space-5);
+  max-width: 44ch;
 }
 
 .hero__tags {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2);
-  margin-bottom: var(--space-6);
+  margin-bottom: var(--space-5);
 }
 
 .hero__actions {
@@ -48,59 +66,44 @@
   gap: var(--space-3);
 }
 
-/* Collage: tilted cover over a colour panel */
+/* ---- Cover block ---- */
+
 .hero__collage {
   position: relative;
-  padding: var(--space-5);
-  background-color: var(--color-panel);
-  border: var(--border-ink);
-  box-shadow: var(--shadow-offset);
 }
 
 .hero__cover-link {
   display: block;
-  border: var(--border-ink);
-  transform: rotate(-1.5deg);
-  transition: transform var(--transition);
+  border: var(--border-rule);
 }
 
-.hero__cover-link:hover {
-  transform: rotate(0deg) scale(1.01);
+/* `align-items: center` on the grid would otherwise stretch the square. */
+.hero__collage {
+  align-self: start;
 }
 
+/* Overlaps the bottom-right corner; the ring picks up the hero ground. */
 .hero__rating {
   position: absolute;
   right: calc(var(--space-4) * -1);
-  bottom: var(--space-7);
-  z-index: 4;
+  bottom: calc(var(--space-6) * -1);
+  z-index: 2;
+  --rating-ring: var(--hero-bg, var(--color-night));
 }
 
 .hero__byline {
   font-family: var(--font-ui);
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   font-size: 0.8125rem;
   color: var(--color-muted);
-  margin: var(--space-4) 0 0;
+  margin: var(--space-5) 0 0;
 }
 
-@media (min-width: 900px) {
-  .hero {
-    padding-block: var(--space-8) var(--space-9);
-  }
-
-  .hero__inner {
-    grid-template-columns: 1.05fr 0.95fr;
-  }
-
-  /* The cover comes first in the visual order on desktop */
-  .hero__text {
-    order: 1;
-  }
-  .hero__collage {
-    order: 2;
+@media (max-width: 599px) {
+  .hero__rating {
+    right: var(--space-3);
+    bottom: calc(var(--space-5) * -1);
   }
 }
-
-/* .section-head lives in styles/layout.css; the grid in components/album/AlbumGrid.css */

@@ -18,9 +18,9 @@
   text-transform: uppercase;
   letter-spacing: 0.1em;
   padding: 0.6rem 1rem;
-  background-color: var(--color-accent-red);
-  color: var(--color-paper);
-  border: var(--border-ink);
+  background-color: var(--color-magenta);
+  color: var(--color-paper-text);
+  border: var(--border-rule);
   text-decoration: none;
   transition: top var(--transition);
 }

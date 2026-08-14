@@ -11,11 +11,14 @@ import Home from '@/pages/Home';
  * navigation, which keeps the initial bundle small as pages grow.
  * (This is why `pages/` has no barrel: it would defeat the splitting.)
  */
+const FeatureDetail = lazy(() => import('@/pages/FeatureDetail'));
 const Features = lazy(() => import('@/pages/Features'));
 const News = lazy(() => import('@/pages/News'));
+const NewsDetail = lazy(() => import('@/pages/NewsDetail'));
 const NotFound = lazy(() => import('@/pages/NotFound'));
 const ReviewDetail = lazy(() => import('@/pages/ReviewDetail'));
 const Reviews = lazy(() => import('@/pages/Reviews'));
+const Saved = lazy(() => import('@/pages/Saved'));
 const Suggest = lazy(() => import('@/pages/Suggest'));
 
 /**
@@ -40,10 +43,13 @@ const AppRoutes = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/news" element={<News />} />
+        <Route path="/news/:id" element={<NewsDetail />} />
         <Route path="/reviews" element={<Reviews />} />
         <Route path="/reviews/:id" element={<ReviewDetail />} />
         <Route path="/explore" element={<ExploreRedirect />} />
         <Route path="/features" element={<Features />} />
+        <Route path="/features/:id" element={<FeatureDetail />} />
+        <Route path="/saved" element={<Saved />} />
         <Route path="/suggest" element={<Suggest />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

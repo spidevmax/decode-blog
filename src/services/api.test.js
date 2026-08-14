@@ -1,5 +1,13 @@
 import { describe, expect, it } from 'vitest';
-import { getAlbumById, getAlbums, getFacets, getFeatures, getNews } from './api';
+import {
+  getAlbumById,
+  getAlbums,
+  getFacets,
+  getFeatureById,
+  getFeatures,
+  getNews,
+  getNewsById,
+} from './api';
 
 // The simulated network failure is disabled via VITE_API_FAIL_RATE=0, set in
 // vite.config.js: the module reads it on import, so doing it here would be late.
@@ -84,5 +92,55 @@ describe('editorial content', () => {
     const features = await getFeatures();
     const dates = features.map((f) => f.date);
     expect([...dates].sort().reverse()).toEqual(dates);
+  });
+
+  // The detail pages render `body` as paragraphs, so every item must have one.
+  it('every news item carries a body', async () => {
+    const news = await getNews();
+    expect(news.every((n) => Array.isArray(n.body) && n.body.length > 0)).toBe(true);
+  });
+
+  it('every feature carries a body, an author and a pull quote', async () => {
+    const features = await getFeatures();
+    expect(features.every((f) => Array.isArray(f.body) && f.body.length > 0)).toBe(true);
+    expect(features.every((f) => Boolean(f.author))).toBe(true);
+    expect(features.every((f) => Boolean(f.pullQuote))).toBe(true);
+  });
+});
+
+describe('getNewsById', () => {
+  it('finds an existing news item', async () => {
+    const [first] = await getNews();
+    const item = await getNewsById(first.id);
+    expect(item.title).toBe(first.title);
+    expect(item.body.length).toBeGreaterThan(0);
+  });
+
+  it('rejects with 404 when it does not exist', async () => {
+    await expect(getNewsById('does-not-exist')).rejects.toMatchObject({ status: 404 });
+  });
+});
+
+describe('getFeatureById', () => {
+  it('finds an existing feature', async () => {
+    const [first] = await getFeatures();
+    const feature = await getFeatureById(first.id);
+    expect(feature.title).toBe(first.title);
+    expect(feature.body.length).toBeGreaterThan(0);
+  });
+
+  it('rejects with 404 when it does not exist', async () => {
+    await expect(getFeatureById('does-not-exist')).rejects.toMatchObject({
+      status: 404,
+    });
+  });
+
+  it('returns copies: mutating the result does not alter the dataset', async () => {
+    const [first] = await getFeatures();
+    const original = first.title;
+    const fetched = await getFeatureById(first.id);
+    fetched.title = 'MUTATED';
+    const again = await getFeatureById(first.id);
+    expect(again.title).toBe(original);
   });
 });

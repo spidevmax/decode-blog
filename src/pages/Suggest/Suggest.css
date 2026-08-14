@@ -1,89 +1,281 @@
-.suggest__head {
-  max-width: 40rem;
+/* Submissions.
+   Two unequal jobs, weighted accordingly: the pitch owns the page on the
+   night ground, the newsletter is a single amber band at the foot. */
+
+.pitch__head {
+  max-width: 42rem;
   margin-bottom: var(--space-7);
 }
 
-.suggest__title {
-  text-transform: uppercase;
+.pitch__title {
   margin-bottom: var(--space-3);
 }
 
-.suggest__lede {
-  font-size: 1.1875rem;
+.pitch__lede {
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  line-height: 1.65;
+  color: rgba(244, 241, 232, 0.8);
   margin: 0;
 }
 
-.suggest__panels {
+/* ---- The pitch ----
+   Same anatomy as a review detail: a narrow aside carrying the score, then
+   the substance. Here the score is the one that has not been given yet. */
+
+.pitch {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--space-7);
-  align-items: start;
+  gap: var(--space-6);
+  padding-top: var(--space-6);
+  border-top: var(--border-rule);
 }
 
-@media (min-width: 860px) {
-  .suggest__panels {
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-6);
+@media (min-width: 760px) {
+  .pitch {
+    grid-template-columns: 9rem 1fr;
+    gap: var(--space-7);
   }
 }
 
-.suggest__panel {
-  position: relative;
-  padding: var(--space-6) var(--space-5) var(--space-5);
-  background-color: var(--color-card);
-  border: var(--border-ink);
-  box-shadow: var(--shadow-offset);
+@media (min-width: 1024px) {
+  .pitch {
+    grid-template-columns: 12rem 1fr;
+    gap: var(--space-8);
+  }
 }
 
-.suggest__panel-title {
-  font-size: 1.5rem;
+.pitch__aside {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+@media (min-width: 760px) {
+  .pitch__aside {
+    flex-direction: column;
+    align-items: flex-start;
+    position: sticky;
+    top: 6rem;
+  }
+}
+
+/* The empty score. A circle is reserved in this system for a verdict; this is
+   the shape of one before the verdict exists. */
+.pitch__score {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 4.5rem;
+  height: 4.5rem;
+  border-radius: 50%;
+  border: 2px solid var(--color-muted);
+  box-shadow:
+    0 0 0 6px var(--color-night),
+    0 0 0 8px rgba(139, 133, 119, 0.25);
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 1.75rem;
+  line-height: 1;
+  color: var(--color-muted);
+  transition:
+    border-color var(--transition),
+    color var(--transition),
+    box-shadow var(--transition);
+}
+
+/* Named a record: it is a candidate now, it just has no number. */
+.pitch__score--ready {
+  border-color: var(--color-mostaza);
+  color: var(--color-mostaza);
+  box-shadow:
+    0 0 0 6px var(--color-night),
+    0 0 0 8px rgba(224, 169, 58, 0.35);
+}
+
+@media (min-width: 1024px) {
+  .pitch__score {
+    width: 5.5rem;
+    height: 5.5rem;
+    font-size: 2.125rem;
+  }
+}
+
+.pitch__score-note {
+  font-family: var(--font-ui);
+  font-weight: 600;
   text-transform: uppercase;
-  margin-bottom: var(--space-5);
-  padding-bottom: var(--space-3);
-  border-bottom: var(--border-ink);
-}
-
-.suggest-form {
+  letter-spacing: 0.16em;
+  font-size: 0.6875rem;
+  color: var(--color-muted);
   margin: 0;
 }
 
-.form-error {
-  font-family: var(--font-ui);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-size: 0.875rem;
-  color: var(--color-accent-red);
-  margin-bottom: var(--space-4);
+/* ---- Form ---- */
+
+.pitch__form {
+  max-width: 40rem;
 }
 
-/* Confirmation */
-.form-success {
-  text-align: center;
-  padding-block: var(--space-5);
-}
-
-.form-success__mark {
+/* Artist and album are one thought: name the record. */
+.suggest-form__pair {
   display: grid;
-  place-items: center;
-  width: 3rem;
-  height: 3rem;
-  margin: 0 auto var(--space-4);
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 1.5rem;
-  color: var(--color-ink);
-  background-color: var(--color-accent-amber);
-  border: var(--border-ink);
-  border-radius: 50%;
+  grid-template-columns: 1fr;
+  gap: 0 var(--space-5);
 }
 
-.form-success h3 {
+@media (min-width: 560px) {
+  .suggest-form__pair {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ---- Subscribe band ----
+   The page's one block of colour, spent on the one-field transaction. */
+
+.subscribe {
+  background-color: var(--color-mostaza);
+  color: var(--color-night);
+  border-top: 3px solid var(--color-paper-text);
+  padding-block: var(--space-6);
+}
+
+/* The band is light, so the solid button inverts to ink and reads as stamped
+   into it. The usual pairing — cream fill, panel-coloured text — only works on
+   the dark panels it was written for. */
+.subscribe .btn--accent {
+  background-color: var(--color-night);
+  border-color: var(--color-night);
+  color: var(--color-mostaza);
+}
+
+.subscribe .btn--accent:hover:not(:disabled) {
+  background-color: var(--color-paper-text);
+  border-color: var(--color-night);
+  color: var(--color-night);
+}
+
+.subscribe .btn--ghost {
+  color: var(--color-night);
+}
+
+.subscribe .btn--ghost:hover {
+  background-color: var(--color-night);
+  color: var(--color-mostaza);
+}
+
+.subscribe__inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+  align-items: center;
+}
+
+@media (min-width: 860px) {
+  .subscribe__inner {
+    grid-template-columns: auto 1fr;
+    gap: var(--space-8);
+  }
+}
+
+.subscribe__title {
+  color: var(--color-night);
+  margin-bottom: var(--space-1);
+}
+
+.subscribe__note {
+  font-family: var(--font-ui);
+  font-weight: 500;
   text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.75rem;
+  color: rgba(14, 14, 12, 0.7);
+  margin: 0;
+}
+
+/* One row: field, then button. */
+.suggest-form--inline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--space-3);
+}
+
+/* Capped: an email field stretched across a wide viewport reads as a mistake,
+   and the input should not promise more room than the content needs. */
+.suggest-form--inline .field {
+  flex: 1;
+  min-width: 14rem;
+  max-width: 26rem;
+  margin-bottom: 0;
+}
+
+/* On the amber ground the controls rule in ink, not paper. */
+.subscribe .field__label {
+  color: var(--color-night);
+}
+
+.subscribe .field__control {
+  border-color: var(--color-night);
+  color: var(--color-night);
+}
+
+.subscribe .field__control::placeholder {
+  color: rgba(14, 14, 12, 0.45);
+}
+
+.subscribe .field__control:focus-visible {
+  outline-color: var(--color-night);
+  border-color: var(--color-night);
+}
+
+.subscribe .field__control--error,
+.subscribe .field__error {
+  color: var(--color-night);
+  border-color: var(--color-night);
+}
+
+.subscribe .field__error {
+  /* Underlined rather than recoloured: on amber there is no darker red left. */
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* The inline error sits below the whole row, not beside the button. */
+.suggest-form--inline .form-error {
+  flex-basis: 100%;
+  margin: 0;
+}
+
+/* ---- Shared form states ---- */
+
+.form-success {
+  padding: var(--space-5) 0;
+}
+
+.form-success__title {
   margin-bottom: var(--space-2);
 }
 
 .form-success p {
-  color: var(--color-muted);
+  font-family: var(--font-body);
+  margin-bottom: var(--space-4);
+}
+
+.form-success--inline {
+  padding: 0;
+}
+
+.form-success--inline p {
+  color: rgba(14, 14, 12, 0.75);
+}
+
+.form-error {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.75rem;
+  color: var(--color-terracota);
   margin-bottom: var(--space-4);
 }
