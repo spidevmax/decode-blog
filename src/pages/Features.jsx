@@ -146,10 +146,7 @@ const Features = () => {
                       </div>
                       <h2 className="feature-card__title">
                         {/* Stretched link: the whole card is clickable, as on AlbumCard */}
-                        <Link
-                          to={`/features/${item.id}`}
-                          className="feature-card__link"
-                        >
+                        <Link to={`/features/${item.id}`} className="feature-card__link">
                           {item.title}
                         </Link>
                       </h2>

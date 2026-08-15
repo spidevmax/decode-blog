@@ -67,9 +67,7 @@ export const useNewsNeighbours = (id) => {
  */
 export const useFeatureNeighbours = (id, kicker) => {
   const { features } = useFeatures();
-  const sameType = kicker
-    ? features.filter((item) => item.kicker === kicker)
-    : features;
+  const sameType = kicker ? features.filter((item) => item.kicker === kicker) : features;
 
   return neighbours(sameType, id);
 };

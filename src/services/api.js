@@ -112,9 +112,7 @@ export const getFacets = () => {
   const years = [...new Set(ALBUMS.map((a) => a.year))].sort((a, b) => b - a);
   // Decades, not years: the archive spans enough of them that a per-year list
   // is a scroll, and nobody browses records one year at a time.
-  const decades = [...new Set(ALBUMS.map((a) => decadeOf(a.year)))].sort(
-    (a, b) => b - a,
-  );
+  const decades = [...new Set(ALBUMS.map((a) => decadeOf(a.year)))].sort((a, b) => b - a);
   return respond({ genres, years, decades }, { canFail: false });
 };
 

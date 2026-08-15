@@ -104,9 +104,7 @@ const Saved = () => {
           <p className="eyebrow">Your shelf</p>
           <h1 className="saved__title">Saved</h1>
           <p className="saved__lede">
-            {shown === 0
-              ? 'Nothing saved yet.'
-              : `${tally.join(', ')}, newest first.`}
+            {shown === 0 ? 'Nothing saved yet.' : `${tally.join(', ')}, newest first.`}
           </p>
         </header>
 
@@ -138,9 +136,7 @@ const Saved = () => {
             {listed.map((row) =>
               row.removed ? (
                 <li key={row.key} className="shelf-row shelf-row--removed">
-                  <p className="shelf-row__removed-text">
-                    Removed from your shelf.
-                  </p>
+                  <p className="shelf-row__removed-text">Removed from your shelf.</p>
                   <button
                     type="button"
                     className="shelf-row__undo"
@@ -155,10 +151,7 @@ const Saved = () => {
 
                   <div className="shelf-row__text">
                     <h2 className="shelf-row__title">
-                      <Link
-                        to={ROW[row.type].href(row.item)}
-                        className="shelf-row__link"
-                      >
+                      <Link to={ROW[row.type].href(row.item)} className="shelf-row__link">
                         {row.item.title}
                       </Link>
                     </h2>

@@ -1,10 +1,6 @@
 import { useAlbums } from './useAlbums';
 import { useFeatures, useNews } from './useEditorial';
-import {
-  alternateEditorial,
-  buildHomeFeed,
-  excludeShown,
-} from './homeFeed.helpers';
+import { alternateEditorial, buildHomeFeed, excludeShown } from './homeFeed.helpers';
 
 /**
  * Cards in the Home grid, including the 2x2 lead. Exported so the loading
@@ -64,10 +60,7 @@ export const useHomeFeed = (limit = HOME_FEED_LIMIT) => {
   // Whatever the top of the page has already shown, held back from the grid.
   const feed = buildHomeFeed(
     excludeShown(albums, hero, latestReview),
-    alternateEditorial(
-      excludeShown(news, news[0]),
-      excludeShown(features, features[0]),
-    ),
+    alternateEditorial(excludeShown(news, news[0]), excludeShown(features, features[0])),
     { limit },
   );
 

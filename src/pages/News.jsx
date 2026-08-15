@@ -144,10 +144,7 @@ const News = () => {
                               <h3 className="news-item__title">
                                 {/* Stretched link: the whole row is clickable,
                                     as on AlbumCard */}
-                                <Link
-                                  to={`/news/${item.id}`}
-                                  className="news-item__link"
-                                >
+                                <Link to={`/news/${item.id}`} className="news-item__link">
                                   {item.title}
                                 </Link>
                               </h3>

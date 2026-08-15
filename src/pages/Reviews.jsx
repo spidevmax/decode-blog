@@ -84,8 +84,8 @@ const Reviews = () => {
           <p className="eyebrow">Every review</p>
           <h1 className="reviews__title">Reviews</h1>
           <p className="reviews__lede">
-            Every record that came through the newsroom, scored out of ten and kept
-            on file.
+            Every record that came through the newsroom, scored out of ten and kept on
+            file.
           </p>
         </header>
 

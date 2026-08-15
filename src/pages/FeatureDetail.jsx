@@ -118,9 +118,7 @@ const FeatureDetail = () => {
             >
               {later && (
                 <Link to={`/features/${later.id}`} className="article-step">
-                  <span className="article-step__label">
-                    Newer {feature.kicker}
-                  </span>
+                  <span className="article-step__label">Newer {feature.kicker}</span>
                   <span className="article-step__title">{later.title}</span>
                 </Link>
               )}
@@ -130,9 +128,7 @@ const FeatureDetail = () => {
                   to={`/features/${earlier.id}`}
                   className="article-step article-step--earlier"
                 >
-                  <span className="article-step__label">
-                    Older {feature.kicker}
-                  </span>
+                  <span className="article-step__label">Older {feature.kicker}</span>
                   <span className="article-step__title">{earlier.title}</span>
                 </Link>
               )}
