@@ -6,7 +6,9 @@ import {
   bandRangeLabel,
   RATING_BANDS,
 } from '@/components/album/RatingBadge/RatingBadge.helpers';
-import { Button, ErrorState, FilterSelect, Loader, Pagination } from '@/components/ui';
+import { Button, ErrorState, Loader } from '@/components/ui';
+import FilterSelect from '@/components/ui/FilterSelect';
+import Pagination from '@/components/ui/Pagination';
 import { useAlbums, useFacets } from '@/hooks/useAlbums';
 import { usePagination } from '@/hooks/usePagination';
 import './Reviews.css';

@@ -44,20 +44,27 @@ before you file a bug.** The app fails and shows broken images on purpose.
 
 ## Two things that will confuse you
 
-**1. The mock API fails ~8% of the time on purpose.** `FAIL_RATE` in
-[`src/services/api.js`](src/services/api.js) defaults to `0.08`. A page that
-errors once and works on retry is behaving correctly — it exists so the loading
-and error states get exercised in normal use.
+**1. The mock API fails ~8% of the time on purpose — in development only.**
+[`src/services/api.js`](src/services/api.js) simulates a network in front of
+the dataset: a ~500ms round trip and a 1-in-12 failure rate. A page that errors
+once and works on retry is behaving correctly. It exists so the loading and
+error states get exercised in normal use rather than rotting unseen.
 
-To develop without it, create a `.env.local`:
+A production build turns both off (`import.meta.env.DEV`), because neither is a
+property of the data: a deployed build serves what it already holds in memory,
+immediately. Nothing to configure to deploy.
+
+Both are overridable at build time, in a `.env.local` or inline:
 
 ```
-VITE_API_FAIL_RATE=0
+VITE_API_FAIL_RATE=0     # develop without the dropped requests
+VITE_API_LATENCY=0       # ...and without the wait
+VITE_API_FAIL_RATE=0.3   # or lean on the error states
 ```
 
-Unit tests already pin it to `0` via `test.env` in `vite.config.js`. It has to
-be set there rather than in a `beforeAll`, because `api.js` reads the variable
-at import time.
+Unit tests pin both to `0` via `test.env` in `vite.config.js`. They have to be
+set there rather than in a `beforeAll`, because Vite inlines `import.meta.env`
+at build time and `api.js` reads it at import time.
 
 **2. Cover art may 404.** Albums point at `/covers/<id>.jpg`. Any that are
 missing fall back to a gradient generated from the album id — deterministic, so

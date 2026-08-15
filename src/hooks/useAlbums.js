@@ -4,10 +4,13 @@ import { useAsync } from './useAsync';
 /**
  * Album list, optionally filtered.
  *
- * The filters are spread into `useAsync`'s dependency array one by one rather
- * than passed as an object: the hook refetches on the serialised deps, and a
- * fresh object literal every render would serialise the same but is clearer
- * kept flat — each filter is visibly a reason to go back to the API.
+ * The filters are normalised into a single object with a fixed key order and
+ * handed to `getAlbums` as one argument. Two reasons it is not an arrow that
+ * spreads six positional parameters, which is what this used to be: `useAsync`
+ * keys its cache on the fetcher's identity, and an inline arrow is a new
+ * function on every render; and the serialised object is the cache key, so it
+ * has to serialise identically for the same filters, which a literal written
+ * in one place does and six loose arguments only do by accident.
  */
 export const useAlbums = (filters = {}) => {
   const {
@@ -19,18 +22,9 @@ export const useAlbums = (filters = {}) => {
     sort = 'recent',
   } = filters;
 
-  const { data, loading, error, retry } = useAsync(
-    (g, y, d, min, max, s) =>
-      getAlbums({
-        genre: g,
-        year: y,
-        decade: d,
-        minScore: min,
-        maxScore: max,
-        sort: s,
-      }),
-    [genre, year, decade, minScore, maxScore, sort],
-  );
+  const { data, loading, error, retry } = useAsync(getAlbums, [
+    { genre, year, decade, minScore, maxScore, sort },
+  ]);
 
   return { albums: data ?? [], loading, error, retry };
 };
@@ -51,20 +45,32 @@ export const useAlbum = (id) => {
  * at the top of the page already point at. Ordered by score, which is how the
  * archive lists itself by default.
  *
- * A second request for the genre's listing, and one that can fail on its own
- * while the review itself loaded fine. Nothing here reports an error: the
- * links are an addition to a page that already works, so if the list does not
- * arrive they are simply not offered.
+ * A second request for the listing, and one that can fail on its own while
+ * the review itself loaded fine. Nothing here reports an error: the links are
+ * an addition to a page that already works, so if the list does not arrive
+ * they are simply not offered.
+ *
+ * The genre is *not* part of the request. It comes from the album, which is
+ * still loading when this runs, so asking the API to filter by it would make
+ * this fetch wait for that one and then start over the moment it arrived —
+ * two round trips in a row, the first of them thrown away. Fetching the whole
+ * scored listing starts immediately, in parallel with the review, and the
+ * filtering happens here on data already in hand. It is also the same request
+ * /reviews makes with its default sort, so on a second visit it is free.
  */
 export const useAlbumNeighbours = (id, genre) => {
-  const { albums } = useAlbums({ genre: genre ?? null, sort: 'score' });
+  const { albums } = useAlbums({ sort: 'score' });
 
-  const index = albums.findIndex((album) => album.id === id);
+  const sameGenre = genre
+    ? albums.filter((album) => album.genres.includes(genre))
+    : albums;
+
+  const index = sameGenre.findIndex((album) => album.id === id);
   if (index === -1) return { better: null, worse: null };
 
   return {
-    better: albums[index - 1] ?? null,
-    worse: albums[index + 1] ?? null,
+    better: sameGenre[index - 1] ?? null,
+    worse: sameGenre[index + 1] ?? null,
   };
 };
 

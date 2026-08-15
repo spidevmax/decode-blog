@@ -15,8 +15,10 @@ export default defineConfig({
   test: {
     environment: 'node',
     include: ['src/**/*.test.js'],
-    // api.js lee VITE_API_FAIL_RATE al importarse, así que hay que fijarla
-    // antes de que se cargue el módulo: en un beforeAll llegaría tarde.
-    env: { VITE_API_FAIL_RATE: '0' },
+    // api.js lee estas variables al importarse, así que hay que fijarlas antes
+    // de que se cargue el módulo: en un beforeAll llegarían tarde.
+    // Sin fallos simulados y sin latencia: la suite comprueba qué devuelve la
+    // API, no cuánto tarda, y media hora de setTimeout no prueba nada.
+    env: { VITE_API_FAIL_RATE: '0', VITE_API_LATENCY: '0' },
   },
 });

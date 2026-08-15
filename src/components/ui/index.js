@@ -1,17 +1,26 @@
 /**
  * UI primitives barrel.
  *
- * The only barrel in the project: these are the most stable components and the
- * ones most often imported together. No barrels in `album/` or `pages/` — there
+ * The only barrel in the project. No barrels in `album/` or `pages/` — there
  * it would defeat the per-route code splitting.
  *
  * Explicit named exports, no `export *`: keeps tree-shaking predictable and
  * avoids collisions as the set grows.
+ *
+ * Membership is not "every primitive", it is "the ones on the path to the
+ * first paint anyway". Importing this barrel pulls in every component listed
+ * here, and while unused *code* is tree-shaken, each component also imports
+ * its own stylesheet — and a CSS import is a side effect, so it ships whether
+ * or not anything renders it. Four components earn their place: `Loader`
+ * (used by the route table itself), `ErrorState`, `Button`, and `SaveButton`,
+ * which `AlbumCard` puts on the home page.
+ *
+ * `FilterSelect`, `Pagination` and `FormField` are deliberately absent. They
+ * belong to the listing pages and to /suggest, all of them lazily loaded, so
+ * they are imported directly from their own files and stay in those route
+ * chunks. Add to this list only what the first paint already needs.
  */
 export { default as Button } from './Button';
 export { default as ErrorState } from './ErrorState';
-export { default as FilterSelect } from './FilterSelect';
-export { default as FormField } from './FormField';
 export { default as Loader } from './Loader';
-export { default as Pagination } from './Pagination';
 export { default as SaveButton } from './SaveButton';
