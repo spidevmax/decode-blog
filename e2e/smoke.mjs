@@ -1,17 +1,98 @@
 /**
  * End-to-end smoke test for DECODE.
  *
- * Requires the dev server to be running:
- *   npm run dev        (in another terminal)
- *   npm run e2e
+ *   npm run e2e          builds, serves, tests, tears down
+ *   npm run e2e:flaky    the same, with the simulated outages switched on
  *
- * The mock API fails ~8% of the time on purpose, so navigations are retried:
- * that way a test failure means a real bug and not a simulated outage.
+ * It runs against a production build rather than the dev server, which is
+ * what makes the result trustworthy: a production build turns the network
+ * simulation off, so every navigation resolves once, immediately, and a red
+ * test means a red test. It is also the artefact that actually gets deployed
+ * — the route chunks and the dynamically imported dataset included — so this
+ * exercises what readers will run, not an approximation of it.
+ *
+ * `npm run e2e:flaky` puts the 8% failure rate back for a build. The error
+ * states are worth exercising, but not in the same run as the regression
+ * suite: a test that sometimes passes teaches you to rerun it, not to fix it.
+ *
+ * Point it at an already-running server with E2E_BASE_URL to skip all of the
+ * above (`E2E_BASE_URL=http://localhost:5173 npm run e2e` against `npm run dev`).
  */
+import { spawn } from 'node:child_process';
 import { chromium } from 'playwright';
 
-const BASE = process.env.E2E_BASE_URL ?? 'http://localhost:5173';
-const RETRIES = 8;
+/** Simulated failure rate to build with. Zero unless the flaky run asked. */
+const FAIL_RATE = process.env.E2E_FAIL_RATE ?? '0';
+const SIMULATING = Number(FAIL_RATE) > 0;
+
+const PORT = Number(process.env.E2E_PORT ?? 4173);
+const EXTERNAL = process.env.E2E_BASE_URL;
+const BASE = EXTERNAL ?? `http://localhost:${PORT}`;
+
+/**
+ * Attempts per navigation. Retrying only makes sense while the API is
+ * dropping requests on purpose: against a clean build, a page that does not
+ * load is the finding, and eight four-second retries would just bury it.
+ */
+const RETRIES = SIMULATING || EXTERNAL ? 8 : 1;
+
+/** Runs a command to completion, inheriting stdio so failures are readable. */
+const run = (command, args, env) =>
+  new Promise((resolve, reject) => {
+    const child = spawn(command, args, { stdio: 'inherit', shell: false, env });
+    child.on('error', reject);
+    child.on('exit', (code) =>
+      code === 0 ? resolve() : reject(new Error(`${command} exited with ${code}`)),
+    );
+  });
+
+/** Polls the server until it answers, so the first test never races the boot. */
+const waitForServer = async (url, timeoutMs = 30000) => {
+  const deadline = Date.now() + timeoutMs;
+  while (Date.now() < deadline) {
+    try {
+      const response = await fetch(url, { signal: AbortSignal.timeout(1000) });
+      if (response.ok) return;
+    } catch {
+      /* not up yet */
+    }
+    await new Promise((resolve) => setTimeout(resolve, 200));
+  }
+  throw new Error(`server at ${url} never came up`);
+};
+
+let server = null;
+
+if (!EXTERNAL) {
+  console.log(`\nBuilding${SIMULATING ? ` with a ${FAIL_RATE} failure rate` : ''}…`);
+  await run('npm', ['run', 'build'], {
+    ...process.env,
+    VITE_API_FAIL_RATE: FAIL_RATE,
+  });
+
+  server = spawn('npx', ['vite', 'preview', '--port', String(PORT), '--strictPort'], {
+    stdio: 'ignore',
+    shell: false,
+  });
+  server.on('error', (error) => {
+    console.error(`could not start the preview server: ${error.message}`);
+    process.exit(1);
+  });
+
+  await waitForServer(BASE);
+  console.log(`Serving ${BASE}\n`);
+}
+
+/** Stops the server however the run ends, including Ctrl-C and a crash. */
+const stopServer = () => {
+  if (server && !server.killed) server.kill();
+  server = null;
+};
+process.on('exit', stopServer);
+process.on('SIGINT', () => {
+  stopServer();
+  process.exit(130);
+});
 
 const browser = await chromium.launch();
 const results = [];
@@ -714,14 +795,50 @@ await check('A page beyond the end falls back to real content', async (page) => 
   return `${cards} cards shown instead of a blank page`;
 });
 
-await check('Short lists show no pager', async (page) => {
-  // News and Features fit on one page at 6 per page, so the control hides.
-  for (const path of ['/news', '/features']) {
-    await goto(page, path, path === '/news' ? '.news-item' : '.feature-card');
+await check('The pager appears exactly when there is a second page', async (page) => {
+  // Asserted as an invariant, not as a fact about how much content exists.
+  // This test used to hard-code "news and features fit on one page", which
+  // stopped being true the moment the archive grew, and then reported the
+  // correct pager as a bug. What is permanently true is the relationship:
+  // the control shows itself if and only if something did not fit.
+  const seen = [];
+
+  for (const [path, item] of [
+    ['/news', '.news-item'],
+    ['/features', '.feature-card'],
+  ]) {
+    if (!(await goto(page, path, item))) throw new Error(`${path} never loaded`);
+
+    // The listing prints its own total: "16 stories", "14 pieces".
+    const countText = await page.locator('.filters__count').first().textContent();
+    const total = Number(countText.trim().match(/^\d+/)?.[0]);
+    if (!Number.isInteger(total)) throw new Error(`${path}: no total in "${countText}"`);
+
+    const shown = await page.locator(item).count();
     const pagers = await page.locator('.pagination').count();
-    if (pagers !== 0) throw new Error(`${path} renders a pager it does not need`);
+    const fitsOnOnePage = shown === total;
+
+    if (fitsOnOnePage && pagers !== 0) {
+      throw new Error(`${path} shows all ${total} items and still renders a pager`);
+    }
+    if (!fitsOnOnePage && pagers === 0) {
+      throw new Error(`${path} shows ${shown} of ${total} items with no pager`);
+    }
+
+    // When there is a second page it has to be reachable and different.
+    if (!fitsOnOnePage) {
+      const firstOnPage1 = await page.locator(item).first().innerText();
+      await goto(page, `${path}?page=2`, item);
+      const firstOnPage2 = await page.locator(item).first().innerText();
+      if (firstOnPage1 === firstOnPage2) {
+        throw new Error(`${path}?page=2 repeats page 1`);
+      }
+    }
+
+    seen.push(`${path} ${shown}/${total}${fitsOnOnePage ? ' no pager' : ' paged'}`);
   }
-  return 'no pager on /news or /features';
+
+  return seen.join(' · ');
 });
 
 await check('The wordmark navigates home', async (page) => {
@@ -750,11 +867,11 @@ await check('Legacy bare ids migrate to saved reviews', async (page) => {
   await page.evaluate(() =>
     localStorage.setItem('decode:favorites', JSON.stringify(['ok-computer', 'blonde'])),
   );
-  if (!(await goto(page, '/saved', '.album-card'))) {
+  if (!(await goto(page, '/saved', '.shelf-row'))) {
     throw new Error('saved page never loaded');
   }
-  const cards = await page.locator('.album-card').count();
-  if (cards !== 2) throw new Error(`expected 2 migrated reviews, found ${cards}`);
+  const rows = await page.locator('.shelf-row').count();
+  if (rows !== 2) throw new Error(`expected 2 migrated reviews, found ${rows}`);
 
   const stored = await page.evaluate(() =>
     JSON.parse(localStorage.getItem('decode:favorites')),
@@ -787,17 +904,21 @@ await check('News and features can be saved and reach /saved', async (page) => {
     throw new Error(`expected one news + one feature, got ${JSON.stringify(stored)}`);
   }
 
-  // Both must show up on the shelf, under their own sections.
-  await goto(page, '/saved', '.news-item');
-  const sections = await page.$$eval('.saved__section h2', (hs) =>
-    hs.map((h) => h.textContent.trim()),
-  );
-  if (sections.length !== 2) throw new Error(`sections: ${JSON.stringify(sections)}`);
-  if (!sections.some((s) => s.startsWith('News'))) throw new Error('no News section');
-  if (!sections.some((s) => s.startsWith('Features'))) {
-    throw new Error('no Features section');
+  // Both must reach the shelf. It is one list of uniform rows, not three
+  // stacked listings, so what tells the kinds apart is the type chip.
+  if (!(await goto(page, '/saved', '.shelf-row'))) {
+    throw new Error('saved page never loaded');
   }
-  return sections.join(' · ');
+  const rows = await page.locator('.shelf-row').count();
+  if (rows !== 2) throw new Error(`expected 2 rows on the shelf, found ${rows}`);
+
+  const kinds = await page.$$eval('.shelf-row .type-chip', (chips) =>
+    chips.map((chip) => chip.textContent.trim()).sort(),
+  );
+  if (kinds.join(',') !== 'Feature,News') {
+    throw new Error(`expected one News and one Feature chip, got ${kinds.join(',')}`);
+  }
+  return kinds.join(' · ');
 });
 
 await check('The Nav star links to the shelf and counts', async (page) => {
@@ -817,12 +938,12 @@ await check('The Nav star links to the shelf and counts', async (page) => {
 
   await page.locator('.nav__favs').click();
   await page.waitForURL('**/saved', { timeout: 5000 });
-  // Wait for the section itself: the shelf only renders it once the three
-  // listings have loaded and been filtered down.
-  await page.waitForSelector('.saved__section', { timeout: 8000 });
-  const saved = await page.locator('.saved__section .album-card').count();
-  if (saved !== 1) throw new Error(`shelf shows ${saved} cards`);
-  return `★ 0 → ★ 1 → /saved with ${saved} card`;
+  // Wait for the row itself: the shelf only renders one once the three
+  // listings have loaded and the saved ids have been resolved against them.
+  await page.waitForSelector('.shelf-row', { timeout: 8000 });
+  const saved = await page.locator('.shelf-row').count();
+  if (saved !== 1) throw new Error(`shelf shows ${saved} rows`);
+  return `★ 0 → ★ 1 → /saved with ${saved} row`;
 });
 
 await check('The empty shelf explains itself', async (page) => {
@@ -830,15 +951,15 @@ await check('The empty shelf explains itself', async (page) => {
   await page.evaluate(() => localStorage.removeItem('decode:favorites'));
   await page.goto(BASE + '/saved');
   await page.waitForSelector('.saved__empty', { timeout: 8000 });
-  if (await page.locator('.saved__section').count()) {
-    throw new Error('empty shelf still rendered a section');
+  if (await page.locator('.shelf').count()) {
+    throw new Error('empty shelf still rendered a list');
   }
   const cta = await page.locator('.saved__empty-actions a').count();
   if (cta < 1) throw new Error('empty state offers no way out');
   return `empty state with ${cta} calls to action`;
 });
 
-await check('Unsaving from the shelf removes the item', async (page) => {
+await check('Unsaving from the shelf offers a way back', async (page) => {
   await page.goto(BASE + '/');
   await page.evaluate(() =>
     localStorage.setItem(
@@ -846,16 +967,41 @@ await check('Unsaving from the shelf removes the item', async (page) => {
       JSON.stringify([{ type: 'review', id: 'ok-computer' }]),
     ),
   );
-  if (!(await goto(page, '/saved', '.album-card'))) {
+  if (!(await goto(page, '/saved', '.shelf-row'))) {
     throw new Error('saved page never loaded');
   }
-  await page.locator('.album-card__fav').first().click();
-  await page.waitForSelector('.saved__empty', { timeout: 6000 });
-  const stored = await page.evaluate(() =>
+
+  // Removing is one click, so the row holds its place with an undo rather
+  // than vanishing and taking the way back with it.
+  await page.locator('.shelf-row__remove').first().click();
+  await page.waitForSelector('.shelf-row--removed', { timeout: 6000 });
+  if (!(await page.locator('.shelf-row__undo').count())) {
+    throw new Error('the removed row offers no way back');
+  }
+
+  const afterRemove = await page.evaluate(() =>
     JSON.parse(localStorage.getItem('decode:favorites')),
   );
-  if (stored.length !== 0) throw new Error(`still stored: ${JSON.stringify(stored)}`);
-  return 'unsaved → shelf falls back to the empty state';
+  if (afterRemove.length !== 0) {
+    throw new Error(`still stored: ${JSON.stringify(afterRemove)}`);
+  }
+
+  // And the way back has to work, or the row is a promise the page breaks.
+  await page.locator('.shelf-row__undo').click();
+  await page
+    .locator('.shelf-row--removed')
+    .waitFor({ state: 'detached', timeout: 4000 })
+    .catch(() => {
+      throw new Error('undo left the removed placeholder on screen');
+    });
+
+  const afterUndo = await page.evaluate(() =>
+    JSON.parse(localStorage.getItem('decode:favorites')),
+  );
+  if (afterUndo.length !== 1 || afterUndo[0].id !== 'ok-computer') {
+    throw new Error(`undo restored ${JSON.stringify(afterUndo)}`);
+  }
+  return 'removed → undo offered → put back';
 });
 
 await check('Detail: pull quote, emphasis and type scale', async (page) => {

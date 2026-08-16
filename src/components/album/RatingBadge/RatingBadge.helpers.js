@@ -65,5 +65,31 @@ export const ratingBand = (score) => {
   );
 };
 
-/** Just the colour of that band, which is all the badge and the card need. */
+/** Just the tone of that band, which is all the badge and the card need. */
 export const ratingTone = (score) => ratingBand(score).tone;
+
+/**
+ * The four bands, as paint.
+ *
+ * The badge and the footer key colour themselves from the stylesheet, keyed
+ * off the tone name. A card cannot: its verdict rule is set through a custom
+ * property in `style`, so it needs the token itself rather than a class. That
+ * lookup lived in AlbumCard, one file away from the scale it was painting —
+ * near enough to look harmless, far enough that renaming a tone here would
+ * have left the card colouring nothing.
+ */
+const TONE_COLORS = {
+  magenta: 'var(--color-magenta)',
+  petrol: 'var(--color-petrol)',
+  mostaza: 'var(--color-mostaza)',
+  terracota: 'var(--color-terracota)',
+};
+
+/**
+ * The colour a score earns, ready for a CSS custom property.
+ *
+ * @returns {string} a `var(--color-…)` reference; the top band's colour for an
+ *   unrecognised tone, which cannot happen while both tables live here.
+ */
+export const ratingColor = (score) =>
+  TONE_COLORS[ratingTone(score)] ?? TONE_COLORS.magenta;

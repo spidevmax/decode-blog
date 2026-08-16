@@ -3,23 +3,11 @@ import { Link, useParams } from 'react-router-dom';
 import ArticleBody from '@/components/editorial/ArticleBody';
 import ArticleHeader from '@/components/editorial/ArticleHeader';
 import ReadingProgress from '@/components/editorial/ReadingProgress';
+import { kickerColor } from '@/components/editorial/kickers.helpers';
 import { ErrorState, Loader, SaveButton } from '@/components/ui';
 import { useFeature, useFeatureNeighbours } from '@/hooks/useEditorial';
 import { formatLongDate } from '@/utils/dates';
 import './ArticleDetail.css';
-
-/**
- * Kicker colour by content type — the same four the archive files pieces
- * under, carried through so a Report does not arrive in Analysis colours.
- * Duplicated from Features.jsx on purpose: the two pages are code-split, and
- * a shared module for four lines would be loaded by both to serve one.
- */
-const KICKER_COLORS = {
-  Analysis: 'var(--color-mostaza)',
-  Feature: 'var(--color-oliva)',
-  Report: 'var(--color-terracota)',
-  Interview: 'var(--color-petrol)',
-};
 
 /**
  * A single long-form feature.
@@ -62,7 +50,7 @@ const FeatureDetail = () => {
     );
   }
 
-  const accent = KICKER_COLORS[feature.kicker] ?? 'var(--color-magenta)';
+  const accent = kickerColor(feature.kicker);
 
   return (
     <article

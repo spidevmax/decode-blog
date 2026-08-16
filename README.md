@@ -28,17 +28,18 @@ before you file a bug.** The app fails and shows broken images on purpose.
 
 ## Commands
 
-| Command                | What it does                                              |
-| ---------------------- | --------------------------------------------------------- |
-| `npm run dev`          | Dev server on http://localhost:5173                       |
-| `npm run build`        | Production build into `dist/`                             |
-| `npm run preview`      | Serve the built `dist/`                                   |
-| `npm run lint`         | ESLint over the repo                                      |
-| `npm run format`       | Prettier, write                                           |
-| `npm run format:check` | Prettier, check only                                      |
-| `npm test`             | Vitest, single run                                        |
-| `npm run test:watch`   | Vitest in watch mode                                      |
-| `npm run e2e`          | Playwright smoke suite — **needs the dev server running** |
+| Command                | What it does                                      |
+| ---------------------- | ------------------------------------------------- |
+| `npm run dev`          | Dev server on http://localhost:5173               |
+| `npm run build`        | Production build into `dist/`                     |
+| `npm run preview`      | Serve the built `dist/`                           |
+| `npm run lint`         | ESLint over the repo                              |
+| `npm run format`       | Prettier, write                                   |
+| `npm run format:check` | Prettier, check only                              |
+| `npm test`             | Vitest, single run                                |
+| `npm run test:watch`   | Vitest in watch mode                              |
+| `npm run e2e`          | Playwright smoke suite — builds and serves itself |
+| `npm run e2e:flaky`    | The same suite, with the simulated outages on     |
 
 ---
 
@@ -62,9 +63,9 @@ VITE_API_LATENCY=0       # ...and without the wait
 VITE_API_FAIL_RATE=0.3   # or lean on the error states
 ```
 
-Unit tests pin both to `0` via `test.env` in `vite.config.js`. They have to be
-set there rather than in a `beforeAll`, because Vite inlines `import.meta.env`
-at build time and `api.js` reads it at import time.
+Both test projects pin them to `0` via `TEST_ENV` in `vite.config.js`. They have
+to be set there rather than in a `beforeAll`, because Vite inlines
+`import.meta.env` at build time and `api.js` reads it at import time.
 
 **2. Cover art may 404.** Albums point at `/covers/<id>.jpg`. Any that are
 missing fall back to a gradient generated from the album id — deterministic, so
@@ -85,7 +86,7 @@ noise. Missing artwork is not a rendering bug.
 | `/news/:id`     | `NewsDetail`    | One news story                                                   |
 | `/features`     | `Features`      | Long-form listing                                                |
 | `/features/:id` | `FeatureDetail` | One feature                                                      |
-| `/saved`        | `Saved`         | Everything saved, grouped by type                                |
+| `/saved`        | `Saved`         | Everything saved, as one shelf of uniform rows                   |
 | `/suggest`      | `Suggest`       | Newsletter sign-up and album suggestion forms                    |
 | `/explore`      | —               | Redirect to `/reviews`, preserving the query string              |
 | `*`             | `NotFound`      | 404                                                              |
@@ -99,16 +100,18 @@ src/
   main.jsx            StrictMode > BrowserRouter > FavoritesProvider > App
   App.jsx             shell: skip link, Nav, <main>, Footer
   app/routes.jsx      route table, lazy loading, /explore redirect
-  pages/              one file (or folder) per route, each with its own CSS
+  pages/              one file or folder per route, each with its own CSS
   components/
     album/            AlbumCard, AlbumCover, AlbumGrid, GenreTag, RatingBadge
-    editorial/        ArticleBody, ArticleHeader, EditorialCard, LatestStrip, TypeChip
+    editorial/        ArticleBody, ArticleHeader, EditorialCard, LatestStrip, ReadingProgress,
+                      TypeChip, kickers.helpers.js (the four long-read types and their colours)
     layout/           Nav, Footer
-    ui/               Button, ErrorState, FormField, Loader, Pagination, SaveButton
+    ui/               Button, ErrorState, FilterSelect, FormField, Loader, Pagination, SaveButton
   context/            FavoritesProvider + its helpers
   hooks/              useAsync (generic) + useAlbums / useEditorial / useHomeFeed / usePagination / useFavorites
   services/           api.js + mocks/*.data.js
   styles/             tokens.css, global.css, layout.css
+  test/               setup.js for the jsdom project (localStorage shim, cache reset)
   utils/              domain-free helpers (dates, validation)
 ```
 
@@ -126,12 +129,27 @@ what makes swapping the mocks for real `fetch` calls a one-file change.
   the bundler, `jsconfig.json` for the editor. Change both together.
 - **One barrel only** — [`src/components/ui/index.js`](src/components/ui/index.js),
   with explicit named exports. Don't add one in `pages/`: it would defeat the
-  per-route code splitting.
+  per-route code splitting. The barrel holds only what the first paint needs
+  anyway (`Button`, `ErrorState`, `Loader`, `SaveButton`); everything else is
+  deep-imported from its own file, because a component's CSS import is a side
+  effect and ships even when the component is tree-shaken away.
 - **Colocated CSS.** Every component imports its own `.css` sibling. Class names
   are BEM-ish (`nav__link--active`). No inline styles except CSS custom
   properties (`style={{ '--card-accent': … }}`).
-- **Multi-file components get a folder** with an `index.js`. Suffixes in use:
-  `.helpers.js` (domain logic, unit tested), `.constants.js`, `.test.js`.
+- **When something gets a folder.** Two directory styles exist and the line
+  between them is not taste:
+  - **Components and pages** are flat — `Button.jsx` + `Button.css` — until
+    there is anything _beyond_ the `.jsx` and its stylesheet. A third file
+    (helpers, constants, a test) means a folder with an `index.js`, so
+    `@/pages/News` keeps resolving and no import has to know. The `.css`
+    sibling never triggers this: every component has one.
+  - **Module directories** — `hooks/`, `utils/`, `context/`, `services/` — are
+    always flat, and group by filename instead: `useAsync.js`,
+    `useAsync.helpers.js`, `useAsync.test.jsx`.
+
+  Suffixes in use: `.helpers.js` (domain logic, unit tested), `.constants.js`,
+  `.test.js` (pure, runs in node), `.test.jsx` (renders, runs in jsdom).
+
 - **`utils/` vs `.helpers.js`**: utils are portable and domain-free; helpers are
   DECODE-specific.
 - **Never hardcode a colour, space or border** — everything is a custom property
@@ -157,28 +175,67 @@ Swiss/metro on a dark ground: straight edges everywhere (`border-radius: 0`),
 
 ## Testing
 
-**82 unit tests** across 7 files, plus a **31-check E2E suite**.
+**185 unit tests** across 16 files, plus a **42-check E2E suite**.
 
-Unit tests run in the **node** environment and only match `src/**/*.test.js`
-(see `test.include` in `vite.config.js`). There is no jsdom and no React Testing
-Library, so the tested code is deliberately the pure logic pulled out into
-`.helpers.js` files — pagination maths, favourites storage, the Home feed
-interleave, `*emphasis*` parsing, rating bands, validation. Rendering is covered
-by the E2E suite instead.
+Vitest runs **two projects**, split by what they need rather than by what they
+cover. The file extension decides which one claims a test — there is nothing to
+configure per file:
 
-Adding component tests means adding jsdom and `@testing-library/react`, and
-widening `test.include` to `*.test.{js,jsx}`. Treat that as a deliberate change.
+| Project | Files        | Environment | For                                       |
+| ------- | ------------ | ----------- | ----------------------------------------- |
+| `node`  | `*.test.js`  | node        | Pure logic in `.helpers.js`, and `api.js` |
+| `dom`   | `*.test.jsx` | jsdom       | Hooks and components                      |
+
+`npm test` runs both; `npx vitest run --project node` runs just the fast half.
+Keep that half fast: it has no DOM and finishes in under half a second, which
+is what makes it the suite you can leave running while you work. Nothing that
+needs a browser belongs in it.
+
+What the `dom` project covers, and why those and not everything: `useAsync`,
+because out-of-order responses, retries and caching are the easiest things in
+the repo to break silently; then `FilterSelect`, `SaveButton` and `ErrorState`,
+the three components with real behaviour rather than markup. `TypeChip` and
+`LatestStrip` are not unit tested on purpose — the E2E suite already sees them,
+and a test that only restates the JSX costs maintenance and catches nothing.
+
+Two environment details worth knowing before you add a test:
+
+- **`localStorage` is a shim.** jsdom 30 under Node 26 provides none, so
+  [`src/test/setup.js`](src/test/setup.js) installs an in-memory one and clears
+  it between tests. `FavoritesProvider` wraps every access in a try/catch, so
+  without the shim favourites would silently never persist and the storage
+  format would be untestable.
+- **The request cache is cleared between tests,** also in `setup.js`. It lives
+  at module scope and outlives the component that filled it, which in a test
+  file means it outlives the test.
 
 E2E lives in [`e2e/smoke.mjs`](e2e/smoke.mjs): raw Playwright, no test runner.
-Each navigation retries up to 8 times to absorb the simulated API failures, so a
-failure means a real bug.
+It builds, serves, tests and tears down on its own — nothing to start first:
 
 ```bash
-npm run dev     # terminal 1
-npm run e2e     # terminal 2
+npm run e2e          # ~50s, deterministic
+npm run e2e:flaky    # the same suite with the 8% failure rate switched on
 ```
 
-Point it elsewhere with `E2E_BASE_URL=http://localhost:5199 npm run e2e`.
+It runs against a **production build** on `vite preview`, not the dev server.
+That is what makes it trustworthy: a production build has the network
+simulation off, so every navigation resolves once and a red test is a red
+test. It is also the artefact that gets deployed, chunking included.
+
+`e2e:flaky` puts the outages back for one build, so the retry paths and error
+states get exercised. Deliberately a separate command: a suite that sometimes
+fails teaches you to rerun it rather than to fix it.
+
+Point it at a server you already have with
+`E2E_BASE_URL=http://localhost:5173 npm run e2e` — which also re-enables the
+8-attempt retry, since a dev server drops requests on purpose.
+
+Two things the assertions try to get right, both learned the hard way:
+**never hard-code how much content exists** (the pager test used to assert
+"news fits on one page" and started reporting a correct pager as a bug when
+the archive grew), and **assert against the markup that ships** (four `/saved`
+tests kept targeting `.saved__section` for months after the page was
+redesigned as a flat shelf).
 
 ---
 
@@ -189,6 +246,20 @@ Point it elsewhere with `E2E_BASE_URL=http://localhost:5199 npm run e2e`.
 3. `npm run format:check` — clean
 4. `npm run build` — succeeds
 5. If routes, data or UI changed: `npm run e2e` — green
+
+All five run on every push and pull request
+([`.github/workflows/ci.yml`](.github/workflows/ci.yml)), so the list is now
+enforced rather than remembered. Running them locally first is still faster
+than waiting for a red tick.
+
+The workflow is two parallel jobs: `check` (1–4) for fast feedback, and `e2e`
+(5) on its own because it downloads a browser. A formatting mistake should not
+wait behind a Chromium install, and the two ticks say which kind of thing broke
+before you open the log.
+
+Node is pinned to the version the project is developed on. The claim above that
+it runs on Node 20+ is not verified by anything — widen `NODE_VERSION` into a
+matrix if it needs to hold.
 
 ---
 

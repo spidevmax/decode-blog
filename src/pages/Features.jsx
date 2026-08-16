@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
+import { kickerColor } from '@/components/editorial/kickers.helpers';
 import { Button, ErrorState, Loader, SaveButton } from '@/components/ui';
 import FilterSelect from '@/components/ui/FilterSelect';
 import Pagination from '@/components/ui/Pagination';
@@ -10,19 +11,6 @@ import './Features.css';
 
 /** A lead across both columns, then three full rows of two. */
 const PER_PAGE = 7;
-
-/**
- * Kicker colour by content type, so a given kind of piece always reads the
- * same way. Anything unlisted falls back to magenta.
- */
-const KICKER_COLORS = {
-  Analysis: 'var(--color-mostaza)',
-  Feature: 'var(--color-oliva)',
-  Report: 'var(--color-terracota)',
-  Interview: 'var(--color-petrol)',
-};
-
-const kickerColor = (kicker) => KICKER_COLORS[kicker] ?? 'var(--color-magenta)';
 
 /**
  * The long-read archive.

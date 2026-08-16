@@ -3,18 +3,10 @@ import { Link } from 'react-router-dom';
 import AlbumCover from './AlbumCover';
 import GenreTag from './GenreTag';
 import RatingBadge from './RatingBadge';
-import { ratingTone } from './RatingBadge/RatingBadge.helpers';
+import { ratingColor } from './RatingBadge/RatingBadge.helpers';
 import TypeChip from '@/components/editorial/TypeChip';
 import { SaveButton } from '@/components/ui';
 import './AlbumCard.css';
-
-/** The verdict bands, as paint. Same four the badge and the footer key use. */
-const TONE_COLORS = {
-  magenta: 'var(--color-magenta)',
-  petrol: 'var(--color-petrol)',
-  mostaza: 'var(--color-mostaza)',
-  terracota: 'var(--color-terracota)',
-};
 
 /**
  * Trading card: cover, rating overlaid top-right, then a foot strip carrying
@@ -37,7 +29,7 @@ const AlbumCard = ({ album, variant = 'default', showType = false }) => {
   return (
     <article
       className={`album-card album-card--${variant}`}
-      style={{ '--verdict-color': TONE_COLORS[ratingTone(album.score)] }}
+      style={{ '--verdict-color': ratingColor(album.score) }}
     >
       <div className="album-card__media">
         <AlbumCover album={album} />
