@@ -7,7 +7,7 @@ import simpleImportSort from "eslint-plugin-simple-import-sort";
 import globals from "globals";
 
 export default defineConfig([
-	globalIgnores(["dist"]),
+	globalIgnores(["dist", "coverage"]),
 
 	{
 		files: ["**/*.{js,jsx}"],
