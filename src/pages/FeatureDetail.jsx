@@ -24,6 +24,21 @@ const FeatureDetail = () => {
   const { feature, loading, error, retry } = useFeature(id);
   const { later, earlier } = useFeatureNeighbours(id, feature?.kicker);
 
+  /**
+   * Every feature starts at the top.
+   *
+   * `id` is a change signal, not a value the body reads — which is why a
+   * linter may call it an unnecessary dependency. It is not: the neighbour
+   * links at the foot of the article move between features without
+   * unmounting this component, so the id changing is the only thing that can
+   * tell us a different piece is on screen. Drop it and the effect never runs
+   * again after the first mount.
+   *
+   * Removing it looks harmless when you try it, because the incoming article
+   * is often shorter and the browser clamps the scroll position on its own.
+   * That is luck, not behaviour: land on a longer piece and the reader opens
+   * it halfway down.
+   */
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [id]);

@@ -24,7 +24,14 @@ const NewsDetail = () => {
   const { item, loading, error, retry } = useNewsItem(id);
   const { later, earlier } = useNewsNeighbours(id);
 
-  // Every story starts at the top, same as the review page.
+  /**
+   * Every story starts at the top, same as the review page.
+   *
+   * `id` is a change signal, not a value the body reads. See the longer note
+   * in FeatureDetail.jsx: the neighbour links move between stories without
+   * unmounting this component, so dropping the dependency stops the effect
+   * running after the first mount — invisibly, most of the time.
+   */
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [id]);

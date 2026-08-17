@@ -27,7 +27,14 @@ const ReviewDetail = () => {
   const primaryGenre = album?.genres?.[0];
   const { better, worse } = useAlbumNeighbours(id, primaryGenre);
 
-  // Every review starts at the top.
+  /**
+   * Every review starts at the top.
+   *
+   * `id` is a change signal, not a value the body reads. See the longer note
+   * in FeatureDetail.jsx: the neighbour links move between reviews without
+   * unmounting this component, so dropping the dependency stops the effect
+   * running after the first mount — invisibly, most of the time.
+   */
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [id]);
