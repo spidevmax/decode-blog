@@ -1,7 +1,9 @@
+import './NotFound.css';
+
 import { useLocation } from 'react-router-dom';
+
 import { Button } from '@/components/ui';
 import { truncatePath } from '@/utils/paths';
-import './NotFound.css';
 
 /**
  * No route matched.

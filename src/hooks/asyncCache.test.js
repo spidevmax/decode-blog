@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+
 import { clearCache, invalidate, load, peek } from './asyncCache';
 
 /** A fetcher that resolves when told to, so overlapping calls can be staged. */

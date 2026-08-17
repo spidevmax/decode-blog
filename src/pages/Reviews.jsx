@@ -1,4 +1,7 @@
+import './Reviews.css';
+
 import { useSearchParams } from 'react-router-dom';
+
 import AlbumCard from '@/components/album/AlbumCard';
 import AlbumGrid from '@/components/album/AlbumGrid';
 import {
@@ -11,7 +14,6 @@ import FilterSelect from '@/components/ui/FilterSelect';
 import Pagination from '@/components/ui/Pagination';
 import { useAlbums, useFacets } from '@/hooks/useAlbums';
 import { usePagination } from '@/hooks/usePagination';
-import './Reviews.css';
 
 /** Cards per page: three full rows of the four-column grid. */
 const PER_PAGE = 12;

@@ -1,5 +1,6 @@
-import { useState } from 'react';
 import './AlbumCover.css';
+
+import { useState } from 'react';
 
 /**
  * Fallback artwork is generated from the album id, so a given album always

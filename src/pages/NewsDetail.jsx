@@ -1,11 +1,13 @@
+import './ArticleDetail.css';
+
 import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
+
 import ArticleBody from '@/components/editorial/ArticleBody';
 import ArticleHeader from '@/components/editorial/ArticleHeader';
 import { ErrorState, Loader, SaveButton } from '@/components/ui';
 import { useNewsItem, useNewsNeighbours } from '@/hooks/useEditorial';
 import { formatLongDate } from '@/utils/dates';
-import './ArticleDetail.css';
 
 /**
  * A single news story.

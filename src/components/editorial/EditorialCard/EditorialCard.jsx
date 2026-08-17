@@ -1,9 +1,11 @@
+import './EditorialCard.css';
+
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
+
 import TypeChip from '@/components/editorial/TypeChip';
 import { SaveButton } from '@/components/ui';
 import { formatLongDate } from '@/utils/dates';
-import './EditorialCard.css';
 
 /**
  * A news story or a feature, sized to sit inside the reviews grid.

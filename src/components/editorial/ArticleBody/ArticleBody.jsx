@@ -1,5 +1,6 @@
-import { splitEmphasis } from './ArticleBody.helpers';
 import './ArticleBody.css';
+
+import { splitEmphasis } from './ArticleBody.helpers';
 
 /**
  * The prose column shared by reviews, news and features.

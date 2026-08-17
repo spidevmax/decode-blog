@@ -1,5 +1,9 @@
+import './ArticleDetail.css';
+import './ReviewDetail.css';
+
 import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
+
 import AlbumCover from '@/components/album/AlbumCover';
 import GenreTag from '@/components/album/GenreTag';
 import RatingBadge from '@/components/album/RatingBadge';
@@ -8,8 +12,6 @@ import ArticleBody from '@/components/editorial/ArticleBody';
 import { ErrorState, Loader, SaveButton } from '@/components/ui';
 import { useAlbum, useAlbumNeighbours } from '@/hooks/useAlbums';
 import { formatLongDate } from '@/utils/dates';
-import './ArticleDetail.css';
-import './ReviewDetail.css';
 
 /**
  * A single review.

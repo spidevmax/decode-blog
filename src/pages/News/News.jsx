@@ -1,13 +1,16 @@
+import './News.css';
+
 import { useMemo } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
+
 import { Button, ErrorState, Loader, SaveButton } from '@/components/ui';
 import FilterSelect from '@/components/ui/FilterSelect';
 import Pagination from '@/components/ui/Pagination';
 import { useNews } from '@/hooks/useEditorial';
 import { usePagination } from '@/hooks/usePagination';
 import { formatDayOfMonth, formatLongDate, formatMonthLabel } from '@/utils/dates';
+
 import { groupByMonth } from './News.helpers';
-import './News.css';
 
 const PER_PAGE = 6;
 

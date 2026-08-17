@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+
 import { clampPage, pageCount, pageItems, pageSlice } from './Pagination.helpers';
 
 describe('pageCount', () => {

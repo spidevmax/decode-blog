@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 
 import { FavoritesProvider } from '@/context/FavoritesProvider';
+
 import SaveButton from './SaveButton';
 
 // localStorage is shimmed and cleared between tests in src/test/setup.js.

@@ -1,5 +1,5 @@
-import { StrictMode } from 'react';
 import { renderHook, waitFor } from '@testing-library/react';
+import { StrictMode } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 
 import { useAsync } from './useAsync';

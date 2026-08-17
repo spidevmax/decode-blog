@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+
 import { splitEmphasis } from './ArticleBody.helpers';
 
 describe('splitEmphasis', () => {

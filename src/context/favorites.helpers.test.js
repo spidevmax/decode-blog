@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+
 import { favoriteKey, idsOfType, parseStored, toggleEntry } from './favorites.helpers';
 
 describe('parseStored', () => {

@@ -1,5 +1,6 @@
-import { pageItems } from './Pagination.helpers';
 import './Pagination.css';
+
+import { pageItems } from './Pagination.helpers';
 
 /**
  * Numbered pager with prev/next.

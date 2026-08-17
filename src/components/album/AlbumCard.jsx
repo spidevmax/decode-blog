@@ -1,12 +1,15 @@
+import './AlbumCard.css';
+
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
+
+import TypeChip from '@/components/editorial/TypeChip';
+import { SaveButton } from '@/components/ui';
+
 import AlbumCover from './AlbumCover';
 import GenreTag from './GenreTag';
 import RatingBadge from './RatingBadge';
 import { ratingColor } from './RatingBadge/RatingBadge.helpers';
-import TypeChip from '@/components/editorial/TypeChip';
-import { SaveButton } from '@/components/ui';
-import './AlbumCard.css';
 
 /**
  * Trading card: cover, rating overlaid top-right, then a foot strip carrying

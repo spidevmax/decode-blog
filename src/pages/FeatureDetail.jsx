@@ -1,13 +1,15 @@
+import './ArticleDetail.css';
+
 import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
+
 import ArticleBody from '@/components/editorial/ArticleBody';
 import ArticleHeader from '@/components/editorial/ArticleHeader';
-import ReadingProgress from '@/components/editorial/ReadingProgress';
 import { kickerColor } from '@/components/editorial/kickers.helpers';
+import ReadingProgress from '@/components/editorial/ReadingProgress';
 import { ErrorState, Loader, SaveButton } from '@/components/ui';
 import { useFeature, useFeatureNeighbours } from '@/hooks/useEditorial';
 import { formatLongDate } from '@/utils/dates';
-import './ArticleDetail.css';
 
 /**
  * A single long-form feature.

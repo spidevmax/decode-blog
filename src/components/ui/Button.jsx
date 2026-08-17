@@ -1,5 +1,6 @@
-import { Link } from 'react-router-dom';
 import './Button.css';
+
+import { Link } from 'react-router-dom';
 
 /**
  * @param {'primary'|'accent'|'ghost'} variant

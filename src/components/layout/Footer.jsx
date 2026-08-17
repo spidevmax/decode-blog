@@ -1,9 +1,11 @@
+import './Footer.css';
+
 import { Link } from 'react-router-dom';
+
 import {
   bandRangeLabel,
   RATING_BANDS,
 } from '@/components/album/RatingBadge/RatingBadge.helpers';
-import './Footer.css';
 
 /** Every destination, including the shelf, which the top nav reaches by star. */
 const LINKS = [

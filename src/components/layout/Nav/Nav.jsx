@@ -1,8 +1,11 @@
+import './Nav.css';
+
 import { useCallback, useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
+
 import { useFavorites } from '@/hooks/useFavorites';
+
 import { LINKS, LOGO_LETTERS } from './Nav.constants';
-import './Nav.css';
 
 const Nav = () => {
   // The menu records which route it opened on. If the route changed it is

@@ -1,5 +1,6 @@
-import { Link } from 'react-router-dom';
 import './GenreTag.css';
+
+import { Link } from 'react-router-dom';
 
 /**
  * Genre tag. Without `to` it is a static label; with `to` it navigates.

@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
 import './ReadingProgress.css';
+
+import { useEffect, useRef, useState } from 'react';
 
 /**
  * How far through a long read you are, as a rule across the top of the screen.

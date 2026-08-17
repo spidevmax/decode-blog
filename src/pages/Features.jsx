@@ -1,5 +1,8 @@
+import './Features.css';
+
 import { useMemo } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
+
 import { kickerColor } from '@/components/editorial/kickers.helpers';
 import { Button, ErrorState, Loader, SaveButton } from '@/components/ui';
 import FilterSelect from '@/components/ui/FilterSelect';
@@ -7,7 +10,6 @@ import Pagination from '@/components/ui/Pagination';
 import { useFeatures } from '@/hooks/useEditorial';
 import { usePagination } from '@/hooks/usePagination';
 import { formatLongDate } from '@/utils/dates';
-import './Features.css';
 
 /** A lead across both columns, then three full rows of two. */
 const PER_PAGE = 7;

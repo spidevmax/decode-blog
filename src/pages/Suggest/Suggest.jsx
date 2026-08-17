@@ -1,7 +1,9 @@
+import './Suggest.css';
+
 import { useState } from 'react';
+
 import NewsletterForm from './NewsletterForm';
 import SuggestionForm from './SuggestionForm';
-import './Suggest.css';
 
 /**
  * Submissions.

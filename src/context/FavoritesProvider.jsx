@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { FavoritesContext } from './favorites-context';
+
 import { favoriteKey, idsOfType, parseStored, toggleEntry } from './favorites.helpers';
+import { FavoritesContext } from './favorites-context';
 
 const STORAGE_KEY = 'decode:favorites';
 

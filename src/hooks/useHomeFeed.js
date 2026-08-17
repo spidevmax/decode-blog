@@ -1,6 +1,6 @@
+import { alternateEditorial, buildHomeFeed, excludeShown } from './homeFeed.helpers';
 import { useAlbums } from './useAlbums';
 import { useFeatures, useNews } from './useEditorial';
-import { alternateEditorial, buildHomeFeed, excludeShown } from './homeFeed.helpers';
 
 /**
  * Cards in the Home grid, including the 2x2 lead. Exported so the loading

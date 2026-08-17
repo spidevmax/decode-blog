@@ -1,7 +1,9 @@
+import './LatestStrip.css';
+
 import { Link } from 'react-router-dom';
+
 import TypeChip from '@/components/editorial/TypeChip';
 import { formatLongDate } from '@/utils/dates';
-import './LatestStrip.css';
 
 /**
  * A line of short announcements under the nav: the newest review, story and

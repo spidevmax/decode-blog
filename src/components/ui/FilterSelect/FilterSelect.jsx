@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
 import './FilterSelect.css';
+
+import { useEffect, useRef, useState } from 'react';
 
 /**
  * A single-choice filter, collapsed behind its current value.

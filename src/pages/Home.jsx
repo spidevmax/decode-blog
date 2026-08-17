@@ -1,4 +1,7 @@
+import './Home.css';
+
 import { Link } from 'react-router-dom';
+
 import AlbumCard from '@/components/album/AlbumCard';
 import AlbumCover from '@/components/album/AlbumCover';
 import AlbumGrid from '@/components/album/AlbumGrid';
@@ -8,7 +11,6 @@ import EditorialCard from '@/components/editorial/EditorialCard';
 import LatestStrip from '@/components/editorial/LatestStrip';
 import { Button, ErrorState, Loader } from '@/components/ui';
 import { HOME_FEED_LIMIT, useHomeFeed } from '@/hooks/useHomeFeed';
-import './Home.css';
 
 const Home = () => {
   const { hero, feed, latest, loading, error, retry } = useHomeFeed();

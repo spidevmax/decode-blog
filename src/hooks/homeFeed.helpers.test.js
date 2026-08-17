@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+
 import { alternateEditorial, buildHomeFeed, excludeShown } from './homeFeed.helpers';
 
 const reviews = (n) => Array.from({ length: n }, (_, i) => ({ id: `r${i + 1}` }));

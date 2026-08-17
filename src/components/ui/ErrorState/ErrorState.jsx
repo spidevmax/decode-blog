@@ -1,5 +1,6 @@
-import Button from '../Button';
 import './ErrorState.css';
+
+import Button from '../Button';
 
 /**
  * A request that failed for good.

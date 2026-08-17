@@ -1,5 +1,6 @@
-import { ratingTone } from './RatingBadge.helpers';
 import './RatingBadge.css';
+
+import { ratingTone } from './RatingBadge.helpers';
 
 const RatingBadge = ({ score, size = 'md' }) => {
   const tone = ratingTone(score);

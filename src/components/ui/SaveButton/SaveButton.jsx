@@ -1,5 +1,6 @@
-import { useFavorites } from '@/hooks/useFavorites';
 import './SaveButton.css';
+
+import { useFavorites } from '@/hooks/useFavorites';
 
 /**
  * Save toggle shared by reviews, news and features.
