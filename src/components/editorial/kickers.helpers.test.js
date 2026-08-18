@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { kickerColor,KICKERS } from './kickers.helpers';
+import { kickerColor, KICKERS } from './kickers.helpers';
 
 describe('the kicker taxonomy', () => {
   it('names each type exactly once', () => {

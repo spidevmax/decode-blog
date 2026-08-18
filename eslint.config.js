@@ -10,7 +10,7 @@ export default defineConfig([
 	globalIgnores(["dist", "coverage"]),
 
 	{
-		files: ["**/*.{js,jsx}"],
+		files: ["**/*.{js,jsx, mjs}"],
 
 		extends: [
 			js.configs.recommended,
