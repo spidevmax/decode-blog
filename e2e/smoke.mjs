@@ -19,6 +19,7 @@
  * above (`E2E_BASE_URL=http://localhost:5173 npm run e2e` against `npm run dev`).
  */
 import { spawn } from 'node:child_process';
+
 import { chromium } from 'playwright';
 
 /** Simulated failure rate to build with. Zero unless the flaky run asked. */
