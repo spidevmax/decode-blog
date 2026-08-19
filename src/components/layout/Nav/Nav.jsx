@@ -7,6 +7,15 @@ import { useFavorites } from '@/hooks/useFavorites';
 
 import { LINKS, LOGO_LETTERS } from './Nav.constants';
 
+/**
+ * Site header: wordmark, menu toggle and the primary navigation.
+ *
+ * The brand and the toggle sit outside the <nav> on purpose — a navigation
+ * landmark should hold navigation links and nothing else, so a screen reader
+ * jumping between landmarks lands on destinations rather than on the logo.
+ * The component is named for its role in the layout; the element it renders
+ * is the <header>.
+ */
 const Nav = () => {
   // The menu records which route it opened on. If the route changed it is
   // closed: it shuts on navigation without an effect syncing state.
