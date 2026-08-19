@@ -10,9 +10,14 @@ import { isValidEmail } from '@/utils/validation';
  *
  * One field, so it lays out as a single row inside the subscribe band. The
  * cadence is stated once, by the band itself, so there is no hint here.
+ *
+ * The field is uncontrolled: the address is only ever read on submit, so
+ * holding it in state would re-render the row on every keystroke to produce a
+ * value nothing looks at until the button is pressed. `emailRef` is the field
+ * — it reads the value and takes the focus. SuggestionForm is controlled for
+ * the opposite reason: its parent needs the values as they are typed.
  */
 const NewsletterForm = () => {
-  const [email, setEmail] = useState('');
   const [status, setStatus] = useState('idle'); // idle | sending | done | error
   const [fieldError, setFieldError] = useState(null);
 
@@ -25,14 +30,16 @@ const NewsletterForm = () => {
     if (status === 'done') doneRef.current?.focus();
   }, [status]);
 
-  const update = (event) => {
-    setEmail(event.target.value);
-    // Corrected is corrected: the message goes as soon as the address does.
+  // Corrected is corrected: the message goes as soon as the address does.
+  // Nothing else is tracked, so a clean field types without re-rendering.
+  const update = () => {
     if (fieldError) setFieldError(null);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    const email = emailRef.current?.value ?? '';
 
     if (!isValidEmail(email)) {
       setFieldError('Enter a valid email address.');
@@ -44,8 +51,9 @@ const NewsletterForm = () => {
 
     try {
       await submitSuggestion({ type: 'newsletter', email: email.trim() });
+      // No reset needed: the form unmounts for the confirmation, so coming
+      // back through "Use another email" mounts a fresh, empty field.
       setStatus('done');
-      setEmail('');
     } catch {
       setStatus('error');
     }
@@ -78,7 +86,6 @@ const NewsletterForm = () => {
         required
         autoComplete="email"
         ref={emailRef}
-        value={email}
         placeholder="hello@example.com"
         error={fieldError}
         onChange={update}
