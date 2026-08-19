@@ -4,7 +4,7 @@ import './AlbumGrid.css';
  * Grid of album cards.
  *
  * It exists as a component — rather than a loose class in a page stylesheet —
- * so the dependency is explicit: Home, Explore and Reviews all use it, and it
+ * so the dependency is explicit: Home and Reviews both use it, and it
  * used to live in Home.css, so touching Home broke the others.
  *
  * @param {'asymmetric'|'even'} variant  `asymmetric` lets the first card span

@@ -389,16 +389,6 @@ await check('An applied filter is visible without opening anything', async (page
   return `trigger reads "${label.trim()}"`;
 });
 
-await check('/explore redirects to /reviews, keeping the query', async (page) => {
-  await page.goto(`${BASE}/explore?genre=Pop`);
-  await page.waitForURL('**/reviews?genre=Pop', { timeout: 5000 });
-  const url = new URL(page.url());
-  if (url.pathname !== '/reviews' || url.searchParams.get('genre') !== 'Pop') {
-    throw new Error(`landed on ${page.url()}`);
-  }
-  return `${url.pathname}${url.search}`;
-});
-
 await check('RatingBadge applies the tone by threshold', async (page) => {
   await goto(page, '/reviews', '.album-card');
   const badges = await page.$$eval('.album-card', (cards) =>

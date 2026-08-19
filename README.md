@@ -88,7 +88,6 @@ noise. Missing artwork is not a rendering bug.
 | `/features/:id` | `FeatureDetail` | One feature                                                      |
 | `/saved`        | `Saved`         | Everything saved, as one shelf of uniform rows                   |
 | `/suggest`      | `Suggest`       | Newsletter sign-up and album suggestion forms                    |
-| `/explore`      | —               | Redirect to `/reviews`, preserving the query string              |
 | `*`             | `NotFound`      | 404                                                              |
 
 ---
@@ -99,7 +98,7 @@ noise. Missing artwork is not a rendering bug.
 src/
   main.jsx            StrictMode > BrowserRouter > FavoritesProvider > App
   App.jsx             shell: skip link, Nav, <main>, Footer
-  app/routes.jsx      route table, lazy loading, /explore redirect
+  app/routes.jsx      route table, lazy loading
   pages/              one file or folder per route, each with its own CSS
   components/
     album/            AlbumCard, AlbumCover, AlbumGrid, GenreTag, RatingBadge
@@ -175,7 +174,7 @@ Swiss/metro on a dark ground: straight edges everywhere (`border-radius: 0`),
 
 ## Testing
 
-**191 unit tests** across 17 files, plus a **42-check E2E suite**.
+**191 unit tests** across 17 files, plus a **41-check E2E suite**.
 
 Vitest runs **two projects**, split by what they need rather than by what they
 cover. The file extension decides which one claims a test — there is nothing to
