@@ -175,7 +175,7 @@ Swiss/metro on a dark ground: straight edges everywhere (`border-radius: 0`),
 
 ## Testing
 
-**185 unit tests** across 16 files, plus a **42-check E2E suite**.
+**191 unit tests** across 17 files, plus a **42-check E2E suite**.
 
 Vitest runs **two projects**, split by what they need rather than by what they
 cover. The file extension decides which one claims a test — there is nothing to
