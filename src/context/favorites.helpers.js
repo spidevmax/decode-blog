@@ -21,12 +21,9 @@ const isValidEntry = (entry) =>
 /**
  * Normalises whatever came out of localStorage.
  *
- * The first version of this feature stored a plain array of album ids, since
- * reviews were the only saveable thing. Those are migrated to `review`
- * entries rather than discarded, so nobody loses what they had saved.
- *
- * Anything unrecognisable is dropped: a corrupt entry should cost you that
- * one favourite, not the whole list.
+ * The stored value is untrusted: it survives reloads, it is editable from the
+ * devtools, and it may be half-written. Anything unrecognisable is dropped —
+ * a corrupt entry should cost you that one favourite, not the whole list.
  */
 export const parseStored = (raw) => {
   if (!Array.isArray(raw)) return [];
@@ -35,15 +32,9 @@ export const parseStored = (raw) => {
   const out = [];
 
   for (const item of raw) {
-    // Legacy format: a bare id, which could only ever have been a review.
-    const entry =
-      typeof item === 'string' && item !== ''
-        ? { type: 'review', id: item }
-        : isValidEntry(item)
-          ? { type: item.type, id: item.id }
-          : null;
+    if (!isValidEntry(item)) continue;
 
-    if (!entry) continue;
+    const entry = { type: item.type, id: item.id };
 
     const key = favoriteKey(entry.type, entry.id);
     if (seen.has(key)) continue;

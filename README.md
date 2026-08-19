@@ -174,7 +174,7 @@ Swiss/metro on a dark ground: straight edges everywhere (`border-radius: 0`),
 
 ## Testing
 
-**191 unit tests** across 17 files, plus a **41-check E2E suite**.
+**189 unit tests** across 17 files, plus a **40-check E2E suite**.
 
 Vitest runs **two projects**, split by what they need rather than by what they
 cover. The file extension decides which one claims a test — there is nothing to
@@ -276,8 +276,8 @@ Worth reading before changing the surrounding code:
   works. Changing a filter clears `?page`; a `?page` beyond the end clamps to the
   last real page.
 - **Favourites** are stored in `localStorage` as `{type, id}` pairs, because ids
-  are only unique within their own dataset. The original format — a bare array of
-  album ids — is migrated on read.
+  are only unique within their own dataset. What comes back out is untrusted, so
+  it is validated and de-duplicated on read; anything unusable is dropped.
 - **The Home grid mixes content types**, one editorial piece after every four
   reviews. The composition is pure and unit tested in
   [`homeFeed.helpers.js`](src/hooks/homeFeed.helpers.js); news and features are

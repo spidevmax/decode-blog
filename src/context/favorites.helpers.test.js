@@ -11,21 +11,6 @@ describe('parseStored', () => {
     expect(parseStored(raw)).toEqual(raw);
   });
 
-  // The first version stored bare album ids; nobody should lose those.
-  it('migrates legacy bare ids to reviews', () => {
-    expect(parseStored(['gnx', 'blonde'])).toEqual([
-      { type: 'review', id: 'gnx' },
-      { type: 'review', id: 'blonde' },
-    ]);
-  });
-
-  it('handles a list holding both formats at once', () => {
-    expect(parseStored(['gnx', { type: 'feature', id: 'vinyl-comeback' }])).toEqual([
-      { type: 'review', id: 'gnx' },
-      { type: 'feature', id: 'vinyl-comeback' },
-    ]);
-  });
-
   // One bad entry must cost you that favourite, not the whole shelf.
   it('drops unusable entries and keeps the rest', () => {
     const raw = [
@@ -34,6 +19,7 @@ describe('parseStored', () => {
       42,
       {},
       { type: 'nope', id: 'x' },
+      'gnx',
       { type: 'news', id: '' },
       { type: 'news', id: 'arctic-monkeys-studio' },
     ];
@@ -44,7 +30,10 @@ describe('parseStored', () => {
   });
 
   it('de-duplicates on the type+id pair', () => {
-    const raw = [{ type: 'review', id: 'gnx' }, { type: 'review', id: 'gnx' }, 'gnx'];
+    const raw = [
+      { type: 'review', id: 'gnx' },
+      { type: 'review', id: 'gnx' },
+    ];
     expect(parseStored(raw)).toEqual([{ type: 'review', id: 'gnx' }]);
   });
 

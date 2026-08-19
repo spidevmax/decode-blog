@@ -852,27 +852,6 @@ await check('Favourites persist in localStorage as typed entries', async (page) 
   return stored;
 });
 
-await check('Legacy bare ids migrate to saved reviews', async (page) => {
-  // Seed the old format, then load the app and check it survives.
-  await page.goto(BASE + '/');
-  await page.evaluate(() =>
-    localStorage.setItem('decode:favorites', JSON.stringify(['ok-computer', 'blonde'])),
-  );
-  if (!(await goto(page, '/saved', '.shelf-row'))) {
-    throw new Error('saved page never loaded');
-  }
-  const rows = await page.locator('.shelf-row').count();
-  if (rows !== 2) throw new Error(`expected 2 migrated reviews, found ${rows}`);
-
-  const stored = await page.evaluate(() =>
-    JSON.parse(localStorage.getItem('decode:favorites')),
-  );
-  if (!stored.every((e) => e.type === 'review')) {
-    throw new Error(`migration produced ${JSON.stringify(stored)}`);
-  }
-  return `2 legacy ids → ${JSON.stringify(stored)}`;
-});
-
 await check('News and features can be saved and reach /saved', async (page) => {
   await page.goto(BASE + '/');
   await page.evaluate(() => localStorage.removeItem('decode:favorites'));
