@@ -15,11 +15,11 @@ import { ratingColor } from './RatingBadge/RatingBadge.helpers';
  * Trading card: cover, rating overlaid top-right, then a foot strip carrying
  * the genres and the year, ruled in the colour of the record's verdict.
  *
- * That rule used to be a solid block of colour picked by grid position, which
- * meant the largest colour area on the card said nothing — and said it in the
- * same four hues the scoring bands use, so a magenta strip on a 6.0 actively
- * contradicted the badge above it. Now the only colour left on the card is
- * the one the score earns.
+ * Colour on this card means one thing: the score. The foot rule takes the
+ * verdict's hue and nothing else picks a colour — the four tones *are* the
+ * scoring bands, so a magenta strip under a 6.0 would contradict the badge
+ * above it. An earlier version filled that rule by grid position, which made
+ * the largest colour area on the card say something untrue.
  *
  * @param {'default'|'feature'} variant  `feature` spans 2x2 in the grid and
  *   shows the excerpt.
