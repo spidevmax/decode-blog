@@ -53,7 +53,9 @@ error states get exercised in normal use rather than rotting unseen.
 
 A production build turns both off (`import.meta.env.DEV`), because neither is a
 property of the data: a deployed build serves what it already holds in memory,
-immediately. Nothing to configure to deploy.
+immediately. No environment variables to set: the only deployment config is
+the SPA rewrite in `vercel.json`, which every client-routed build needs so a
+refresh on `/reviews/:id` reaches the app instead of a 404.
 
 Both are overridable at build time, in a `.env.local` or inline:
 
