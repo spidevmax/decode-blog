@@ -1,7 +1,7 @@
 # Continuous integration for DECODE.
 #
 # Two jobs on purpose, running in parallel. `check` is the fast feedback —
-# lint, formatting, 185 unit tests and a build, all in well under a minute.
+# lint, formatting, the unit suite and a build, all in well under a minute.
 # `e2e` is slower and needs a browser downloaded, so it is kept separate: a
 # formatting mistake should not wait behind a Chromium install, and a red tick
 # tells you which kind of thing broke before you open the log.
