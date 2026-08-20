@@ -5,7 +5,9 @@
   position: fixed;
   inset: 0 0 auto;
   height: 2px;
-  z-index: 20;
+  /* Above the sticky Nav (50), below the skip link (100): both sit on the top
+     edge, and an opaque header two pixels tall would hide this entirely. */
+  z-index: 60;
   background-color: rgba(244, 241, 232, 0.12);
   pointer-events: none;
 }
