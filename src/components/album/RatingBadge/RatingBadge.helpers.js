@@ -57,13 +57,16 @@ export const bandRangeLabel = (slug) => {
   return range.max === Infinity ? `${range.min}+` : `${range.min}–${range.max}`;
 };
 
-/** The band a score falls in. Each boundary belongs to the upper band. */
-export const ratingBand = (score) => {
-  // Below the lowest floor — a negative score — still has to land somewhere.
-  return (
-    RATING_BANDS.find(({ min }) => score >= min) ?? RATING_BANDS[RATING_BANDS.length - 1]
-  );
-};
+/**
+ * The band a score falls in. Each boundary belongs to the upper band.
+ *
+ * Scores run 0–10 and the bottom band opens at 0, so every score on the scale
+ * lands in one. Nothing off the scale is handled: the scores are authored in
+ * `mocks/albums.data.js`, not received from anywhere, so a number outside it
+ * would be a typo in the dataset and is better left to surface than painted
+ * as though it were a verdict.
+ */
+export const ratingBand = (score) => RATING_BANDS.find(({ min }) => score >= min);
 
 /** Just the tone of that band, which is all the badge and the card need. */
 export const ratingTone = (score) => ratingBand(score).tone;

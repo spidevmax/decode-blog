@@ -57,10 +57,6 @@ describe('RATING_BANDS', () => {
       expect(ratingTone(rounded)).toBe(expected);
     }
   });
-
-  it('still paints something below the lowest floor', () => {
-    expect(ratingTone(-1)).toBe('terracota');
-  });
 });
 
 describe('bandRange', () => {
@@ -97,10 +93,6 @@ describe('ratingBand', () => {
   it('puts a boundary score in the upper band', () => {
     expect(ratingBand(8.5).label).toBe('Essential');
     expect(ratingBand(8.4).label).toBe('Recommended');
-  });
-
-  it('lands somewhere for a score below the floor', () => {
-    expect(ratingBand(-1)).toBe(RATING_BANDS[RATING_BANDS.length - 1]);
   });
 });
 

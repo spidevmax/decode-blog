@@ -67,7 +67,9 @@ const Reviews = () => {
     setParams(next, { replace: true });
   };
 
-  const hasFilters = Boolean(genre || decade || rated);
+  // `range`, not `rated`: a slug that names no band filtered nothing, so the
+  // page should not claim a filter is on and offer to clear it.
+  const hasFilters = Boolean(genre || decade || range);
 
   // Each list opens with the way out of the filter, so clearing one never
   // means hunting for a separate control.
