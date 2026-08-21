@@ -109,7 +109,12 @@
   margin: var(--space-7) 0 0;
 }
 
-@media (max-width: 599px) {
+/* Up to 768px, not 600: that is where `.container` widens its padding from
+   --space-4 to --space-6. Below it the padding and the badge's overhang are
+   both --space-4, so the circle lands exactly on the viewport edge with
+   nothing to breathe into. It sits inside the frame until there is room to
+   hang off it. */
+@media (max-width: 767px) {
   .hero__rating {
     right: var(--space-3);
     bottom: calc(var(--space-5) * -1);

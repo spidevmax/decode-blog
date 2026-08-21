@@ -1168,6 +1168,23 @@ await check('Mobile 375px: no horizontal scroll and working menu', async (page) 
   );
   if (overflow > 0) throw new Error(`horizontal overflow of ${overflow}px`);
 
+  // Overflow alone does not catch a badge sitting flush against the edge: it
+  // is inside the document, so nothing widens. The hero rating hangs off the
+  // artwork by --space-4 and `.container` pads by the same amount below
+  // 768px, which once put the circle exactly on the viewport edge in the
+  // 600–767 band. Measure the clearance, at both ends of that band.
+  for (const width of [375, 600, 767]) {
+    await page.setViewportSize({ width, height: 812 });
+    await page.waitForTimeout(200);
+    const gap = await page.evaluate(() => {
+      const b = document.querySelector('.hero__rating')?.getBoundingClientRect();
+      return b ? Math.round(document.documentElement.clientWidth - b.right) : null;
+    });
+    if (gap === null) throw new Error('the hero rating badge is missing');
+    if (gap < 8) throw new Error(`at ${width}px the badge clears the edge by ${gap}px`);
+  }
+  await page.setViewportSize({ width: 375, height: 812 });
+
   await page.getByRole('button', { name: 'Menu' }).click();
   await page.waitForSelector('.nav__menu--open');
   await page.locator('.nav__menu').getByRole('link', { name: 'Features' }).click();
