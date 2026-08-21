@@ -199,6 +199,14 @@
     align-self: center;
   }
 
+  /* Every card is the same row here, so the lead's larger badge has nothing
+     left to lead — and at `md` its ring overruns the rating column, which is
+     sized for `sm` plus the 6px the box-shadow adds outside the element box. */
+  .album-card--feature .album-card__rating .rating {
+    width: 2.5rem;
+    font-size: 0.875rem;
+  }
+
   .album-card__body {
     grid-area: body;
     padding: var(--space-3) 0;

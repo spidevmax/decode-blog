@@ -1182,6 +1182,23 @@ await check('Mobile 375px: no horizontal scroll and working menu', async (page) 
     });
     if (gap === null) throw new Error('the hero rating badge is missing');
     if (gap < 8) throw new Error(`at ${width}px the badge clears the edge by ${gap}px`);
+
+    // Same measurement for the cards. In the row layout the lead's badge is
+    // sized down to `sm`: at `md` its ring overran the rating column, which
+    // is sized for the smaller circle plus the 6px the box-shadow adds
+    // outside the element box.
+    const spill = await page.evaluate(() =>
+      [...document.querySelectorAll('.album-card')]
+        .map((card) => {
+          const badge = card.querySelector('.rating');
+          if (!badge) return -Infinity;
+          const c = card.getBoundingClientRect();
+          const b = badge.getBoundingClientRect();
+          return Math.round(b.right + 6 - c.right);
+        })
+        .reduce((a, b) => Math.max(a, b), -Infinity),
+    );
+    if (spill > 0) throw new Error(`at ${width}px a card badge spills ${spill}px`);
   }
   await page.setViewportSize({ width: 375, height: 812 });
 

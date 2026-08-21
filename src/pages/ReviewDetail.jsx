@@ -113,10 +113,14 @@ const ReviewDetail = () => {
           <h1 className="review__title">{album.title}</h1>
           <p className="review__artist">{album.artist}</p>
 
-          {/* Labelled, because the page carries two dates: this one is when
-              the review ran, and the facts list holds the record's year. */}
+          {/* Labelled, because a bare date under an artist reads as a
+              publication date for the piece. `album.date` is the record's
+              release day — the same fact the facts list carries as a year,
+              to the day. The dataset holds no date for the review itself,
+              and inventing one to fill the slot would be worse than the
+              slot being empty. */}
           <p className="review__credits">
-            Reviewed <time dateTime={album.date}>{formatLongDate(album.date)}</time>
+            Released <time dateTime={album.date}>{formatLongDate(album.date)}</time>
           </p>
 
           <div className="review__tags">
