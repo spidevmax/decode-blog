@@ -221,6 +221,23 @@ await check('The latest strip announces one of each type', async (page) => {
   );
   if (animated) throw new Error(`${animated} animated nodes in the strip`);
 
+  // Titles must survive the narrow widths. The list scrolls inside itself, so
+  // a squeezed strip never widens the document and the overflow check on
+  // /mobile cannot see it: flex once shrank every title to nothing, leaving
+  // the chips adjacent with a date in the gap where a headline should be.
+  for (const width of [320, 375, 600, 900]) {
+    await page.setViewportSize({ width, height: 800 });
+    await page.waitForTimeout(200);
+    const widths = await page.$$eval('.latest-strip__link', (as) =>
+      as.map((a) => Math.round(a.getBoundingClientRect().width)),
+    );
+    const squeezed = widths.filter((w) => w < 40);
+    if (squeezed.length) {
+      throw new Error(`at ${width}px the titles measure ${widths.join('/')}`);
+    }
+  }
+  await page.setViewportSize({ width: 1280, height: 800 });
+
   // Each announcement must lead somewhere real.
   const hrefs = await page.$$eval('.latest-strip__link', (as) =>
     as.map((a) => a.getAttribute('href')),
