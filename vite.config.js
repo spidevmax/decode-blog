@@ -16,6 +16,20 @@ const TEST_ENV = { VITE_API_FAIL_RATE: '0', VITE_API_LATENCY: '0' };
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  build: {
+    /**
+     * esbuild rewrites `(max-width: 767px)` to `(width<=767px)` unless told
+     * otherwise. That range syntax is Media Queries Level 4, which Safari only
+     * understands from iOS 16.4 — and a browser that cannot parse the query
+     * drops the whole block, so an older device gets the base stylesheet with
+     * every breakpoint silently gone.
+     *
+     * `cssTarget` is separate from `target` on purpose: the JS can stay
+     * modern, since anything running this app parses ES modules already. It
+     * is only the CSS that has to state its conditions in the older form.
+     */
+    cssTarget: 'safari15',
+  },
   resolve: {
     alias: {
       // A single root alias: `@/components/...`, `@/hooks/...`, etc.
