@@ -128,9 +128,11 @@ what makes swapping the mocks for real `fetch` calls a one-file change.
   Cards are wrapped in `React.memo`.
 - **Path alias `@/` → `src/`.** Declared twice on purpose: `vite.config.js` for
   the bundler, `jsconfig.json` for the editor. Change both together.
-- **One barrel only** — [`src/components/ui/index.js`](src/components/ui/index.js),
-  with explicit named exports. Don't add one in `pages/`: it would defeat the
-  per-route code splitting. The barrel holds only what the first paint needs
+- **One aggregating barrel** — [`src/components/ui/index.js`](src/components/ui/index.js),
+  with explicit named exports. The other `index.js` files are single re-exports
+  that let a folder resolve by its own name, and cost nothing. Don't add a real
+  barrel in `pages/`: it would defeat the per-route code splitting. This one
+  holds only what the first paint needs
   anyway (`Button`, `ErrorState`, `Loader`, `SaveButton`); everything else is
   deep-imported from its own file, because a component's CSS import is a side
   effect and ships even when the component is tree-shaken away.

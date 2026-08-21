@@ -1,8 +1,11 @@
 /**
  * UI primitives barrel.
  *
- * The only barrel in the project. No barrels in `album/` or `pages/` — there
- * it would defeat the per-route code splitting.
+ * The only index.js that aggregates more than one module. The fourteen others
+ * — `Nav/index.js`, `pages/News/index.js` and the rest — are single
+ * re-exports that let a folder resolve by its own name and pull in nothing a
+ * direct import would not. Nothing like this file exists in `album/` or
+ * `pages/`, where it would defeat the per-route code splitting.
  *
  * Explicit named exports, no `export *`: keeps tree-shaking predictable and
  * avoids collisions as the set grows.
