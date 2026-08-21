@@ -1200,6 +1200,20 @@ await check('Mobile 375px: no horizontal scroll and working menu', async (page) 
     );
     if (spill > 0) throw new Error(`at ${width}px a card badge spills ${spill}px`);
   }
+
+  // The detail page overlays the same circle on the cover, from the same
+  // negative offset, and had the same collision with the container padding.
+  await page.setViewportSize({ width: 375, height: 812 });
+  await goto(page, '/reviews', '.album-card__link');
+  await page.locator('.album-card__link').first().click();
+  await page.waitForSelector('.review__rating', { timeout: 6000 });
+  const detail = await page.evaluate(() => {
+    const b = document.querySelector('.review__rating .rating').getBoundingClientRect();
+    return Math.round(document.documentElement.clientWidth - (b.right + 6));
+  });
+  if (detail < 8) throw new Error(`the review badge clears the edge by ${detail}px`);
+
+  await goto(page, '/', '.hero__title');
   await page.setViewportSize({ width: 375, height: 812 });
 
   await page.getByRole('button', { name: 'Menu' }).click();

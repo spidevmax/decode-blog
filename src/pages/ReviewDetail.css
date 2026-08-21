@@ -40,6 +40,17 @@
   --rating-ring: var(--color-night);
 }
 
+/* Below 768px `.container` pads by --space-4, the same amount this hangs off
+   the cover by, so the circle reached the screen edge — and its double ring
+   is drawn with box-shadow, 6px further out again. Same collision the hero
+   has, same resolution: it tucks inside the frame until there is room to
+   hang off it. */
+@media (max-width: 767px) {
+  .review__rating {
+    right: var(--space-3);
+  }
+}
+
 /* One bordered block: facts grid, then the save row on its own rule. */
 .review__specs {
   border: var(--border-rule);
